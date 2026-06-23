@@ -158,6 +158,11 @@ img { max-width: 100%; height: auto; display: block; }
   margin-bottom: 2rem; max-width: 480px;
 }
 .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+.hero-extract-code {
+  margin-top: 0.6rem; font-size: 0.78rem; color: var(--text-muted);
+  letter-spacing: 0.03em;
+}
+.hero-extract-code strong { color: var(--rose); font-weight: 700; letter-spacing: 0.1em; }
 .btn-rose {
   display: inline-flex; align-items: center; gap: 0.5rem;
   padding: 0.85rem 2rem;
@@ -559,9 +564,9 @@ img { max-width: 100%; height: auto; display: block; }
     padding: 1.5rem 2rem; gap: 1rem;
     border-bottom: 1px solid rgba(221, 84, 120, 0.1);
   }
-  .hero { min-height: 100svh; padding-top: 60px; align-items: center; }
+  .hero { min-height: 100svh; padding-top: 120px; align-items: center; }
   .hero-brand { font-size: clamp(2.5rem, 10vw, 4rem); }
-  .section { padding: 4.5rem 1.25rem; }
+  .section { padding: 5rem 1.25rem; }
   .download-card { padding: 2rem 1.5rem; }
   .story-author { display: flex; align-items: center; gap: 1.5rem; text-align: left; }
   .story-avatar { width: 80px; height: 80px; margin: 0; flex-shrink: 0; }
@@ -569,15 +574,25 @@ img { max-width: 100%; height: auto; display: block; }
   .story-handle { margin-bottom: 0; }
 }
 @media (max-width: 480px) {
-  .hero-actions { flex-direction: column; }
+  .hero-content { text-align: center; align-items: center; }
+  .hero-text { display: flex; flex-direction: column; align-items: center; }
+  .hero-actions { flex-direction: column; width: 100%; }
   .btn-rose, .btn-outline { width: 100%; justify-content: center; }
+  .hero-desc { max-width: 100%; }
   .download-grid { grid-template-columns: 1fr; }
   .download-btn { width: 100%; justify-content: center; }
   .pain-item { grid-template-columns: 2.2rem 1fr; gap: 1rem; }
   .feature-item { grid-template-columns: 2.2rem 1fr; gap: 1rem; }
   .pain-num, .feature-num { font-size: 2rem; }
   .section-title { font-size: 1.5rem; }
+  .section-label { justify-content: center; }
+  .section-desc { margin: 0 auto; text-align: center; }
   .story-author { flex-direction: column; text-align: center; }
+  .story-timeline { padding-left: 2rem; }
+  .theory-text { text-align: center; }
+  .theory-formula { margin-left: auto; margin-right: auto; }
+  .feature-tags { justify-content: center; }
+  .hero-extract-code { text-align: center; }
 }
 </style>
 </head>
@@ -614,7 +629,7 @@ img { max-width: 100%; height: auto; display: block; }
       <p class="hero-tagline hero-enter hero-enter-d2">让语言学习，成为一场冒险</p>
       <p class="hero-desc hero-enter hero-enter-d3">基于 I+1 语言学习理论的开放故事冒险英语学习游戏</p>
       <div class="hero-actions hero-enter hero-enter-d4">
-        <a href="https://yun.139.com/shareweb/#/w/i/2vMBQQSgyWQu8" class="btn-rose" target="_blank">
+        <a href="https://yun.139.com/shareweb/#/w/i/2vMBQQSgyWQu8?pwd=550q" class="btn-rose" target="_blank">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           下载体验
         </a>
@@ -623,6 +638,7 @@ img { max-width: 100%; height: auto; display: block; }
           观看宣传片
         </a>
       </div>
+      <p class="hero-extract-code hero-enter hero-enter-d4">移动云盘提取码：<strong>550q</strong></p>
     </div>
     <div class="hero-video hero-enter hero-enter-d3">
       <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=116796686342771&bvid=BV1PK736SEBd&cid=39328221610&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
@@ -1233,8 +1249,8 @@ document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
     drawZones(zonesP);
     drawCurve(easeInOutCubic(curveP));
     drawLabels(labelsP);
-    drawMarker(150, 200, '#738fad', 'i', {x: 0, y: -12}, iP);
-    drawMarker(240, 50, '#dd5478', 'i+1', {x: 18, y: -5}, i1P);
+    drawMarker(150, curveY(150), '#738fad', 'i', {x: 0, y: -12}, iP);
+    drawMarker(225, curveY(225), '#dd5478', 'i+1', {x: 18, y: -5}, i1P);
   }
 
   // 动画循环
