@@ -3,1437 +3,615 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>I+1 Quest — 基于 I+1 理论的开放故事冒险英语学习游戏</title>
+<title>I+1 Quest — 让语言学习，成为一场冒险</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* ========== CSS Variables ========== */
+/* ========== Design System ========== */
 :root {
-  --indigo: #4f46e5;
-  --indigo-light: #6366f1;
-  --indigo-dark: #3730a3;
-  --cyan: #22d3ee;
-  --cyan-light: #67e8f9;
-  --cyan-dark: #0891b2;
-  --gold: #f59e0b;
-  --gold-light: #fbbf24;
-  --gold-dark: #d97706;
-  --bg-primary: #07070f;
-  --bg-secondary: #0c0c18;
-  --bg-card: #111122;
-  --bg-card-hover: #181830;
-  --text-primary: #eaeaf4;
-  --text-secondary: #9898b8;
-  --text-muted: #5a5a78;
-  --border: #1c1c38;
-  --glow-indigo: rgba(79, 70, 229, 0.4);
-  --glow-cyan: rgba(34, 211, 238, 0.3);
-  --glow-gold: rgba(245, 158, 11, 0.35);
+  --rose: #dd5478;
+  --rose-light: #e588a7;
+  --rose-glow: rgba(221, 84, 120, 0.4);
+  --rose-soft: rgba(221, 84, 120, 0.08);
+  --blue: #738fad;
+  --blue-light: #8eabc4;
+  --blue-glow: rgba(115, 143, 173, 0.3);
+  --blue-soft: rgba(115, 143, 173, 0.06);
+  --bg: #0d0d1a;
+  --bg-deep: #080812;
+  --bg-card: #161628;
+  --bg-card-hover: #1c1c34;
+  --text: #f0eef2;
+  --text-dim: #9b97a8;
+  --text-muted: #5e5a6e;
+  --border: rgba(221, 84, 120, 0.1);
+  --border-blue: rgba(115, 143, 173, 0.12);
   --font-display: 'Cinzel', serif;
   --font-body: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ========== Reset & Base ========== */
+/* ========== Reset ========== */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
 html { scroll-behavior: smooth; font-size: 16px; }
-
 body {
   font-family: var(--font-body);
-  background: var(--bg-primary);
-  color: var(--text-primary);
+  background: var(--bg);
+  color: var(--text);
   line-height: 1.7;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
-
-a { color: var(--cyan); text-decoration: none; transition: color 0.3s; }
-a:hover { color: var(--cyan-light); }
-
+a { color: var(--rose-light); text-decoration: none; transition: color 0.3s; }
+a:hover { color: var(--rose); }
 img { max-width: 100%; height: auto; display: block; }
 
-/* ========== Scrollbar ========== */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg-primary); }
-::-webkit-scrollbar-thumb { background: var(--indigo-dark); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--indigo); }
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: rgba(221, 84, 120, 0.25); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(221, 84, 120, 0.4); }
 
-/* ========== Floating Particles ========== */
-.particles {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-}
-
+/* ========== Particles ========== */
+.particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
 .particle {
   position: absolute;
   border-radius: 50%;
   opacity: 0;
-  animation: floatParticle linear infinite;
+  animation: floatUp linear infinite;
 }
-
-@keyframes floatParticle {
+@keyframes floatUp {
   0% { opacity: 0; transform: translateY(100vh) scale(0); }
-  10% { opacity: 0.7; }
-  85% { opacity: 0.5; }
+  8% { opacity: 0.6; }
+  80% { opacity: 0.3; }
   100% { opacity: 0; transform: translateY(-10vh) scale(1); }
 }
 
 /* ========== Navigation ========== */
 .nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  padding: 0 2rem;
-  height: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: rgba(7, 7, 15, 0.75);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(245, 158, 11, 0.15);
-  transition: all 0.4s;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  height: 60px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2.5rem;
+  background: rgba(13, 13, 26, 0.6);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(221, 84, 120, 0.06);
+  transition: all 0.5s var(--ease-out);
 }
-
 .nav.scrolled {
-  background: rgba(7, 7, 15, 0.95);
-  border-bottom-color: rgba(245, 158, 11, 0.35);
+  background: rgba(13, 13, 26, 0.92);
+  border-bottom-color: rgba(221, 84, 120, 0.15);
 }
-
-.nav-brand {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  text-decoration: none;
+.nav-brand { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+.nav-brand img { width: 30px; height: 30px; border-radius: 8px; }
+.nav-logo {
+  font-family: var(--font-display); font-size: 1.15rem; font-weight: 800;
+  letter-spacing: 0.06em;
+  background: linear-gradient(135deg, var(--rose-light), var(--rose));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
-
-.nav-brand img {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  object-fit: cover;
-}
-
-.nav-logo-text {
-  font-family: var(--font-display);
-  font-size: 1.3rem;
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  background: linear-gradient(135deg, var(--gold-light), var(--gold));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.nav-links {
-  display: flex;
-  gap: 2rem;
-  list-style: none;
-}
-
+.nav-links { display: flex; gap: 2rem; list-style: none; }
 .nav-links a {
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-  font-weight: 500;
-  transition: all 0.3s;
-  position: relative;
-  letter-spacing: 0.03em;
+  color: var(--text-dim); font-size: 0.85rem; font-weight: 500;
+  letter-spacing: 0.04em; transition: all 0.3s; position: relative;
 }
-
 .nav-links a::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: var(--gold);
-  transition: width 0.3s;
-  box-shadow: 0 0 8px var(--glow-gold);
+  content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px;
+  background: var(--rose); transition: width 0.3s; border-radius: 1px;
+  box-shadow: 0 0 8px var(--rose-glow);
 }
-
-.nav-links a:hover { color: var(--gold-light); }
+.nav-links a:hover { color: var(--rose-light); }
 .nav-links a:hover::after { width: 100%; }
-
 .mobile-toggle {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  cursor: pointer;
-  padding: 4px;
-  background: none;
-  border: none;
+  display: none; flex-direction: column; gap: 5px; cursor: pointer;
+  padding: 4px; background: none; border: none;
 }
-
 .mobile-toggle span {
-  width: 24px;
-  height: 2px;
-  background: var(--gold);
-  border-radius: 2px;
-  transition: all 0.3s;
+  width: 22px; height: 2px; background: var(--rose); border-radius: 2px; transition: all 0.3s;
 }
-
 .mobile-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
 .mobile-toggle.active span:nth-child(2) { opacity: 0; }
 .mobile-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
-/* ========== Hero Section ========== */
+/* ========== Hero — "冒险者的黎明" ========== */
 .hero {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 7rem 2rem 3rem;
-  position: relative;
+  position: relative; min-height: 100vh; display: flex; align-items: flex-end;
   overflow: hidden;
 }
-
 .hero-bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
+  position: absolute; inset: 0; z-index: 0;
 }
-
 .hero-bg img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  opacity: 0.25;
-  filter: saturate(0.6) brightness(0.5);
+  width: 100%; height: 100%; object-fit: cover; object-position: center 30%;
+  filter: brightness(0.55) saturate(1.1);
 }
-
 .hero-bg::after {
-  content: '';
-  position: absolute;
-  inset: 0;
+  content: ''; position: absolute; inset: 0;
   background:
-    radial-gradient(ellipse at 20% 30%, rgba(79, 70, 229, 0.2) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 60%, rgba(245, 158, 11, 0.1) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 80%, rgba(34, 211, 238, 0.08) 0%, transparent 50%),
-    linear-gradient(to bottom, rgba(7,7,15,0.2), var(--bg-primary) 90%);
+    linear-gradient(to top, var(--bg) 0%, rgba(13,13,26,0.85) 25%, rgba(13,13,26,0.3) 55%, transparent 80%),
+    radial-gradient(ellipse at 15% 80%, rgba(221, 84, 120, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 20%, rgba(115, 143, 173, 0.08) 0%, transparent 40%);
 }
-
 .hero-content {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  max-width: 900px;
+  position: relative; z-index: 2;
+  width: 100%; max-width: 1200px; margin: 0 auto;
+  padding: 0 3rem 5rem;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: end;
 }
-
-.hero-title {
-  font-family: var(--font-display);
-  font-size: clamp(3rem, 8vw, 5.5rem);
-  font-weight: 900;
-  line-height: 1.1;
-  letter-spacing: 0.08em;
-  margin-bottom: 1.5rem;
-  background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 40%, #e8a000 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-shadow: none;
-  filter: drop-shadow(0 0 30px rgba(245, 158, 11, 0.3));
+.hero-text { max-width: 560px; }
+.hero-brand {
+  font-family: var(--font-display); font-size: clamp(3.2rem, 7vw, 5.5rem);
+  font-weight: 900; letter-spacing: 0.06em; line-height: 1.05;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #fff 20%, var(--rose-light) 50%, var(--rose) 80%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  filter: drop-shadow(0 0 40px rgba(221, 84, 120, 0.2));
 }
-
-.hero-subtitle {
-  font-size: clamp(1rem, 2.5vw, 1.25rem);
-  color: var(--text-secondary);
-  max-width: 680px;
-  margin: 0 auto 1.5rem;
-  line-height: 1.9;
-}
-
 .hero-tagline {
-  font-family: var(--font-display);
-  font-size: clamp(1.3rem, 3vw, 1.8rem);
-  color: var(--gold);
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  margin-bottom: 2.5rem;
-  text-shadow: 0 0 20px rgba(245, 158, 11, 0.4), 0 0 40px rgba(245, 158, 11, 0.15);
-  animation: taglineGlow 3s ease-in-out infinite;
+  font-family: var(--font-display); font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  color: var(--rose); font-weight: 700; letter-spacing: 0.08em;
+  margin-bottom: 0.75rem;
+  text-shadow: 0 0 30px rgba(221, 84, 120, 0.3);
 }
-
-@keyframes taglineGlow {
-  0%, 100% { text-shadow: 0 0 20px rgba(245, 158, 11, 0.4), 0 0 40px rgba(245, 158, 11, 0.15); }
-  50% { text-shadow: 0 0 30px rgba(245, 158, 11, 0.6), 0 0 60px rgba(245, 158, 11, 0.25); }
+.hero-desc {
+  font-size: 1rem; color: var(--text-dim); line-height: 1.8;
+  margin-bottom: 2rem; max-width: 480px;
 }
-
-.hero-video {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  max-width: 800px;
-  border-radius: 16px;
-  overflow: hidden;
-  margin-bottom: 2.5rem;
-  border: 2px solid rgba(245, 158, 11, 0.25);
-  box-shadow: 0 0 40px rgba(245, 158, 11, 0.15), 0 0 80px rgba(79, 70, 229, 0.1), inset 0 0 30px rgba(245, 158, 11, 0.05);
-  animation: videoGlow 4s ease-in-out infinite;
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn-rose {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.85rem 2rem;
+  background: linear-gradient(135deg, var(--rose), #c44a6a);
+  color: #fff; border: none; border-radius: 10px;
+  font-size: 0.95rem; font-weight: 700; cursor: pointer;
+  transition: all 0.3s; text-decoration: none;
+  box-shadow: 0 4px 24px var(--rose-glow);
+  letter-spacing: 0.02em;
 }
-
-@keyframes videoGlow {
-  0%, 100% { box-shadow: 0 0 40px rgba(245, 158, 11, 0.15), 0 0 80px rgba(79, 70, 229, 0.1), inset 0 0 30px rgba(245, 158, 11, 0.05); }
-  50% { box-shadow: 0 0 60px rgba(245, 158, 11, 0.25), 0 0 100px rgba(79, 70, 229, 0.15), inset 0 0 40px rgba(245, 158, 11, 0.08); }
+.btn-rose:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 40px var(--rose-glow), 0 0 60px rgba(221, 84, 120, 0.15);
+  color: #fff;
 }
-
-.hero-video iframe {
-  width: 100%;
-  aspect-ratio: 16/9;
-  display: block;
-  border: none;
-}
-
-.hero-actions {
-  display: flex;
-  gap: 1.25rem;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-bottom: 3rem;
-}
-
-.btn-gold {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.9rem 2.2rem;
-  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-  color: #0a0a12;
-  border: none;
-  border-radius: 12px;
-  font-size: 1rem;
-  font-weight: 800;
-  cursor: pointer;
-  transition: all 0.3s;
-  text-decoration: none;
-  box-shadow: 0 4px 24px var(--glow-gold);
-  letter-spacing: 0.03em;
-}
-
-.btn-gold:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 40px var(--glow-gold), 0 0 60px rgba(245, 158, 11, 0.2);
-  color: #0a0a12;
-}
-
-.btn-gold svg { stroke: #0a0a12; }
-
+.btn-rose svg { stroke: #fff; }
 .btn-outline {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.9rem 2.2rem;
-  background: rgba(245, 158, 11, 0.06);
-  color: var(--gold-light);
-  border: 2px solid rgba(245, 158, 11, 0.35);
-  border-radius: 12px;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.3s;
-  text-decoration: none;
-  letter-spacing: 0.03em;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.85rem 2rem;
+  background: rgba(221, 84, 120, 0.05);
+  color: var(--rose-light); border: 1.5px solid rgba(221, 84, 120, 0.3);
+  border-radius: 10px; font-size: 0.95rem; font-weight: 600;
+  cursor: pointer; transition: all 0.3s; text-decoration: none;
+  letter-spacing: 0.02em;
 }
-
 .btn-outline:hover {
-  background: rgba(245, 158, 11, 0.12);
-  border-color: var(--gold);
-  box-shadow: 0 0 30px rgba(245, 158, 11, 0.15);
-  transform: translateY(-3px);
-  color: var(--gold-light);
+  background: rgba(221, 84, 120, 0.1);
+  border-color: var(--rose);
+  box-shadow: 0 0 24px rgba(221, 84, 120, 0.12);
+  transform: translateY(-2px);
+  color: var(--rose-light);
 }
+.btn-outline svg { stroke: currentColor; }
 
+/* Hero Video */
+.hero-video {
+  position: relative; border-radius: 14px; overflow: hidden;
+  border: 1.5px solid rgba(221, 84, 120, 0.2);
+  box-shadow: 0 0 50px rgba(221, 84, 120, 0.1), 0 0 100px rgba(115, 143, 173, 0.06);
+  animation: videoBreath 5s ease-in-out infinite;
+}
+@keyframes videoBreath {
+  0%, 100% { box-shadow: 0 0 50px rgba(221, 84, 120, 0.1), 0 0 100px rgba(115, 143, 173, 0.06); }
+  50% { box-shadow: 0 0 70px rgba(221, 84, 120, 0.18), 0 0 120px rgba(115, 143, 173, 0.1); }
+}
+.hero-video iframe { width: 100%; aspect-ratio: 16/9; display: block; border: none; }
+
+/* Scroll Arrow */
 .scroll-arrow {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
-  animation: arrowBounce 2s ease-in-out infinite;
-  opacity: 0.6;
-  transition: opacity 0.3s;
+  position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+  z-index: 3; opacity: 0.5; transition: opacity 0.3s;
+  animation: arrowBounce 2.5s ease-in-out infinite;
 }
-
 .scroll-arrow:hover { opacity: 1; }
-
 @keyframes arrowBounce {
   0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(12px); }
+  50% { transform: translateX(-50%) translateY(10px); }
 }
 
 /* ========== Section Common ========== */
-.section {
-  padding: 6rem 2rem;
-  position: relative;
-}
-
-.section-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
+.section { padding: 6rem 2rem; position: relative; }
+.section-inner { max-width: 1100px; margin: 0 auto; }
 .section-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-family: var(--font-display);
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 1rem;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: var(--font-display); font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--rose); margin-bottom: 0.75rem;
 }
-
-.section-label svg {
-  width: 18px;
-  height: 18px;
-  stroke: var(--gold);
-}
-
+.section-label svg { width: 16px; height: 16px; stroke: var(--rose); }
 .section-title {
-  font-family: var(--font-display);
-  font-size: clamp(1.75rem, 4vw, 2.75rem);
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  line-height: 1.25;
-  margin-bottom: 1rem;
-  color: var(--text-primary);
+  font-family: var(--font-display); font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+  font-weight: 800; letter-spacing: 0.03em; line-height: 1.2;
+  margin-bottom: 1rem; color: var(--text);
+}
+.section-desc { font-size: 1rem; color: var(--text-dim); max-width: 600px; line-height: 1.8; }
+.divider {
+  width: 100%; height: 1px; border: none;
+  background: linear-gradient(90deg, transparent, rgba(221, 84, 120, 0.2), transparent);
+  margin: 4rem 0;
 }
 
-.section-desc {
-  font-size: 1.05rem;
-  color: var(--text-secondary);
-  max-width: 640px;
-  line-height: 1.8;
-}
-
-.decorative-line {
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(90deg, var(--gold), transparent);
-  border-radius: 2px;
-  margin-bottom: 1.5rem;
-}
-
-/* ========== Pain Points Section ========== */
-.pain-section {
-  background: var(--bg-secondary);
-}
-
+/* ========== Pain Points — "为什么传统学习不行" ========== */
+.pain-section { background: var(--bg-deep); }
 .pain-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(221, 84, 120, 0.25), transparent);
 }
-
-.pain-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-  margin-top: 3rem;
+.pain-list { margin-top: 3rem; }
+.pain-item {
+  display: grid; grid-template-columns: 3rem 1fr; gap: 1.5rem;
+  padding: 2.5rem 0; border-bottom: 1px solid rgba(221, 84, 120, 0.06);
+  transition: all 0.3s;
 }
-
-.pain-card {
-  padding: 2.25rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  transition: all 0.4s;
-  position: relative;
-  overflow: hidden;
-}
-
-.pain-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #ef4444, #f97316);
-  opacity: 0;
-  transition: opacity 0.4s;
-}
-
-.pain-card::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 40%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.3), transparent);
-}
-
-.pain-card:hover {
-  background: var(--bg-card-hover);
-  border-color: rgba(239, 68, 68, 0.3);
-  transform: translateY(-6px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(239, 68, 68, 0.08);
-}
-
-.pain-card:hover::before { opacity: 1; }
-
-.pain-icon {
-  width: 64px;
-  height: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(239, 68, 68, 0.08);
-  border-radius: 16px;
-  margin-bottom: 1.5rem;
+.pain-item:last-child { border-bottom: none; }
+.pain-item:hover { padding-left: 0.5rem; }
+.pain-num {
+  font-family: var(--font-display); font-size: 2.8rem; font-weight: 900;
+  line-height: 1; color: var(--rose); opacity: 0.35;
   position: relative;
 }
-
-.pain-icon::after {
-  content: '';
-  position: absolute;
-  inset: -4px;
-  border-radius: 20px;
-  background: radial-gradient(circle, rgba(239, 68, 68, 0.15), transparent 70%);
-  z-index: -1;
-  animation: iconGlow 3s ease-in-out infinite;
+.pain-num::after {
+  content: ''; position: absolute; left: 0; top: 0.3em;
+  width: 3px; height: 2.5rem; background: var(--rose);
+  border-radius: 2px; opacity: 1;
 }
-
-@keyframes iconGlow {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
+.pain-body h3 {
+  font-size: 1.2rem; font-weight: 700; margin-bottom: 0.4rem;
+  color: var(--text); letter-spacing: 0.02em;
 }
+.pain-body p { font-size: 0.95rem; color: var(--text-dim); line-height: 1.7; }
 
-.pain-icon svg {
-  width: 32px;
-  height: 32px;
-  stroke: #ef4444;
-}
+/* ========== Detail Section ========== */
+.detail-section { background: var(--bg); overflow: hidden; }
 
-.pain-card h3 {
-  font-size: 1.15rem;
-  font-weight: 700;
-  margin-bottom: 0.75rem;
-  color: var(--text-primary);
-}
-
-.pain-card p {
-  color: var(--text-secondary);
-  font-size: 0.95rem;
-  line-height: 1.8;
-}
-
-/* ========== I+1 Theory Section ========== */
-.theory-section {
-  background: var(--bg-primary);
-  overflow: hidden;
-}
-
+/* 3a: I+1 Theory */
 .theory-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: center;
-  margin-top: 3rem;
-  position: relative;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+  align-items: center; position: relative;
 }
-
 .theory-watercolor {
-  position: absolute;
-  right: -80px;
-  bottom: -60px;
-  width: 350px;
-  height: 280px;
+  position: absolute; right: -60px; bottom: -40px;
+  width: 320px; height: 240px;
   background-image: url('assets/旅行者蓝绿紫色调水彩图片.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  opacity: 0.08;
-  pointer-events: none;
-  border-radius: 20px;
+  background-size: contain; background-repeat: no-repeat;
+  opacity: 0.06; pointer-events: none; border-radius: 16px;
 }
-
-.theory-visual {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-}
-
-.curve-svg {
-  width: 100%;
-  max-width: 420px;
-  height: auto;
-}
-
+.theory-visual { position: relative; display: flex; align-items: center; justify-content: center; padding: 1rem; }
+.curve-svg { width: 100%; max-width: 400px; height: auto; }
 .curve-svg .curve-path {
-  stroke-dasharray: 600;
-  stroke-dashoffset: 600;
+  stroke-dasharray: 600; stroke-dashoffset: 600;
   animation: drawCurve 2.5s ease-out forwards;
 }
+@keyframes drawCurve { to { stroke-dashoffset: 0; } }
+.curve-svg .zone-easy { fill: rgba(115, 143, 173, 0.06); }
+.curve-svg .zone-optimal { fill: rgba(221, 84, 120, 0.07); }
+.curve-svg .zone-hard { fill: rgba(90, 60, 80, 0.06); }
+.curve-svg .label-text { font-family: var(--font-body); font-size: 11px; fill: var(--text-muted); }
+.curve-svg .axis-label { font-family: var(--font-body); font-size: 12px; fill: var(--text-dim); font-weight: 600; }
+.pulse-dot { animation: pulseDot 2.5s ease-in-out infinite; }
+@keyframes pulseDot { 0%, 100% { r: 5; opacity: 1; } 50% { r: 8; opacity: 0.6; } }
+.pulse-ring { animation: pulseRing 2.5s ease-in-out infinite; }
+@keyframes pulseRing { 0%, 100% { r: 10; opacity: 0.3; } 50% { r: 16; opacity: 0; } }
 
-@keyframes drawCurve {
-  to { stroke-dashoffset: 0; }
-}
-
-.curve-svg .zone-easy { fill: rgba(34, 211, 238, 0.06); }
-.curve-svg .zone-optimal { fill: rgba(245, 158, 11, 0.08); }
-.curve-svg .zone-hard { fill: rgba(239, 68, 68, 0.06); }
-
-.curve-svg .label-text {
-  font-family: var(--font-body);
-  font-size: 12px;
-  fill: var(--text-muted);
-}
-
-.curve-svg .axis-label {
-  font-family: var(--font-body);
-  font-size: 13px;
-  fill: var(--text-secondary);
-  font-weight: 600;
-}
-
-.pulse-dot {
-  animation: pulseDot 2s ease-in-out infinite;
-}
-
-@keyframes pulseDot {
-  0%, 100% { r: 5; opacity: 1; }
-  50% { r: 8; opacity: 0.6; }
-}
-
-.pulse-ring {
-  animation: pulseRing 2s ease-in-out infinite;
-}
-
-@keyframes pulseRing {
-  0%, 100% { r: 10; opacity: 0.3; }
-  50% { r: 16; opacity: 0; }
-}
-
-.theory-text {
-  position: relative;
-  z-index: 1;
-}
-
-.theory-text h3 {
-  font-family: var(--font-display);
-  font-size: 1.6rem;
-  font-weight: 800;
-  margin-bottom: 1.5rem;
-  color: var(--gold-light);
-  letter-spacing: 0.04em;
-}
-
+.theory-text { position: relative; z-index: 1; }
 .theory-formula {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 1rem 1.5rem;
-  background: rgba(79, 70, 229, 0.08);
-  border: 1px solid rgba(79, 70, 229, 0.2);
-  border-radius: 12px;
-  font-size: 1.4rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-  font-family: var(--font-display);
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  padding: 0.9rem 1.4rem;
+  background: rgba(221, 84, 120, 0.06); border: 1px solid rgba(221, 84, 120, 0.15);
+  border-radius: 10px; font-size: 1.4rem; font-weight: 700;
+  margin-bottom: 1.5rem; font-family: var(--font-display);
 }
-
-.theory-formula .i { color: var(--indigo-light); }
+.theory-formula .i { color: var(--blue-light); }
 .theory-formula .plus { color: var(--text-muted); }
-.theory-formula .one { color: var(--cyan); }
-
-.theory-text p {
-  color: var(--text-secondary);
-  font-size: 1rem;
-  line-height: 1.9;
-  margin-bottom: 0.75rem;
+.theory-formula .one { color: var(--rose); }
+.theory-text h3 {
+  font-family: var(--font-display); font-size: 1.5rem; font-weight: 800;
+  margin-bottom: 1.25rem; color: var(--rose-light); letter-spacing: 0.03em;
 }
+.theory-text p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.9; margin-bottom: 0.6rem; }
+.theory-text p strong { font-weight: 700; }
 
-.theory-text p strong {
-  font-weight: 700;
-}
-
-/* ========== Quadrant Section ========== */
-.quadrant-section {
-  background: var(--bg-secondary);
-}
-
-.quadrant-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--indigo), transparent);
-}
-
-.quadrant-container {
-  margin-top: 3rem;
-  display: flex;
-  justify-content: center;
-}
-
-.quadrant-chart {
-  position: relative;
-  width: 100%;
-  max-width: 600px;
-}
-
+/* 3b: Quadrant */
+.quadrant-container { margin-top: 3rem; display: flex; justify-content: center; }
+.quadrant-chart { position: relative; width: 100%; max-width: 560px; }
 .quadrant-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 3px;
-  position: relative;
-  z-index: 1;
+  display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
+  gap: 3px; position: relative; z-index: 1;
 }
-
 .quadrant-cell {
-  padding: 2rem 1.5rem;
-  border-radius: 12px;
-  text-align: center;
-  transition: all 0.4s;
-  position: relative;
-  min-height: 140px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  padding: 2rem 1.5rem; border-radius: 10px; text-align: center;
+  transition: all 0.4s; position: relative;
+  min-height: 130px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
 }
-
-.quadrant-cell svg {
-  width: 32px;
-  height: 32px;
-  margin-bottom: 0.75rem;
-}
-
-.quadrant-cell h4 {
-  font-size: 1rem;
-  font-weight: 700;
-  margin-bottom: 0.4rem;
-}
-
-.quadrant-cell p {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-}
-
-.q-tl {
-  background: rgba(34, 211, 238, 0.06);
-  border: 1px solid rgba(34, 211, 238, 0.12);
-}
-.q-tl svg { stroke: var(--cyan); }
-.q-tl h4 { color: var(--cyan); }
-
+.quadrant-cell svg { width: 28px; height: 28px; margin-bottom: 0.6rem; }
+.quadrant-cell h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.3rem; }
+.quadrant-cell p { font-size: 0.78rem; color: var(--text-muted); }
+.q-tl { background: var(--blue-soft); border: 1px solid var(--border-blue); }
+.q-tl svg { stroke: var(--blue); }
+.q-tl h4 { color: var(--blue-light); }
 .q-tr {
-  background: rgba(245, 158, 11, 0.08);
-  border: 2px solid rgba(245, 158, 11, 0.35);
-  animation: quadrantPulse 2.5s ease-in-out infinite;
+  background: var(--rose-soft); border: 2px solid rgba(221, 84, 120, 0.35);
+  animation: qPulse 3s ease-in-out infinite;
 }
-.q-tr svg { stroke: var(--gold); }
-.q-tr h4 { color: var(--gold-light); }
-
-@keyframes quadrantPulse {
-  0%, 100% { border-color: rgba(245, 158, 11, 0.35); box-shadow: 0 0 15px rgba(245, 158, 11, 0.1); }
-  50% { border-color: rgba(245, 158, 11, 0.7); box-shadow: 0 0 30px rgba(245, 158, 11, 0.25); }
+.q-tr svg { stroke: var(--rose); }
+.q-tr h4 { color: var(--rose-light); }
+@keyframes qPulse {
+  0%, 100% { border-color: rgba(221, 84, 120, 0.35); box-shadow: 0 0 15px rgba(221, 84, 120, 0.08); }
+  50% { border-color: rgba(221, 84, 120, 0.65); box-shadow: 0 0 30px rgba(221, 84, 120, 0.2); }
 }
-
-.q-bl {
-  background: rgba(239, 68, 68, 0.05);
-  border: 1px solid rgba(239, 68, 68, 0.1);
-}
-.q-bl svg { stroke: #ef4444; }
-.q-bl h4 { color: #f87171; }
-
-.q-br {
-  background: rgba(79, 70, 229, 0.06);
-  border: 1px solid rgba(79, 70, 229, 0.12);
-}
-.q-br svg { stroke: var(--indigo-light); }
-.q-br h4 { color: var(--indigo-light); }
-
-.quadrant-axes {
-  position: absolute;
-  z-index: 2;
-  pointer-events: none;
-}
-
+.q-bl { background: rgba(40, 36, 50, 0.5); border: 1px solid rgba(80, 70, 90, 0.15); }
+.q-bl svg { stroke: #8a7a96; }
+.q-bl h4 { color: #a898b8; }
+.q-br { background: var(--blue-soft); border: 1px solid var(--border-blue); }
+.q-br svg { stroke: var(--blue); }
+.q-br h4 { color: var(--blue-light); }
 .quadrant-axis-x {
-  position: absolute;
-  bottom: -36px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-  font-weight: 600;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
+  position: absolute; bottom: -32px; left: 50%; transform: translateX(-50%);
+  font-size: 0.8rem; color: var(--text-dim); font-weight: 600;
+  white-space: nowrap; display: flex; align-items: center; gap: 0.4rem;
 }
-
 .quadrant-axis-y {
-  position: absolute;
-  left: -36px;
-  top: 50%;
-  transform: translateY(-50%) rotate(-90deg);
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-  font-weight: 600;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
+  position: absolute; left: -32px; top: 50%; transform: translateY(-50%) rotate(-90deg);
+  font-size: 0.8rem; color: var(--text-dim); font-weight: 600;
+  white-space: nowrap; display: flex; align-items: center; gap: 0.4rem;
 }
 
-/* ========== Features Section ========== */
-.features-section {
-  background: var(--bg-primary);
-}
-
-.features-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-}
-
-.feature-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  margin-top: 3rem;
-}
-
-.feature-card {
-  padding: 2.5rem 2rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  transition: all 0.4s;
-  position: relative;
-  overflow: hidden;
-}
-
-.feature-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--gold), var(--indigo-light));
-  opacity: 0;
-  transition: opacity 0.4s;
-}
-
-.feature-card:hover {
-  border-color: rgba(245, 158, 11, 0.3);
-  transform: translateY(-8px);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4), 0 0 40px var(--glow-gold);
-}
-
-.feature-card:hover::before { opacity: 1; }
-
-.feature-number {
-  font-family: var(--font-display);
-  font-size: 3.5rem;
-  font-weight: 900;
-  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  opacity: 0.35;
-  line-height: 1;
-  margin-bottom: 1rem;
-}
-
-.feature-icon-wrap {
-  width: 52px;
-  height: 52px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(245, 158, 11, 0.08);
-  border-radius: 14px;
-  margin-bottom: 1.25rem;
-}
-
-.feature-icon-wrap svg {
-  width: 28px;
-  height: 28px;
-  stroke: var(--gold);
-}
-
-.feature-card h3 {
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: var(--text-primary);
-}
-
-.feature-card p {
-  color: var(--text-secondary);
-  font-size: 0.95rem;
-  line-height: 1.8;
-}
-
-.feature-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 1.25rem;
-}
-
-.feature-tag {
-  padding: 0.25rem 0.75rem;
-  background: rgba(245, 158, 11, 0.06);
-  border: 1px solid rgba(245, 158, 11, 0.15);
-  border-radius: 100px;
-  font-size: 0.75rem;
-  color: var(--gold);
-  font-weight: 500;
-}
-
-/* ========== Highlights Section ========== */
-.highlights-section {
-  background: var(--bg-secondary);
-}
-
-.highlights-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
-}
-
-.highlights-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 1.25rem;
-  margin-top: 3rem;
-}
-
-.highlight-item {
-  padding: 1.75rem 1rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
+/* 3c: Features (numbered list, no cards) */
+.feature-list { margin-top: 3rem; }
+.feature-item {
+  display: grid; grid-template-columns: 3rem 1fr; gap: 1.5rem;
+  padding: 2.5rem 0; border-bottom: 1px solid rgba(221, 84, 120, 0.06);
   transition: all 0.3s;
-  text-align: center;
 }
-
-.highlight-item:hover {
-  border-color: rgba(34, 211, 238, 0.25);
-  transform: translateY(-4px);
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3), 0 0 20px rgba(34, 211, 238, 0.08);
+.feature-item:last-child { border-bottom: none; }
+.feature-item:hover { padding-left: 0.5rem; }
+.feature-num {
+  font-family: var(--font-display); font-size: 2.8rem; font-weight: 900;
+  line-height: 1;
+  background: linear-gradient(135deg, var(--rose-light), var(--rose));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  opacity: 0.4;
 }
-
-.highlight-icon {
-  width: 48px;
-  height: 48px;
-  margin: 0 auto 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(34, 211, 238, 0.08);
-  border-radius: 12px;
-}
-
-.highlight-icon svg {
-  width: 24px;
-  height: 24px;
-  stroke: var(--cyan);
-}
-
-.highlight-item h4 {
-  font-size: 0.95rem;
-  font-weight: 700;
-  margin-bottom: 0.4rem;
-  color: var(--text-primary);
-}
-
-.highlight-item p {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  line-height: 1.6;
+.feature-body h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text); }
+.feature-body p { font-size: 0.92rem; color: var(--text-dim); line-height: 1.8; margin-bottom: 0.75rem; }
+.feature-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.feature-tag {
+  padding: 0.2rem 0.65rem;
+  background: var(--rose-soft); border: 1px solid rgba(221, 84, 120, 0.12);
+  border-radius: 100px; font-size: 0.72rem; color: var(--rose-light); font-weight: 500;
 }
 
 /* ========== Story Section ========== */
-.story-section {
-  background: var(--bg-primary);
-  overflow: hidden;
-}
-
+.story-section { background: var(--bg-deep); overflow: hidden; }
 .story-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(115, 143, 173, 0.25), transparent);
 }
-
 .story-layout {
-  display: grid;
-  grid-template-columns: 1fr 1.3fr;
-  gap: 4rem;
-  align-items: start;
-  margin-top: 3rem;
-  position: relative;
+  display: grid; grid-template-columns: 280px 1fr; gap: 4rem;
+  align-items: start; margin-top: 3rem; position: relative;
 }
-
 .story-building {
-  position: absolute;
-  left: -80px;
-  bottom: -60px;
-  width: 300px;
-  height: 220px;
-  background-image: url('assets/高楼.png');
-  background-size: cover;
-  background-position: center;
-  opacity: 0.06;
-  pointer-events: none;
-  border-radius: 12px;
+  position: absolute; left: -60px; bottom: -40px;
+  width: 280px; height: 200px;
+  background-image: url('assets/高楼.png'); background-size: cover;
+  background-position: center; opacity: 0.05; pointer-events: none; border-radius: 10px;
 }
-
-.story-author-card {
-  padding: 2.5rem 2rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  text-align: center;
-  position: relative;
-  z-index: 1;
-}
-
-.story-author-avatar {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  margin: 0 auto 1.5rem;
-  overflow: hidden;
-  border: 3px solid var(--gold);
-  box-shadow: 0 0 30px var(--glow-gold), 0 0 60px rgba(245, 158, 11, 0.1);
+.story-author { text-align: center; position: relative; z-index: 1; }
+.story-avatar {
+  width: 110px; height: 110px; border-radius: 50%; margin: 0 auto 1.25rem;
+  overflow: hidden; border: 3px solid var(--rose);
+  box-shadow: 0 0 30px var(--rose-glow), 0 0 60px rgba(221, 84, 120, 0.08);
   position: relative;
 }
-
-.story-author-avatar::after {
-  content: '';
-  position: absolute;
-  inset: -6px;
-  border-radius: 50%;
-  border: 2px solid rgba(245, 158, 11, 0.2);
-  animation: avatarRing 3s ease-in-out infinite;
+.story-avatar::after {
+  content: ''; position: absolute; inset: -6px; border-radius: 50%;
+  border: 2px solid rgba(221, 84, 120, 0.15);
+  animation: avatarRing 3.5s ease-in-out infinite;
 }
-
 @keyframes avatarRing {
-  0%, 100% { border-color: rgba(245, 158, 11, 0.2); transform: scale(1); }
-  50% { border-color: rgba(245, 158, 11, 0.5); transform: scale(1.05); }
+  0%, 100% { border-color: rgba(221, 84, 120, 0.15); transform: scale(1); }
+  50% { border-color: rgba(221, 84, 120, 0.4); transform: scale(1.04); }
 }
+.story-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.story-name { font-size: 1.2rem; font-weight: 800; color: var(--text); margin-bottom: 0.2rem; }
+.story-handle { font-size: 0.85rem; color: var(--rose); margin-bottom: 0.3rem; }
+.story-info { font-size: 0.8rem; color: var(--text-muted); }
 
-.story-author-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.story-author-name {
-  font-size: 1.3rem;
-  font-weight: 800;
-  color: var(--text-primary);
-  margin-bottom: 0.25rem;
-}
-
-.story-author-handle {
-  font-size: 0.9rem;
-  color: var(--gold);
-  margin-bottom: 0.4rem;
-}
-
-.story-author-info {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-}
-
-.story-timeline {
-  position: relative;
-  padding-left: 2.5rem;
-  z-index: 1;
-}
-
+.story-timeline { position: relative; padding-left: 2.5rem; z-index: 1; }
 .story-timeline::before {
-  content: '';
-  position: absolute;
-  left: 7px;
-  top: 8px;
-  bottom: 8px;
-  width: 2px;
-  background: linear-gradient(to bottom, var(--gold), var(--indigo), var(--cyan));
-  border-radius: 1px;
+  content: ''; position: absolute; left: 7px; top: 8px; bottom: 8px;
+  width: 2px; border-radius: 1px;
+  background: linear-gradient(to bottom, var(--rose), var(--blue), var(--rose-light));
 }
-
-.timeline-item {
-  position: relative;
-  padding-bottom: 2rem;
-}
-
+.timeline-item { position: relative; padding-bottom: 2rem; }
 .timeline-item::before {
-  content: '';
-  position: absolute;
-  left: -2.5rem;
-  top: 6px;
-  width: 16px;
-  height: 16px;
-  background: var(--bg-primary);
-  border: 3px solid var(--gold);
-  border-radius: 50%;
-  transform: translateX(0);
-  box-shadow: 0 0 10px var(--glow-gold);
+  content: ''; position: absolute; left: -2.5rem; top: 6px;
+  width: 16px; height: 16px; background: var(--bg-deep);
+  border: 3px solid var(--rose); border-radius: 50%;
+  box-shadow: 0 0 10px var(--rose-glow);
 }
-
-.timeline-item:last-child::before {
-  border-color: var(--cyan);
-  box-shadow: 0 0 10px var(--glow-cyan);
-}
-
+.timeline-item:last-child::before { border-color: var(--blue); box-shadow: 0 0 10px var(--blue-glow); }
 .timeline-item h4 {
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 0.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  font-size: 0.95rem; font-weight: 700; color: var(--text);
+  margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.5rem;
 }
+.timeline-item .tl-icon { width: 18px; height: 18px; flex-shrink: 0; }
+.timeline-item .tl-icon svg { width: 18px; height: 18px; stroke: var(--rose); }
+.timeline-item p { font-size: 0.88rem; color: var(--text-dim); line-height: 1.7; }
 
-.timeline-item .tl-icon {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-}
-
-.timeline-item .tl-icon svg {
-  width: 20px;
-  height: 20px;
-  stroke: var(--gold);
-}
-
-.timeline-item p {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  line-height: 1.7;
-}
-
-/* ========== Download Section ========== */
+/* ========== Download CTA ========== */
 .download-section {
-  background: var(--bg-secondary);
-  text-align: center;
-  position: relative;
+  background: var(--bg); text-align: center; position: relative;
+  overflow: hidden;
 }
-
 .download-section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at center, rgba(245, 158, 11, 0.06) 0%, transparent 60%);
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, rgba(221, 84, 120, 0.05) 0%, transparent 55%);
   pointer-events: none;
 }
-
 .download-section::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(221, 84, 120, 0.25), transparent);
 }
-
 .download-title {
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 900;
-  color: var(--gold-light);
-  letter-spacing: 0.06em;
+  font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 900; letter-spacing: 0.06em;
+  background: linear-gradient(135deg, var(--rose-light), var(--rose));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
   margin-bottom: 2rem;
-  text-shadow: 0 0 30px rgba(245, 158, 11, 0.3);
+  filter: drop-shadow(0 0 30px rgba(221, 84, 120, 0.2));
 }
-
 .download-card {
-  position: relative;
-  z-index: 1;
-  max-width: 640px;
-  margin: 2rem auto 0;
+  position: relative; z-index: 1; max-width: 560px; margin: 0 auto;
   padding: 3rem;
-  background: var(--bg-card);
-  border: 1px solid rgba(245, 158, 11, 0.15);
-  border-radius: 24px;
-  box-shadow: 0 0 80px rgba(245, 158, 11, 0.08);
+  background: var(--bg-card); border: 1px solid rgba(221, 84, 120, 0.12);
+  border-radius: 20px;
+  box-shadow: 0 0 80px rgba(221, 84, 120, 0.06);
 }
-
-.download-app-icon {
-  width: 64px;
-  height: 64px;
-  margin: 0 auto 1.25rem;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 8px 32px rgba(245, 158, 11, 0.15);
+.download-icon {
+  width: 72px; height: 72px; margin: 0 auto 1.25rem; border-radius: 16px;
+  overflow: hidden; box-shadow: 0 8px 32px rgba(221, 84, 120, 0.12);
 }
-
-.download-app-icon img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
+.download-icon img { width: 100%; height: 100%; object-fit: cover; }
 .download-card h3 {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 800;
-  margin-bottom: 0.75rem;
-  letter-spacing: 0.04em;
+  font-family: var(--font-display); font-size: 1.4rem; font-weight: 800;
+  margin-bottom: 0.6rem; letter-spacing: 0.04em;
 }
-
-.download-card .download-note {
-  color: var(--text-secondary);
-  font-size: 0.95rem;
-  margin-bottom: 2rem;
-  line-height: 1.7;
-}
-
-.download-links {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  align-items: center;
-}
-
-.download-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
+.download-note { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 2rem; line-height: 1.7; }
+.download-btn {
+  display: inline-flex; align-items: center; gap: 0.6rem;
   padding: 1rem 2.5rem;
-  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-  color: #0a0a12;
-  border-radius: 14px;
-  font-weight: 800;
-  font-size: 1.05rem;
-  transition: all 0.3s;
-  text-decoration: none;
-  box-shadow: 0 4px 24px var(--glow-gold);
-  width: 100%;
-  max-width: 360px;
-  justify-content: center;
-  letter-spacing: 0.03em;
+  background: linear-gradient(135deg, var(--rose), #c44a6a);
+  color: #fff; border-radius: 12px; font-weight: 800; font-size: 1rem;
+  transition: all 0.3s; text-decoration: none;
+  box-shadow: 0 4px 24px var(--rose-glow);
+  letter-spacing: 0.02em;
 }
-
-.download-link:hover {
+.download-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 40px var(--glow-gold), 0 0 60px rgba(245, 158, 11, 0.2);
-  color: #0a0a12;
+  box-shadow: 0 8px 40px var(--rose-glow), 0 0 60px rgba(221, 84, 120, 0.15);
+  color: #fff;
 }
-
-.download-code {
-  margin-top: 0.75rem;
-  font-size: 0.85rem;
-  color: var(--text-muted);
-}
-
-.download-code strong {
-  color: var(--gold);
-  font-weight: 700;
-  letter-spacing: 0.15em;
-}
-
-.download-social {
-  margin-top: 2.5rem;
-  padding-top: 2rem;
-  border-top: 1px solid var(--border);
-}
-
-.download-social h4 {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  margin-bottom: 1rem;
-}
-
-.social-links {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
+.download-code { margin-top: 0.75rem; font-size: 0.85rem; color: var(--text-muted); }
+.download-code strong { color: var(--rose); font-weight: 700; letter-spacing: 0.15em; }
+.download-social { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid rgba(221, 84, 120, 0.08); }
+.download-social h4 { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; letter-spacing: 0.05em; margin-bottom: 1rem; }
+.social-links { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
 .social-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1.25rem;
-  background: rgba(245, 158, 11, 0.06);
-  border: 1px solid rgba(245, 158, 11, 0.12);
-  border-radius: 10px;
-  font-size: 0.85rem;
-  color: var(--gold);
-  font-weight: 500;
-  transition: all 0.3s;
-  text-decoration: none;
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0.45rem 1rem;
+  background: var(--rose-soft); border: 1px solid rgba(221, 84, 120, 0.1);
+  border-radius: 8px; font-size: 0.82rem; color: var(--rose-light);
+  font-weight: 500; transition: all 0.3s; text-decoration: none;
 }
-
-.social-link svg {
-  width: 16px;
-  height: 16px;
-  stroke: currentColor;
-}
-
+.social-link svg { width: 15px; height: 15px; stroke: currentColor; }
 .social-link:hover {
-  background: rgba(245, 158, 11, 0.12);
-  border-color: rgba(245, 158, 11, 0.3);
-  color: var(--gold-light);
+  background: rgba(221, 84, 120, 0.1);
+  border-color: rgba(221, 84, 120, 0.25);
+  color: var(--rose);
 }
 
 /* ========== Footer ========== */
 .footer {
-  padding: 3rem 2rem;
-  border-top: 1px solid var(--border);
-  background: var(--bg-primary);
-  text-align: center;
+  padding: 2.5rem 2rem; border-top: 1px solid rgba(221, 84, 120, 0.06);
+  background: var(--bg-deep); text-align: center;
 }
-
 .footer-brand {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 800;
-  background: linear-gradient(135deg, var(--gold-light), var(--gold));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: 0.06em;
-  margin-bottom: 0.5rem;
+  font-family: var(--font-display); font-size: 1rem; font-weight: 800;
+  background: linear-gradient(135deg, var(--rose-light), var(--rose));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  letter-spacing: 0.06em; margin-bottom: 0.4rem;
 }
-
-.footer-tagline {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  margin-bottom: 0.75rem;
-}
-
-.footer-copy {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-}
+.footer-tagline { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+.footer-copy { font-size: 0.75rem; color: var(--text-muted); }
 
 /* ========== Scroll Reveal ========== */
 .reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  opacity: 0; transform: translateY(28px);
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
 }
-
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
+.reveal.visible { opacity: 1; transform: translateY(0); }
 .reveal-delay-1 { transition-delay: 0.1s; }
 .reveal-delay-2 { transition-delay: 0.2s; }
 .reveal-delay-3 { transition-delay: 0.3s; }
 .reveal-delay-4 { transition-delay: 0.4s; }
 .reveal-delay-5 { transition-delay: 0.5s; }
 
+/* ========== Hero Entrance ========== */
+.hero-enter { opacity: 0; transform: translateY(40px); }
+.hero-enter.active {
+  opacity: 1; transform: translateY(0);
+  transition: opacity 1s var(--ease-out), transform 1s var(--ease-out);
+}
+.hero-enter-d1 { transition-delay: 0.2s !important; }
+.hero-enter-d2 { transition-delay: 0.4s !important; }
+.hero-enter-d3 { transition-delay: 0.6s !important; }
+.hero-enter-d4 { transition-delay: 0.8s !important; }
+
 /* ========== Responsive ========== */
-@media (max-width: 1024px) {
-  .highlights-grid { grid-template-columns: repeat(3, 1fr); }
-}
-
 @media (max-width: 900px) {
-  .theory-layout {
-    grid-template-columns: 1fr;
+  .hero-content {
+    grid-template-columns: 1fr; padding: 0 1.5rem 4rem;
     gap: 2rem;
   }
+  .hero-text { max-width: 100%; }
+  .hero-video { max-width: 560px; }
+  .theory-layout { grid-template-columns: 1fr; gap: 2rem; }
   .theory-visual { order: -1; }
-  .story-layout {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-  .pain-grid { grid-template-columns: 1fr; }
-  .feature-cards { grid-template-columns: 1fr; }
-  .highlights-grid { grid-template-columns: repeat(2, 1fr); }
+  .story-layout { grid-template-columns: 1fr; gap: 2rem; }
+  .pain-item { grid-template-columns: 2.5rem 1fr; gap: 1rem; }
+  .feature-item { grid-template-columns: 2.5rem 1fr; gap: 1rem; }
 }
-
 @media (max-width: 768px) {
   .nav-links { display: none !important; }
   .mobile-toggle { display: flex; }
-
   .nav-links.open {
-    display: flex !important;
-    flex-direction: column;
-    position: absolute;
-    top: 64px;
-    left: 0;
-    right: 0;
-    background: rgba(7, 7, 15, 0.97);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    padding: 1.5rem 2rem;
-    gap: 1rem;
-    border-bottom: 1px solid var(--border);
+    display: flex !important; flex-direction: column;
+    position: absolute; top: 60px; left: 0; right: 0;
+    background: rgba(13, 13, 26, 0.97);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    padding: 1.5rem 2rem; gap: 1rem;
+    border-bottom: 1px solid rgba(221, 84, 120, 0.1);
   }
-
-  .hero { padding: 5rem 1.5rem 3rem; }
-  .section { padding: 4rem 1.5rem; }
-
+  .hero { min-height: 100svh; }
+  .hero-brand { font-size: clamp(2.5rem, 10vw, 4rem); }
+  .section { padding: 4rem 1.25rem; }
   .download-card { padding: 2rem 1.5rem; }
-
-  .quadrant-grid { gap: 2px; }
-  .quadrant-cell { padding: 1.25rem 1rem; min-height: 110px; }
+  .quadrant-cell { padding: 1.25rem 1rem; min-height: 100px; }
 }
-
 @media (max-width: 480px) {
-  .highlights-grid { grid-template-columns: 1fr; }
-  .hero-actions { flex-direction: column; align-items: center; }
-  .btn-gold, .btn-outline { width: 100%; justify-content: center; }
-  .quadrant-cell { min-height: 90px; padding: 1rem 0.75rem; }
-  .quadrant-cell h4 { font-size: 0.85rem; }
+  .hero-actions { flex-direction: column; }
+  .btn-rose, .btn-outline { width: 100%; justify-content: center; }
+  .quadrant-cell { min-height: 85px; padding: 1rem 0.75rem; }
+  .quadrant-cell h4 { font-size: 0.82rem; }
+  .download-btn { width: 100%; justify-content: center; }
 }
 </style>
 </head>
 <body>
 
-<!-- Floating Particles -->
+<!-- Particles -->
 <div class="particles" id="particles"></div>
 
 <!-- Navigation -->
 <nav class="nav" id="mainNav">
   <a href="#hero" class="nav-brand">
-    <img src="assets/软件图标.png" alt="I+1 Quest Icon">
-    <span class="nav-logo-text">I+1 Quest</span>
+    <img src="assets/软件图标.png" alt="I+1 Quest">
+    <span class="nav-logo">I+1 Quest</span>
   </a>
   <ul class="nav-links" id="navLinks">
-    <li><a href="#features">功能</a></li>
     <li><a href="#theory">理论</a></li>
+    <li><a href="#features">功能</a></li>
     <li><a href="#story">故事</a></li>
     <li><a href="#download">下载</a></li>
   </ul>
@@ -1442,75 +620,76 @@ img { max-width: 100%; height: auto; display: block; }
   </button>
 </nav>
 
-<!-- Hero Section -->
+<!-- ========== Hero — "冒险者的黎明" ========== -->
 <section class="hero" id="hero">
   <div class="hero-bg">
     <img src="assets/夕阳冒险者图片.png" alt="">
   </div>
   <div class="hero-content">
-    <h1 class="hero-title reveal">I+1 Quest</h1>
-    <p class="hero-subtitle reveal reveal-delay-1">基于 I+1 语言学习理论的开放故事冒险英语学习游戏</p>
-    <p class="hero-tagline reveal reveal-delay-2">让语言学习，成为一场冒险</p>
-    <div class="hero-video reveal reveal-delay-3">
-      <iframe src="https://player.bilibili.com/player.html?bvid=BV1PK736SEBd&autoplay=0" scrolling="no" allowfullscreen></iframe>
+    <div class="hero-text">
+      <h1 class="hero-brand hero-enter hero-enter-d1">I+1 Quest</h1>
+      <p class="hero-tagline hero-enter hero-enter-d2">让语言学习，成为一场冒险</p>
+      <p class="hero-desc hero-enter hero-enter-d3">基于 I+1 语言学习理论的开放故事冒险英语学习游戏</p>
+      <div class="hero-actions hero-enter hero-enter-d4">
+        <a href="https://pan.baidu.com/s/1e6sDNCbyP4-UXzZ3CjnKOA?pwd=SNOW" class="btn-rose" target="_blank">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          下载体验
+        </a>
+        <a href="https://www.bilibili.com/video/BV1PK7MSSEBd/" class="btn-outline" target="_blank">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          观看宣传片
+        </a>
+      </div>
     </div>
-    <div class="hero-actions reveal reveal-delay-4">
-      <a href="https://pan.baidu.com/s/1e6sDNCbyP4-UXzZ3CjnKOA?pwd=SNOW" class="btn-gold" target="_blank">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        下载体验
-      </a>
-      <a href="https://www.bilibili.com/video/BV1PK736SEBd/" class="btn-outline" target="_blank">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        观看宣传片
-      </a>
+    <div class="hero-video hero-enter hero-enter-d3">
+      <iframe src="https://player.bilibili.com/player.html?bvid=BV1PK7MSSEBd&autoplay=0" scrolling="no" allowfullscreen></iframe>
     </div>
   </div>
   <a href="#pain" class="scroll-arrow">
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--rose-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
   </a>
 </section>
 
-<!-- Pain Points Section -->
+<!-- ========== Pain Points — "为什么传统学习不行" ========== -->
 <section class="section pain-section" id="pain">
   <div class="section-inner">
     <div class="section-label reveal">
       <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
       冒险者的困境
     </div>
-    <h2 class="section-title reveal reveal-delay-1">英语学习的三大困境</h2>
-    <div class="decorative-line reveal reveal-delay-1"></div>
-    <p class="section-desc reveal reveal-delay-2">
-      每一个英语学习者，都曾在这三道关卡前止步不前。
-    </p>
-    <div class="pain-grid">
-      <div class="pain-card reveal reveal-delay-1">
-        <div class="pain-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M8 7h6"/><path d="M8 11h6"/></svg>
+    <h2 class="section-title reveal reveal-delay-1">为什么传统学习不行</h2>
+    <p class="section-desc reveal reveal-delay-2">每一个英语学习者，都曾在这三道关卡前止步不前。</p>
+    <div class="pain-list">
+      <div class="pain-item reveal reveal-delay-1">
+        <div class="pain-num">01</div>
+        <div class="pain-body">
+          <h3>阅读材料缺乏吸引力</h3>
+          <p>看原著因为故事不感兴趣坚持不下去</p>
         </div>
-        <h3>阅读材料缺乏吸引力</h3>
-        <p>做阅读理解读不进去，看原著也因为故事不感兴趣坚持不下去</p>
       </div>
-      <div class="pain-card reveal reveal-delay-2">
-        <div class="pain-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+      <div class="pain-item reveal reveal-delay-2">
+        <div class="pain-num">02</div>
+        <div class="pain-body">
+          <h3>背单词反人性</h3>
+          <p>背完不到一个月就忘光了</p>
         </div>
-        <h3>背单词反人性</h3>
-        <p>背完不到一个月就忘光了，就算记住了意思，放到文章里也反应不过来</p>
       </div>
-      <div class="pain-card reveal reveal-delay-3">
-        <div class="pain-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="3" x2="12" y2="21"/><path d="M4 8l3 3-3 3"/><path d="M20 8l-3 3 3 3"/><line x1="4" y1="12" x2="20" y2="12"/></svg>
+      <div class="pain-item reveal reveal-delay-3">
+        <div class="pain-num">03</div>
+        <div class="pain-body">
+          <h3>难度无法匹配</h3>
+          <p>太简单没成长，太难大脑屏蔽</p>
         </div>
-        <h3>难度无法匹配</h3>
-        <p>太简单没有成长空间，太难大脑直接屏蔽输入</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- I+1 Theory Section -->
-<section class="section theory-section" id="theory">
+<!-- ========== Detail — I+1理论 + 四象限 + 功能 ========== -->
+<section class="section detail-section" id="theory">
   <div class="section-inner">
+
+    <!-- 3a: I+1 Theory -->
     <div class="section-label reveal">
       <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
       冒险者的秘籍
@@ -1519,48 +698,33 @@ img { max-width: 100%; height: auto; display: block; }
     <div class="theory-layout">
       <div class="theory-visual reveal">
         <svg class="curve-svg" viewBox="0 0 420 320" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Grid lines -->
-          <line x1="60" y1="20" x2="60" y2="260" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-          <line x1="60" y1="260" x2="390" y2="260" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-          <line x1="60" y1="200" x2="390" y2="200" stroke="rgba(255,255,255,0.03)" stroke-width="1" stroke-dasharray="4 4"/>
-          <line x1="60" y1="140" x2="390" y2="140" stroke="rgba(255,255,255,0.03)" stroke-width="1" stroke-dasharray="4 4"/>
-          <line x1="60" y1="80" x2="390" y2="80" stroke="rgba(255,255,255,0.03)" stroke-width="1" stroke-dasharray="4 4"/>
-          <line x1="150" y1="20" x2="150" y2="260" stroke="rgba(255,255,255,0.03)" stroke-width="1" stroke-dasharray="4 4"/>
-          <line x1="240" y1="20" x2="240" y2="260" stroke="rgba(255,255,255,0.03)" stroke-width="1" stroke-dasharray="4 4"/>
-          <line x1="330" y1="20" x2="330" y2="260" stroke="rgba(255,255,255,0.03)" stroke-width="1" stroke-dasharray="4 4"/>
-
-          <!-- Zone fills -->
+          <line x1="60" y1="20" x2="60" y2="260" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+          <line x1="60" y1="260" x2="390" y2="260" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+          <line x1="60" y1="200" x2="390" y2="200" stroke="rgba(255,255,255,0.025)" stroke-width="1" stroke-dasharray="4 4"/>
+          <line x1="60" y1="140" x2="390" y2="140" stroke="rgba(255,255,255,0.025)" stroke-width="1" stroke-dasharray="4 4"/>
+          <line x1="60" y1="80" x2="390" y2="80" stroke="rgba(255,255,255,0.025)" stroke-width="1" stroke-dasharray="4 4"/>
+          <line x1="150" y1="20" x2="150" y2="260" stroke="rgba(255,255,255,0.025)" stroke-width="1" stroke-dasharray="4 4"/>
+          <line x1="240" y1="20" x2="240" y2="260" stroke="rgba(255,255,255,0.025)" stroke-width="1" stroke-dasharray="4 4"/>
+          <line x1="330" y1="20" x2="330" y2="260" stroke="rgba(255,255,255,0.025)" stroke-width="1" stroke-dasharray="4 4"/>
           <path d="M60 240 Q120 230 150 200 L150 260 L60 260 Z" class="zone-easy"/>
           <path d="M150 200 Q200 100 240 50 Q280 100 330 220 L330 260 L150 260 Z" class="zone-optimal"/>
           <path d="M330 220 Q360 250 390 258 L390 260 L330 260 Z" class="zone-hard"/>
-
-          <!-- Zone labels -->
-          <text x="100" y="252" class="label-text" text-anchor="middle" fill="#5a5a78" font-size="11">太简单</text>
-          <text x="240" y="175" class="label-text" text-anchor="middle" fill="#f59e0b" font-size="11" font-weight="600">I+1 甜蜜区</text>
-          <text x="370" y="252" class="label-text" text-anchor="middle" fill="#5a5a78" font-size="11">太难</text>
-
-          <!-- The inverted-U curve -->
+          <text x="100" y="252" class="label-text" text-anchor="middle" fill="#5e5a6e" font-size="11">太简单</text>
+          <text x="240" y="175" class="label-text" text-anchor="middle" fill="#dd5478" font-size="11" font-weight="600">I+1 甜蜜区</text>
+          <text x="370" y="252" class="label-text" text-anchor="middle" fill="#5e5a6e" font-size="11">太难</text>
           <path d="M60 240 Q120 230 150 200 Q200 100 240 50 Q280 100 330 220 Q360 250 390 258"
-                stroke="var(--gold)" stroke-width="3" fill="none" stroke-linecap="round"
+                stroke="#dd5478" stroke-width="3" fill="none" stroke-linecap="round"
                 class="curve-path"/>
-
-          <!-- i marker -->
-          <circle cx="150" cy="200" r="5" fill="var(--indigo-light)" class="pulse-dot"/>
-          <circle cx="150" cy="200" r="10" fill="none" stroke="var(--indigo-light)" stroke-width="1.5" class="pulse-ring"/>
-          <text x="150" y="190" text-anchor="middle" fill="var(--indigo-light)" font-size="14" font-weight="700" font-family="Cinzel, serif">i</text>
-
-          <!-- i+1 marker -->
-          <circle cx="240" cy="50" r="5" fill="var(--cyan)" class="pulse-dot"/>
-          <circle cx="240" cy="50" r="10" fill="none" stroke="var(--cyan)" stroke-width="1.5" class="pulse-ring"/>
-          <text x="258" y="45" fill="var(--cyan)" font-size="13" font-weight="700" font-family="Cinzel, serif">i+1</text>
-
-          <!-- Axis labels -->
-          <text x="225" y="295" class="axis-label" text-anchor="middle" fill="#9898b8" font-size="13">材料难度</text>
-          <text x="22" y="145" class="axis-label" text-anchor="middle" fill="#9898b8" font-size="13" transform="rotate(-90, 22, 145)">习得效率</text>
-
-          <!-- Axis arrows -->
-          <polygon points="390,256 398,260 390,264" fill="rgba(255,255,255,0.15)"/>
-          <polygon points="58,20 62,12 66,20" fill="rgba(255,255,255,0.15)"/>
+          <circle cx="150" cy="200" r="5" fill="#738fad" class="pulse-dot"/>
+          <circle cx="150" cy="200" r="10" fill="none" stroke="#738fad" stroke-width="1.5" class="pulse-ring"/>
+          <text x="150" y="190" text-anchor="middle" fill="#738fad" font-size="14" font-weight="700" font-family="Cinzel, serif">i</text>
+          <circle cx="240" cy="50" r="5" fill="#dd5478" class="pulse-dot"/>
+          <circle cx="240" cy="50" r="10" fill="none" stroke="#dd5478" stroke-width="1.5" class="pulse-ring"/>
+          <text x="258" y="45" fill="#dd5478" font-size="13" font-weight="700" font-family="Cinzel, serif">i+1</text>
+          <text x="225" y="295" class="axis-label" text-anchor="middle" fill="#9b97a8" font-size="12">材料难度</text>
+          <text x="22" y="145" class="axis-label" text-anchor="middle" fill="#9b97a8" font-size="12" transform="rotate(-90, 22, 145)">习得效率</text>
+          <polygon points="390,256 398,260 390,264" fill="rgba(255,255,255,0.12)"/>
+          <polygon points="58,20 62,12 66,20" fill="rgba(255,255,255,0.12)"/>
         </svg>
       </div>
       <div class="theory-text reveal reveal-delay-2">
@@ -1570,49 +734,40 @@ img { max-width: 100%; height: auto; display: block; }
           <span class="one">1</span>
         </div>
         <h3>I+1 可理解输入理论</h3>
-        <p><strong style="color:var(--indigo-light)">"i"</strong> = 你当前的语言水平</p>
-        <p><strong style="color:var(--cyan)">"+1"</strong> = 比你的水平高一点点</p>
-        <p>材料刚好难一点——你能理解大部分内容，偶尔遇到几个生词，通过上下文能猜出来——这就是<strong style="color:var(--gold)">语言习得效率最高的状态</strong>。</p>
+        <p><strong style="color:var(--blue-light)">"i"</strong> = 你当前的语言水平</p>
+        <p><strong style="color:var(--rose)">"+1"</strong> = 比你的水平高一点点</p>
+        <p>材料刚好难一点——你能理解大部分，偶尔遇到生词，通过上下文猜出来——这就是<strong style="color:var(--rose-light)">语言习得效率最高的状态</strong>。</p>
       </div>
     </div>
     <div class="theory-watercolor"></div>
-  </div>
-</section>
 
-<!-- Quadrant Section -->
-<section class="section quadrant-section" id="quadrant">
-  <div class="section-inner">
+    <hr class="divider">
+
+    <!-- 3b: Quadrant -->
     <div class="section-label reveal">
       <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="12" y1="3" x2="12" y2="21"/></svg>
       材料的分布
     </div>
     <h2 class="section-title reveal reveal-delay-1">学习材料的四象限</h2>
-    <div class="decorative-line reveal reveal-delay-1"></div>
-    <p class="section-desc reveal reveal-delay-2">
-      大多数材料要么无聊、要么太难——I+1 Quest 旨在填补那个空白。
-    </p>
+    <p class="section-desc reveal reveal-delay-2">大多数材料要么无聊、要么太难——I+1 Quest 旨在填补那个空白。</p>
     <div class="quadrant-container reveal reveal-delay-3">
       <div class="quadrant-chart">
         <div class="quadrant-grid">
-          <!-- Top-Left: Easy + Boring -->
           <div class="quadrant-cell q-tl">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
             <h4>英语教材</h4>
             <p>易理解 / 无趣</p>
           </div>
-          <!-- Top-Right: Easy + Fun = I+1 Quest -->
           <div class="quadrant-cell q-tr">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
             <h4>I+1 Quest</h4>
             <p>易理解 / 有趣</p>
           </div>
-          <!-- Bottom-Left: Hard + Boring -->
           <div class="quadrant-cell q-bl">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
             <h4>英语试卷</h4>
             <p>难理解 / 无趣</p>
           </div>
-          <!-- Bottom-Right: Hard + Fun -->
           <div class="quadrant-cell q-br">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>
             <h4>影视动漫</h4>
@@ -1620,125 +775,73 @@ img { max-width: 100%; height: auto; display: block; }
           </div>
         </div>
         <div class="quadrant-axis-x">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           有趣程度
         </div>
         <div class="quadrant-axis-y">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
           容易理解
         </div>
       </div>
     </div>
+
+    <hr class="divider">
+
+    <!-- 3c: Features -->
+    <div id="features">
+      <div class="section-label reveal">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        冒险者的装备
+      </div>
+      <h2 class="section-title reveal reveal-delay-1">三大核心功能</h2>
+    </div>
+    <div class="feature-list">
+      <div class="feature-item reveal reveal-delay-1">
+        <div class="feature-num">01</div>
+        <div class="feature-body">
+          <h3>AI 自适应水平评估与内容生成</h3>
+          <p>多维度评估体系精准判定你的英语水平，基于 I+1 理论动态生成略高于当前水平的学习内容，确保材料既不过于简单、也不过于困难。</p>
+          <div class="feature-tags">
+            <span class="feature-tag">量表测试</span>
+            <span class="feature-tag">CAT自适应</span>
+            <span class="feature-tag">AI对话评估</span>
+            <span class="feature-tag">I+1动态生成</span>
+          </div>
+        </div>
+      </div>
+      <div class="feature-item reveal reveal-delay-2">
+        <div class="feature-num">02</div>
+        <div class="feature-body">
+          <h3>沉浸式文字冒险游戏体验</h3>
+          <p>进入 AI 生成的英文故事世界，通过阅读和选择推动剧情发展。句子级音频播放、重点词汇展开、中文翻译调用——让学习过程如同玩一场英文 RPG。</p>
+          <div class="feature-tags">
+            <span class="feature-tag">英文RPG</span>
+            <span class="feature-tag">选择推动剧情</span>
+            <span class="feature-tag">音频播放</span>
+            <span class="feature-tag">词汇展开</span>
+            <span class="feature-tag">翻译调用</span>
+          </div>
+        </div>
+      </div>
+      <div class="feature-item reveal reveal-delay-3">
+        <div class="feature-num">03</div>
+        <div class="feature-body">
+          <h3>智能词汇学习与闪卡复习</h3>
+          <p>系统自动记录游戏过程中遇到的生词，生成词汇卡片，并提供闪卡复习模式——正面显示单词，按空格查看背面释义，支持音频播放。</p>
+          <div class="feature-tags">
+            <span class="feature-tag">自动记录</span>
+            <span class="feature-tag">词汇卡片</span>
+            <span class="feature-tag">闪卡复习</span>
+            <span class="feature-tag">音频播放</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
-<!-- Features Section -->
-<section class="section features-section" id="features">
-  <div class="section-inner">
-    <div class="section-label reveal">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-      冒险者的装备
-    </div>
-    <h2 class="section-title reveal reveal-delay-1">三大核心功能</h2>
-    <div class="decorative-line reveal reveal-delay-1"></div>
-    <div class="feature-cards">
-      <div class="feature-card reveal reveal-delay-1">
-        <div class="feature-number">01</div>
-        <div class="feature-icon-wrap">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-        </div>
-        <h3>AI 驱动的自适应水平评估与内容生成</h3>
-        <p>多维度评估体系精准判定你的英语水平，基于 I+1 理论动态生成略高于当前水平的学习内容，确保材料既不过于简单、也不过于困难。</p>
-        <div class="feature-tags">
-          <span class="feature-tag">量表测试</span>
-          <span class="feature-tag">CAT自适应</span>
-          <span class="feature-tag">AI对话评估</span>
-          <span class="feature-tag">I+1动态生成</span>
-        </div>
-      </div>
-      <div class="feature-card reveal reveal-delay-2">
-        <div class="feature-number">02</div>
-        <div class="feature-icon-wrap">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-        </div>
-        <h3>沉浸式文字冒险游戏体验</h3>
-        <p>进入 AI 生成的英文故事世界，通过阅读和选择推动剧情发展。句子级音频播放、重点词汇展开、中文翻译调用——让学习过程如同玩一场英文 RPG。</p>
-        <div class="feature-tags">
-          <span class="feature-tag">英文RPG</span>
-          <span class="feature-tag">选择推动剧情</span>
-          <span class="feature-tag">音频播放</span>
-          <span class="feature-tag">词汇展开</span>
-          <span class="feature-tag">翻译调用</span>
-        </div>
-      </div>
-      <div class="feature-card reveal reveal-delay-3">
-        <div class="feature-number">03</div>
-        <div class="feature-icon-wrap">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M8 12h.01M12 12h.01M16 12h.01M6 16h.01M10 16h.01M14 16h.01"/></svg>
-        </div>
-        <h3>智能词汇学习与闪卡复习</h3>
-        <p>系统自动记录游戏过程中遇到的生词，生成词汇卡片，并提供闪卡复习模式——正面显示单词，按空格查看背面释义，支持音频播放。</p>
-        <div class="feature-tags">
-          <span class="feature-tag">自动记录</span>
-          <span class="feature-tag">词汇卡片</span>
-          <span class="feature-tag">闪卡复习</span>
-          <span class="feature-tag">音频播放</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Highlights Section -->
-<section class="section highlights-section" id="highlights">
-  <div class="section-inner">
-    <div class="section-label reveal">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-      更多装备
-    </div>
-    <h2 class="section-title reveal reveal-delay-1">不止于冒险</h2>
-    <div class="decorative-line reveal reveal-delay-1"></div>
-    <div class="highlights-grid">
-      <div class="highlight-item reveal reveal-delay-1">
-        <div class="highlight-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><circle cx="8" cy="16" r="1" fill="currentColor"/><circle cx="16" cy="16" r="1" fill="currentColor"/></svg>
-        </div>
-        <h4>多 LLM 支持</h4>
-        <p>DeepSeek、OpenAI、Claude、Gemini 等</p>
-      </div>
-      <div class="highlight-item reveal reveal-delay-2">
-        <div class="highlight-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
-        </div>
-        <h4>多 TTS 语音</h4>
-        <p>Supertonic、Kitten、Kokoro 等</p>
-      </div>
-      <div class="highlight-item reveal reveal-delay-3">
-        <div class="highlight-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-        </div>
-        <h4>存档管理</h4>
-        <p>模板、随机种子、自定义创建</p>
-      </div>
-      <div class="highlight-item reveal reveal-delay-4">
-        <div class="highlight-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
-        </div>
-        <h4>统计面板</h4>
-        <p>词汇量趋势、学习时长、目标完成</p>
-      </div>
-      <div class="highlight-item reveal reveal-delay-5">
-        <div class="highlight-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="2.5" fill="rgba(99,102,241,0.3)"/><circle cx="17.5" cy="10.5" r="2.5" fill="rgba(34,211,238,0.3)"/><circle cx="8.5" cy="7.5" r="2.5" fill="rgba(245,158,11,0.3)"/><circle cx="6.5" cy="12.5" r="2.5" fill="rgba(16,185,129,0.3)"/><path d="M12 22C6.5 22 2 17.5 2 12S6.5 2 12 2s10 4.5 10 10-4.5 10-10 10z" stroke-dasharray="4 3"/></svg>
-        </div>
-        <h4>8 套主题</h4>
-        <p>浅色、深色、海洋、森林、日落等</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Story Section -->
+<!-- ========== Story Section ========== -->
 <section class="section story-section" id="story">
   <div class="section-inner">
     <div class="section-label reveal">
@@ -1746,59 +849,48 @@ img { max-width: 100%; height: auto; display: block; }
       冒险者的旅程
     </div>
     <h2 class="section-title reveal reveal-delay-1">一个不懂技术的大一学生<br>如何把想法变成现实</h2>
-    <div class="decorative-line reveal reveal-delay-1"></div>
     <div class="story-layout">
-      <div class="story-author-card reveal">
-        <div class="story-author-avatar">
+      <div class="story-author reveal">
+        <div class="story-avatar">
           <img src="assets/IP头像.jpg" alt="赖嘉诚">
         </div>
-        <div class="story-author-name">赖嘉诚</div>
-        <div class="story-author-handle">滚雪球日记</div>
-        <div class="story-author-info">河海大学大一学生</div>
+        <div class="story-name">赖嘉诚</div>
+        <div class="story-handle">滚雪球日记</div>
+        <div class="story-info">河海大学大一学生</div>
       </div>
       <div class="story-timeline reveal reveal-delay-2">
         <div class="timeline-item">
           <h4>
-            <span class="tl-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg>
-            </span>
-            痛点驱动：学英语的真实困境
+            <span class="tl-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg></span>
+            痛点驱动
           </h4>
           <p>从自身英语学习困境出发，发现传统方法的根本问题：内容不可控、难度不匹配、记忆无语境。</p>
         </div>
         <div class="timeline-item">
           <h4>
-            <span class="tl-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-            </span>
-            借力 TRAE：从想法到架构
+            <span class="tl-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg></span>
+            借力 TRAE
           </h4>
           <p>不懂技术的大一学生，借助 TRAE 完成了完整的桌面应用开发——从想法到架构到代码，全程 AI 辅助。</p>
         </div>
         <div class="timeline-item">
           <h4>
-            <span class="tl-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a8 8 0 0 0-8 8c0 3.4 2.1 6.3 5 7.5V20h6v-2.5c2.9-1.2 5-4.1 5-7.5a8 8 0 0 0-8-8z"/><path d="M9 22h6"/></svg>
-            </span>
-            抓住核心：把握"信息"流动
+            <span class="tl-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a8 8 0 0 0-8 8c0 3.4 2.1 6.3 5 7.5V20h6v-2.5c2.9-1.2 5-4.1 5-7.5a8 8 0 0 0-8-8z"/><path d="M9 22h6"/></svg></span>
+            抓住核心
           </h4>
           <p>把握住"信息"这个核心特点，理清信息流动就能把握软件设计。学会了 RAG、SQL、TTS、Electron 等技术。</p>
         </div>
         <div class="timeline-item">
           <h4>
-            <span class="tl-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M3 8l3 3-3 3"/><path d="M21 8l-3 3 3 3"/><path d="M8 12h8"/></svg>
-            </span>
-            合规意识：GPL → MIT/Apache 2
+            <span class="tl-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M3 8l3 3-3 3"/><path d="M21 8l-3 3 3 3"/><path d="M8 12h8"/></svg></span>
+            合规意识
           </h4>
           <p>主动处理了 GPL 协议替换为 MIT/Apache 2 协议的合规问题，展现了开源社区的责任感。</p>
         </div>
         <div class="timeline-item">
           <h4>
-            <span class="tl-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-            </span>
-            长期主义：坚信复利与积累
+            <span class="tl-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span>
+            长期主义
           </h4>
           <p>积累和长期主义是最大的杠杆。每一步看似微小的进步，最终都会汇聚成不可忽视的力量。</p>
         </div>
@@ -1808,27 +900,25 @@ img { max-width: 100%; height: auto; display: block; }
   </div>
 </section>
 
-<!-- Download Section -->
+<!-- ========== Final CTA — "开始你的冒险" ========== -->
 <section class="section download-section" id="download">
   <div class="section-inner">
-    <h2 class="download-title reveal">开始你的英语冒险</h2>
+    <h2 class="download-title reveal">开始你的冒险</h2>
     <div class="download-card reveal reveal-delay-1">
-      <div class="download-app-icon">
-        <img src="assets/软件图标.png" alt="I+1 Quest App">
+      <div class="download-icon">
+        <img src="assets/软件图标.png" alt="I+1 Quest">
       </div>
       <h3>I+1 Quest</h3>
       <p class="download-note">Windows 系统，双击安装即可运行。首次使用需要配置 AI 接口。</p>
-      <div class="download-links">
-        <a href="https://pan.baidu.com/s/1e6sDNCbyP4-UXzZ3CjnKOA?pwd=SNOW" class="download-link" target="_blank">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          百度网盘下载
-        </a>
-        <p class="download-code">提取码：<strong>SNOW</strong></p>
-      </div>
+      <a href="https://pan.baidu.com/s/1e6sDNCbyP4-UXzZ3CjnKOA?pwd=SNOW" class="download-btn" target="_blank">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        百度网盘下载
+      </a>
+      <p class="download-code">提取码：<strong>SNOW</strong></p>
       <div class="download-social">
         <h4>社交链接</h4>
         <div class="social-links">
-          <a href="https://www.bilibili.com/video/BV1PK736SEBd/" class="social-link" target="_blank">
+          <a href="https://www.bilibili.com/video/BV1PK7MSSEBd/" class="social-link" target="_blank">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
             B站
           </a>
@@ -1854,6 +944,14 @@ img { max-width: 100%; height: auto; display: block; }
 </footer>
 
 <script>
+// ========== Hero Entrance ==========
+(function() {
+  var items = document.querySelectorAll('.hero-enter');
+  setTimeout(function() {
+    items.forEach(function(el) { el.classList.add('active'); });
+  }, 200);
+})();
+
 // ========== Scroll Reveal ==========
 (function() {
   var reveals = document.querySelectorAll('.reveal');
@@ -1863,7 +961,7 @@ img { max-width: 100%; height: auto; display: block; }
         entry.target.classList.add('visible');
       }
     });
-  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
   reveals.forEach(function(el) { observer.observe(el); });
 })();
 
@@ -1883,30 +981,29 @@ img { max-width: 100%; height: auto; display: block; }
   });
 })();
 
-// ========== Floating Particles (Gold) ==========
+// ========== Floating Particles (Rose Pink) ==========
 (function() {
   var container = document.getElementById('particles');
-  var count = 40;
+  var count = 28;
   for (var i = 0; i < count; i++) {
     var p = document.createElement('div');
     p.className = 'particle';
     p.style.left = Math.random() * 100 + '%';
-    p.style.animationDuration = (10 + Math.random() * 15) + 's';
-    p.style.animationDelay = (Math.random() * 12) + 's';
-    var size = (1 + Math.random() * 2.5);
+    p.style.animationDuration = (12 + Math.random() * 18) + 's';
+    p.style.animationDelay = (Math.random() * 14) + 's';
+    var size = (1 + Math.random() * 2);
     p.style.width = size + 'px';
     p.style.height = size + 'px';
-    // Gold particles with occasional cyan/indigo
     var r = Math.random();
-    if (r < 0.6) {
-      p.style.background = '#f59e0b';
-      p.style.boxShadow = '0 0 4px rgba(245,158,11,0.5)';
-    } else if (r < 0.8) {
-      p.style.background = '#22d3ee';
-      p.style.boxShadow = '0 0 4px rgba(34,211,238,0.4)';
+    if (r < 0.65) {
+      p.style.background = '#dd5478';
+      p.style.boxShadow = '0 0 4px rgba(221,84,120,0.45)';
+    } else if (r < 0.85) {
+      p.style.background = '#e588a7';
+      p.style.boxShadow = '0 0 4px rgba(229,136,167,0.35)';
     } else {
-      p.style.background = '#6366f1';
-      p.style.boxShadow = '0 0 4px rgba(99,102,241,0.4)';
+      p.style.background = '#738fad';
+      p.style.boxShadow = '0 0 4px rgba(115,143,173,0.3)';
     }
     container.appendChild(p);
   }
@@ -1941,13 +1038,11 @@ document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
   if (!curveSvg) return;
   var curvePath = curveSvg.querySelector('.curve-path');
   if (!curvePath) return;
-
-  // Reset animation when out of view, replay when in view
   var observer = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry) {
       if (entry.isIntersecting) {
         curvePath.style.animation = 'none';
-        curvePath.offsetHeight; // trigger reflow
+        curvePath.offsetHeight;
         curvePath.style.animation = 'drawCurve 2.5s ease-out forwards';
       }
     });
