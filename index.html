@@ -218,25 +218,25 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 /* ========== Section Common ========== */
-.section { padding: 6rem 2rem; position: relative; }
-.section-inner { max-width: 1100px; margin: 0 auto; }
+.section { padding: 7rem 2rem; position: relative; }
+.section-inner { max-width: 1080px; margin: 0 auto; }
 .section-label {
   display: inline-flex; align-items: center; gap: 0.5rem;
-  font-family: var(--font-display); font-size: 0.75rem; font-weight: 700;
-  letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--rose); margin-bottom: 0.75rem;
+  font-family: var(--font-display); font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--rose); margin-bottom: 1rem;
 }
 .section-label svg { width: 16px; height: 16px; stroke: var(--rose); }
 .section-title {
-  font-family: var(--font-display); font-size: clamp(1.6rem, 3.5vw, 2.5rem);
-  font-weight: 800; letter-spacing: 0.03em; line-height: 1.2;
-  margin-bottom: 1rem; color: var(--text);
+  font-family: var(--font-display); font-size: clamp(1.7rem, 3.8vw, 2.6rem);
+  font-weight: 800; letter-spacing: 0.03em; line-height: 1.25;
+  margin-bottom: 1.25rem; color: var(--text);
 }
-.section-desc { font-size: 1rem; color: var(--text-dim); max-width: 600px; line-height: 1.8; }
+.section-desc { font-size: 1rem; color: var(--text-dim); max-width: 580px; line-height: 1.85; }
 .divider {
   width: 100%; height: 1px; border: none;
   background: linear-gradient(90deg, transparent, rgba(221, 84, 120, 0.2), transparent);
-  margin: 4rem 0;
+  margin: 5rem 0;
 }
 
 /* ========== Pain Points — "为什么传统学习不行" ========== */
@@ -245,36 +245,36 @@ img { max-width: 100%; height: auto; display: block; }
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
   background: linear-gradient(90deg, transparent, rgba(221, 84, 120, 0.25), transparent);
 }
-.pain-list { margin-top: 3rem; }
+.pain-list { margin-top: 3.5rem; }
 .pain-item {
-  display: grid; grid-template-columns: 3rem 1fr; gap: 1.5rem;
-  padding: 2.5rem 0; border-bottom: 1px solid rgba(221, 84, 120, 0.06);
+  display: grid; grid-template-columns: 3.5rem 1fr; gap: 1.75rem;
+  padding: 2.75rem 0; border-bottom: 1px solid rgba(221, 84, 120, 0.06);
   transition: all 0.3s;
 }
 .pain-item:last-child { border-bottom: none; }
 .pain-item:hover { padding-left: 0.5rem; }
 .pain-num {
-  font-family: var(--font-display); font-size: 2.8rem; font-weight: 900;
-  line-height: 1; color: var(--rose); opacity: 0.35;
+  font-family: var(--font-display); font-size: 2.6rem; font-weight: 900;
+  line-height: 1; color: var(--rose); opacity: 0.3;
   position: relative;
 }
 .pain-num::after {
   content: ''; position: absolute; left: 0; top: 0.3em;
-  width: 3px; height: 2.5rem; background: var(--rose);
+  width: 3px; height: 2.2rem; background: var(--rose);
   border-radius: 2px; opacity: 1;
 }
 .pain-body h3 {
-  font-size: 1.2rem; font-weight: 700; margin-bottom: 0.4rem;
+  font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;
   color: var(--text); letter-spacing: 0.02em;
 }
-.pain-body p { font-size: 0.95rem; color: var(--text-dim); line-height: 1.7; }
+.pain-body p { font-size: 0.95rem; color: var(--text-dim); line-height: 1.75; }
 
 /* ========== Detail Section ========== */
 .detail-section { background: var(--bg); overflow: hidden; }
 
 /* 3a: I+1 Theory */
 .theory-layout {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
   align-items: center; position: relative;
 }
 .theory-watercolor {
@@ -285,104 +285,48 @@ img { max-width: 100%; height: auto; display: block; }
   opacity: 0.06; pointer-events: none; border-radius: 16px;
 }
 .theory-visual { position: relative; display: flex; align-items: center; justify-content: center; padding: 1rem; }
-.curve-svg { width: 100%; max-width: 400px; height: auto; }
-.curve-svg .curve-path {
-  stroke-dasharray: 600; stroke-dashoffset: 600;
-  animation: drawCurve 2.5s ease-out forwards;
-}
-@keyframes drawCurve { to { stroke-dashoffset: 0; } }
-.curve-svg .zone-easy { fill: rgba(115, 143, 173, 0.06); }
-.curve-svg .zone-optimal { fill: rgba(221, 84, 120, 0.07); }
-.curve-svg .zone-hard { fill: rgba(90, 60, 80, 0.06); }
-.curve-svg .label-text { font-family: var(--font-body); font-size: 11px; fill: var(--text-muted); }
-.curve-svg .axis-label { font-family: var(--font-body); font-size: 12px; fill: var(--text-dim); font-weight: 600; }
-.pulse-dot { animation: pulseDot 2.5s ease-in-out infinite; }
-@keyframes pulseDot { 0%, 100% { r: 5; opacity: 1; } 50% { r: 8; opacity: 0.6; } }
-.pulse-ring { animation: pulseRing 2.5s ease-in-out infinite; }
-@keyframes pulseRing { 0%, 100% { r: 10; opacity: 0.3; } 50% { r: 16; opacity: 0; } }
+.curve-canvas { width: 100%; max-width: 420px; aspect-ratio: 420 / 320; height: auto; display: block; }
 
 .theory-text { position: relative; z-index: 1; }
 .theory-formula {
   display: inline-flex; align-items: center; gap: 0.6rem;
-  padding: 0.9rem 1.4rem;
+  padding: 1rem 1.6rem;
   background: rgba(221, 84, 120, 0.06); border: 1px solid rgba(221, 84, 120, 0.15);
-  border-radius: 10px; font-size: 1.4rem; font-weight: 700;
-  margin-bottom: 1.5rem; font-family: var(--font-display);
+  border-radius: 10px; font-size: 1.5rem; font-weight: 700;
+  margin-bottom: 1.75rem; font-family: var(--font-display);
 }
 .theory-formula .i { color: var(--blue-light); }
 .theory-formula .plus { color: var(--text-muted); }
 .theory-formula .one { color: var(--rose); }
 .theory-text h3 {
-  font-family: var(--font-display); font-size: 1.5rem; font-weight: 800;
-  margin-bottom: 1.25rem; color: var(--rose-light); letter-spacing: 0.03em;
+  font-family: var(--font-display); font-size: 1.55rem; font-weight: 800;
+  margin-bottom: 1.5rem; color: var(--rose-light); letter-spacing: 0.03em;
 }
-.theory-text p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.9; margin-bottom: 0.6rem; }
+.theory-text p { color: var(--text-dim); font-size: 0.96rem; line-height: 1.95; margin-bottom: 0.75rem; }
 .theory-text p strong { font-weight: 700; }
 
 /* 3b: Quadrant */
 .quadrant-container { margin-top: 3rem; display: flex; justify-content: center; }
-.quadrant-chart { position: relative; width: 100%; max-width: 560px; }
-.quadrant-grid {
-  display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
-  gap: 3px; position: relative; z-index: 1;
-}
-.quadrant-cell {
-  padding: 2rem 1.5rem; border-radius: 10px; text-align: center;
-  transition: all 0.4s; position: relative;
-  min-height: 130px; display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-}
-.quadrant-cell svg { width: 28px; height: 28px; margin-bottom: 0.6rem; }
-.quadrant-cell h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.3rem; }
-.quadrant-cell p { font-size: 0.78rem; color: var(--text-muted); }
-.q-tl { background: var(--blue-soft); border: 1px solid var(--border-blue); }
-.q-tl svg { stroke: var(--blue); }
-.q-tl h4 { color: var(--blue-light); }
-.q-tr {
-  background: var(--rose-soft); border: 2px solid rgba(221, 84, 120, 0.35);
-  animation: qPulse 3s ease-in-out infinite;
-}
-.q-tr svg { stroke: var(--rose); }
-.q-tr h4 { color: var(--rose-light); }
-@keyframes qPulse {
-  0%, 100% { border-color: rgba(221, 84, 120, 0.35); box-shadow: 0 0 15px rgba(221, 84, 120, 0.08); }
-  50% { border-color: rgba(221, 84, 120, 0.65); box-shadow: 0 0 30px rgba(221, 84, 120, 0.2); }
-}
-.q-bl { background: rgba(40, 36, 50, 0.5); border: 1px solid rgba(80, 70, 90, 0.15); }
-.q-bl svg { stroke: #8a7a96; }
-.q-bl h4 { color: #a898b8; }
-.q-br { background: var(--blue-soft); border: 1px solid var(--border-blue); }
-.q-br svg { stroke: var(--blue); }
-.q-br h4 { color: var(--blue-light); }
-.quadrant-axis-x {
-  position: absolute; bottom: -32px; left: 50%; transform: translateX(-50%);
-  font-size: 0.8rem; color: var(--text-dim); font-weight: 600;
-  white-space: nowrap; display: flex; align-items: center; gap: 0.4rem;
-}
-.quadrant-axis-y {
-  position: absolute; left: -32px; top: 50%; transform: translateY(-50%) rotate(-90deg);
-  font-size: 0.8rem; color: var(--text-dim); font-weight: 600;
-  white-space: nowrap; display: flex; align-items: center; gap: 0.4rem;
-}
+.quadrant-canvas { width: 100%; max-width: 560px; aspect-ratio: 560 / 400; height: auto; display: block; }
 
 /* 3c: Features (numbered list, no cards) */
-.feature-list { margin-top: 3rem; }
+.feature-list { margin-top: 3.5rem; }
 .feature-item {
-  display: grid; grid-template-columns: 3rem 1fr; gap: 1.5rem;
-  padding: 2.5rem 0; border-bottom: 1px solid rgba(221, 84, 120, 0.06);
+  display: grid; grid-template-columns: 3.5rem 1fr; gap: 1.75rem;
+  padding: 2.75rem 0; border-bottom: 1px solid rgba(221, 84, 120, 0.06);
   transition: all 0.3s;
 }
 .feature-item:last-child { border-bottom: none; }
 .feature-item:hover { padding-left: 0.5rem; }
 .feature-num {
-  font-family: var(--font-display); font-size: 2.8rem; font-weight: 900;
+  font-family: var(--font-display); font-size: 2.6rem; font-weight: 900;
   line-height: 1;
   background: linear-gradient(135deg, var(--rose-light), var(--rose));
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
   opacity: 0.4;
 }
-.feature-body h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text); }
-.feature-body p { font-size: 0.92rem; color: var(--text-dim); line-height: 1.8; margin-bottom: 0.75rem; }
+.feature-body h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.6rem; color: var(--text); }
+.feature-body p { font-size: 0.94rem; color: var(--text-dim); line-height: 1.85; margin-bottom: 0.85rem; }
 .feature-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 .feature-tag {
   padding: 0.2rem 0.65rem;
@@ -397,8 +341,8 @@ img { max-width: 100%; height: auto; display: block; }
   background: linear-gradient(90deg, transparent, rgba(115, 143, 173, 0.25), transparent);
 }
 .story-layout {
-  display: grid; grid-template-columns: 280px 1fr; gap: 4rem;
-  align-items: start; margin-top: 3rem; position: relative;
+  display: grid; grid-template-columns: 280px 1fr; gap: 5rem;
+  align-items: start; margin-top: 3.5rem; position: relative;
 }
 .story-building {
   position: absolute; left: -60px; bottom: -40px;
@@ -433,7 +377,8 @@ img { max-width: 100%; height: auto; display: block; }
   width: 2px; border-radius: 1px;
   background: linear-gradient(to bottom, var(--rose), var(--blue), var(--rose-light));
 }
-.timeline-item { position: relative; padding-bottom: 2rem; }
+.timeline-item { position: relative; padding-bottom: 2.25rem; }
+.timeline-item:last-child { padding-bottom: 0; }
 .timeline-item::before {
   content: ''; position: absolute; left: -2.5rem; top: 6px;
   width: 16px; height: 16px; background: var(--bg-deep);
@@ -472,8 +417,8 @@ img { max-width: 100%; height: auto; display: block; }
   filter: drop-shadow(0 0 30px rgba(221, 84, 120, 0.2));
 }
 .download-card {
-  position: relative; z-index: 1; max-width: 560px; margin: 0 auto;
-  padding: 3rem;
+  position: relative; z-index: 1; max-width: 580px; margin: 0 auto;
+  padding: 3.5rem 3rem;
   background: var(--bg-card); border: 1px solid rgba(221, 84, 120, 0.12);
   border-radius: 20px;
   box-shadow: 0 0 80px rgba(221, 84, 120, 0.06);
@@ -484,10 +429,10 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .download-icon img { width: 100%; height: 100%; object-fit: cover; }
 .download-card h3 {
-  font-family: var(--font-display); font-size: 1.4rem; font-weight: 800;
-  margin-bottom: 0.6rem; letter-spacing: 0.04em;
+  font-family: var(--font-display); font-size: 1.5rem; font-weight: 800;
+  margin-bottom: 0.75rem; letter-spacing: 0.04em;
 }
-.download-note { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 2rem; line-height: 1.7; }
+.download-note { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 1.75rem; line-height: 1.7; }
 .download-btn {
   display: inline-flex; align-items: center; gap: 0.6rem;
   padding: 1rem 2.5rem;
@@ -504,6 +449,32 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .download-code { margin-top: 0.75rem; font-size: 0.85rem; color: var(--text-muted); }
 .download-code strong { color: var(--rose); font-weight: 700; letter-spacing: 0.15em; }
+.download-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+.download-option {
+  display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
+  padding: 1rem 0.5rem;
+  background: rgba(221, 84, 120, 0.04);
+  border: 1px solid rgba(221, 84, 120, 0.1);
+  border-radius: 10px;
+  transition: all 0.3s; text-decoration: none;
+  cursor: pointer;
+}
+.download-option:hover {
+  background: rgba(221, 84, 120, 0.08);
+  border-color: rgba(221, 84, 120, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(221, 84, 120, 0.08);
+}
+.download-option-name {
+  font-size: 0.88rem; font-weight: 700; color: var(--rose-light);
+}
+.download-option-code {
+  font-size: 0.75rem; color: var(--text-muted);
+}
+.download-option-code strong { color: var(--rose); font-weight: 700; }
 .download-social { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid rgba(221, 84, 120, 0.08); }
 .download-social h4 { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; letter-spacing: 0.05em; margin-bottom: 1rem; }
 .social-links { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
@@ -559,18 +530,23 @@ img { max-width: 100%; height: auto; display: block; }
 .hero-enter-d4 { transition-delay: 0.8s !important; }
 
 /* ========== Responsive ========== */
+@media (max-width: 1024px) {
+  .theory-layout { gap: 3rem; }
+  .section { padding: 5.5rem 1.5rem; }
+}
 @media (max-width: 900px) {
   .hero-content {
     grid-template-columns: 1fr; padding: 0 1.5rem 4rem;
-    gap: 2rem;
+    gap: 2.5rem;
   }
   .hero-text { max-width: 100%; }
-  .hero-video { max-width: 560px; }
-  .theory-layout { grid-template-columns: 1fr; gap: 2rem; }
+  .hero-video { max-width: 640px; }
+  .theory-layout { grid-template-columns: 1fr; gap: 2.5rem; }
   .theory-visual { order: -1; }
-  .story-layout { grid-template-columns: 1fr; gap: 2rem; }
-  .pain-item { grid-template-columns: 2.5rem 1fr; gap: 1rem; }
-  .feature-item { grid-template-columns: 2.5rem 1fr; gap: 1rem; }
+  .story-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+  .pain-item { grid-template-columns: 2.8rem 1fr; gap: 1.25rem; padding: 2rem 0; }
+  .feature-item { grid-template-columns: 2.8rem 1fr; gap: 1.25rem; padding: 2rem 0; }
+  .divider { margin: 4rem 0; }
 }
 @media (max-width: 768px) {
   .nav-links { display: none !important; }
@@ -585,16 +561,23 @@ img { max-width: 100%; height: auto; display: block; }
   }
   .hero { min-height: 100svh; }
   .hero-brand { font-size: clamp(2.5rem, 10vw, 4rem); }
-  .section { padding: 4rem 1.25rem; }
+  .section { padding: 4.5rem 1.25rem; }
   .download-card { padding: 2rem 1.5rem; }
-  .quadrant-cell { padding: 1.25rem 1rem; min-height: 100px; }
+  .story-author { display: flex; align-items: center; gap: 1.5rem; text-align: left; }
+  .story-avatar { width: 80px; height: 80px; margin: 0; flex-shrink: 0; }
+  .story-name { font-size: 1.1rem; margin-bottom: 0.1rem; }
+  .story-handle { margin-bottom: 0; }
 }
 @media (max-width: 480px) {
   .hero-actions { flex-direction: column; }
   .btn-rose, .btn-outline { width: 100%; justify-content: center; }
-  .quadrant-cell { min-height: 85px; padding: 1rem 0.75rem; }
-  .quadrant-cell h4 { font-size: 0.82rem; }
+  .download-grid { grid-template-columns: 1fr; }
   .download-btn { width: 100%; justify-content: center; }
+  .pain-item { grid-template-columns: 2.2rem 1fr; gap: 1rem; }
+  .feature-item { grid-template-columns: 2.2rem 1fr; gap: 1rem; }
+  .pain-num, .feature-num { font-size: 2rem; }
+  .section-title { font-size: 1.5rem; }
+  .story-author { flex-direction: column; text-align: center; }
 }
 </style>
 </head>
@@ -631,18 +614,18 @@ img { max-width: 100%; height: auto; display: block; }
       <p class="hero-tagline hero-enter hero-enter-d2">让语言学习，成为一场冒险</p>
       <p class="hero-desc hero-enter hero-enter-d3">基于 I+1 语言学习理论的开放故事冒险英语学习游戏</p>
       <div class="hero-actions hero-enter hero-enter-d4">
-        <a href="https://pan.baidu.com/s/1e6sDNCbyP4-UXzZ3CjnKOA?pwd=SNOW" class="btn-rose" target="_blank">
+        <a href="https://yun.139.com/shareweb/#/w/i/2vMBQQSgyWQu8" class="btn-rose" target="_blank">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           下载体验
         </a>
-        <a href="https://www.bilibili.com/video/BV1PK7MSSEBd/" class="btn-outline" target="_blank">
+        <a href="https://www.bilibili.com/video/BV1PK736SEBd/" class="btn-outline" target="_blank">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
           观看宣传片
         </a>
       </div>
     </div>
     <div class="hero-video hero-enter hero-enter-d3">
-      <iframe src="https://player.bilibili.com/player.html?bvid=BV1PK7MSSEBd&autoplay=0" scrolling="no" allowfullscreen></iframe>
+      <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=116796686342771&bvid=BV1PK736SEBd&cid=39328221610&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
     </div>
   </div>
   <a href="#pain" class="scroll-arrow">
@@ -697,35 +680,7 @@ img { max-width: 100%; height: auto; display: block; }
     <h2 class="section-title reveal reveal-delay-1">I+1 可理解输入理论</h2>
     <div class="theory-layout">
       <div class="theory-visual reveal">
-        <svg class="curve-svg" viewBox="0 0 420 320" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <line x1="60" y1="20" x2="60" y2="260" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
-          <line x1="60" y1="260" x2="390" y2="260" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
-          <line x1="60" y1="200" x2="390" y2="200" stroke="rgba(255,255,255,0.025)" stroke-width="1" stroke-dasharray="4 4"/>
-          <line x1="60" y1="140" x2="390" y2="140" stroke="rgba(255,255,255,0.025)" stroke-width="1" stroke-dasharray="4 4"/>
-          <line x1="60" y1="80" x2="390" y2="80" stroke="rgba(255,255,255,0.025)" stroke-width="1" stroke-dasharray="4 4"/>
-          <line x1="150" y1="20" x2="150" y2="260" stroke="rgba(255,255,255,0.025)" stroke-width="1" stroke-dasharray="4 4"/>
-          <line x1="240" y1="20" x2="240" y2="260" stroke="rgba(255,255,255,0.025)" stroke-width="1" stroke-dasharray="4 4"/>
-          <line x1="330" y1="20" x2="330" y2="260" stroke="rgba(255,255,255,0.025)" stroke-width="1" stroke-dasharray="4 4"/>
-          <path d="M60 240 Q120 230 150 200 L150 260 L60 260 Z" class="zone-easy"/>
-          <path d="M150 200 Q200 100 240 50 Q280 100 330 220 L330 260 L150 260 Z" class="zone-optimal"/>
-          <path d="M330 220 Q360 250 390 258 L390 260 L330 260 Z" class="zone-hard"/>
-          <text x="100" y="252" class="label-text" text-anchor="middle" fill="#5e5a6e" font-size="11">太简单</text>
-          <text x="240" y="175" class="label-text" text-anchor="middle" fill="#dd5478" font-size="11" font-weight="600">I+1 甜蜜区</text>
-          <text x="370" y="252" class="label-text" text-anchor="middle" fill="#5e5a6e" font-size="11">太难</text>
-          <path d="M60 240 Q120 230 150 200 Q200 100 240 50 Q280 100 330 220 Q360 250 390 258"
-                stroke="#dd5478" stroke-width="3" fill="none" stroke-linecap="round"
-                class="curve-path"/>
-          <circle cx="150" cy="200" r="5" fill="#738fad" class="pulse-dot"/>
-          <circle cx="150" cy="200" r="10" fill="none" stroke="#738fad" stroke-width="1.5" class="pulse-ring"/>
-          <text x="150" y="190" text-anchor="middle" fill="#738fad" font-size="14" font-weight="700" font-family="Cinzel, serif">i</text>
-          <circle cx="240" cy="50" r="5" fill="#dd5478" class="pulse-dot"/>
-          <circle cx="240" cy="50" r="10" fill="none" stroke="#dd5478" stroke-width="1.5" class="pulse-ring"/>
-          <text x="258" y="45" fill="#dd5478" font-size="13" font-weight="700" font-family="Cinzel, serif">i+1</text>
-          <text x="225" y="295" class="axis-label" text-anchor="middle" fill="#9b97a8" font-size="12">材料难度</text>
-          <text x="22" y="145" class="axis-label" text-anchor="middle" fill="#9b97a8" font-size="12" transform="rotate(-90, 22, 145)">习得效率</text>
-          <polygon points="390,256 398,260 390,264" fill="rgba(255,255,255,0.12)"/>
-          <polygon points="58,20 62,12 66,20" fill="rgba(255,255,255,0.12)"/>
-        </svg>
+        <canvas id="curveCanvas" width="420" height="320" class="curve-canvas"></canvas>
       </div>
       <div class="theory-text reveal reveal-delay-2">
         <div class="theory-formula">
@@ -751,38 +706,7 @@ img { max-width: 100%; height: auto; display: block; }
     <h2 class="section-title reveal reveal-delay-1">学习材料的四象限</h2>
     <p class="section-desc reveal reveal-delay-2">大多数材料要么无聊、要么太难——I+1 Quest 旨在填补那个空白。</p>
     <div class="quadrant-container reveal reveal-delay-3">
-      <div class="quadrant-chart">
-        <div class="quadrant-grid">
-          <div class="quadrant-cell q-tl">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-            <h4>英语教材</h4>
-            <p>易理解 / 无趣</p>
-          </div>
-          <div class="quadrant-cell q-tr">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-            <h4>I+1 Quest</h4>
-            <p>易理解 / 有趣</p>
-          </div>
-          <div class="quadrant-cell q-bl">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-            <h4>英语试卷</h4>
-            <p>难理解 / 无趣</p>
-          </div>
-          <div class="quadrant-cell q-br">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>
-            <h4>影视动漫</h4>
-            <p>难理解 / 有趣</p>
-          </div>
-        </div>
-        <div class="quadrant-axis-x">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          有趣程度
-        </div>
-        <div class="quadrant-axis-y">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
-          容易理解
-        </div>
-      </div>
+      <canvas id="quadrantCanvas" width="560" height="400" class="quadrant-canvas"></canvas>
     </div>
 
     <hr class="divider">
@@ -910,15 +834,28 @@ img { max-width: 100%; height: auto; display: block; }
       </div>
       <h3>I+1 Quest</h3>
       <p class="download-note">Windows 系统，双击安装即可运行。首次使用需要配置 AI 接口。</p>
-      <a href="https://pan.baidu.com/s/1e6sDNCbyP4-UXzZ3CjnKOA?pwd=SNOW" class="download-btn" target="_blank">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        百度网盘下载
-      </a>
-      <p class="download-code">提取码：<strong>SNOW</strong></p>
+      <div class="download-grid">
+        <a href="https://pan.baidu.com/s/1e6sDNCbyP4-UXzZ3CjnKOA?pwd=SNOW" class="download-option" target="_blank">
+          <span class="download-option-name">百度网盘</span>
+          <span class="download-option-code">提取码：<strong>SNOW</strong></span>
+        </a>
+        <a href="https://pan.quark.cn/s/6ce8e79863b3?pwd=GLx9" class="download-option" target="_blank">
+          <span class="download-option-name">夸克网盘</span>
+          <span class="download-option-code">提取码：<strong>GLx9</strong></span>
+        </a>
+        <a href="https://pan.xunlei.com/s/VOvmYD8CC5Jc2pPxW0TsMSQPA1#" class="download-option" target="_blank">
+          <span class="download-option-name">迅雷网盘</span>
+          <span class="download-option-code">提取码：<strong>x4wa</strong></span>
+        </a>
+        <a href="https://yun.139.com/shareweb/#/w/i/2vMBQQSgyWQu8" class="download-option" target="_blank">
+          <span class="download-option-name">移动云盘</span>
+          <span class="download-option-code">提取码：<strong>550q</strong></span>
+        </a>
+      </div>
       <div class="download-social">
         <h4>社交链接</h4>
         <div class="social-links">
-          <a href="https://www.bilibili.com/video/BV1PK7MSSEBd/" class="social-link" target="_blank">
+          <a href="https://www.bilibili.com/video/BV1PK736SEBd" class="social-link" target="_blank">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
             B站
           </a>
@@ -1032,22 +969,511 @@ document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
   });
 });
 
-// ========== SVG Curve Animation Trigger ==========
+// ========== Canvas MG动画: I+1效率曲线 ==========
 (function() {
-  var curveSvg = document.querySelector('.curve-svg');
-  if (!curveSvg) return;
-  var curvePath = curveSvg.querySelector('.curve-path');
-  if (!curvePath) return;
-  var observer = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        curvePath.style.animation = 'none';
-        curvePath.offsetHeight;
-        curvePath.style.animation = 'drawCurve 2.5s ease-out forwards';
+  var canvas = document.getElementById('curveCanvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var dpr = window.devicePixelRatio || 1;
+  var W = 420, H = 320;
+
+  // 高清画布设置
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  // 动画状态
+  var progress = 0;
+  var startTime = null;
+  var duration = 3500;
+  var animating = false;
+  var pulsePhase = 0;
+
+  // 缓动函数
+  function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+  function easeInOutCubic(t) { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2; }
+  function easeOutBack(t) { var c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(t-1, 3) + c1 * Math.pow(t-1, 2); }
+
+  // 倒U型高斯曲线: y = baseY - amplitude * exp(-nx^2 * factor)
+  function curveY(x) {
+    var t = (x - 60) / 330;
+    var nx = (t - 0.5) * 2;
+    return 260 - 210 * Math.exp(-nx * nx * 3.5);
+  }
+
+  // 绘制坐标轴
+  function drawAxes(p) {
+    ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+    ctx.lineWidth = 1.5;
+    ctx.lineCap = 'round';
+
+    var yLen = 240 * p;
+    ctx.beginPath();
+    ctx.moveTo(60, 260);
+    ctx.lineTo(60, 260 - yLen);
+    ctx.stroke();
+
+    var xLen = 330 * p;
+    ctx.beginPath();
+    ctx.moveTo(60, 260);
+    ctx.lineTo(60 + xLen, 260);
+    ctx.stroke();
+
+    // 箭头
+    if (p > 0.85) {
+      var a = (p - 0.85) / 0.15;
+      ctx.fillStyle = 'rgba(255,255,255,' + (0.2 * a) + ')';
+      ctx.beginPath();
+      ctx.moveTo(394, 260); ctx.lineTo(386, 255); ctx.lineTo(386, 265);
+      ctx.closePath(); ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(60, 10); ctx.lineTo(55, 18); ctx.lineTo(65, 18);
+      ctx.closePath(); ctx.fill();
+    }
+  }
+
+  // 绘制网格线
+  function drawGrid(p) {
+    ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4, 4]);
+
+    var lines = [
+      [60, 200, 390, 200], [60, 140, 390, 140], [60, 80, 390, 80],
+      [150, 20, 150, 260], [240, 20, 240, 260], [330, 20, 330, 260]
+    ];
+
+    lines.forEach(function(l, i) {
+      var lp = Math.max(0, Math.min(1, (p - i * 0.08) / 0.4));
+      if (lp <= 0) return;
+      ctx.globalAlpha = lp * 0.6;
+      ctx.beginPath();
+      ctx.moveTo(l[0], l[1]);
+      ctx.lineTo(l[2], l[3]);
+      ctx.stroke();
+    });
+
+    ctx.globalAlpha = 1;
+    ctx.setLineDash([]);
+  }
+
+  // 绘制三区域填充
+  function drawZones(p) {
+    // 太简单区域（蓝灰）
+    if (p > 0) {
+      var a = Math.min(1, p * 2) * 0.06;
+      ctx.fillStyle = 'rgba(115, 143, 173, ' + a + ')';
+      ctx.beginPath();
+      ctx.moveTo(60, 260);
+      for (var x = 60; x <= 150; x += 2) ctx.lineTo(x, curveY(x));
+      ctx.lineTo(150, 260);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    // I+1甜蜜区（玫瑰粉）
+    if (p > 0.3) {
+      var a = Math.min(1, (p - 0.3) * 2) * 0.08;
+      ctx.fillStyle = 'rgba(221, 84, 120, ' + a + ')';
+      ctx.beginPath();
+      ctx.moveTo(150, 260);
+      for (var x = 150; x <= 330; x += 2) ctx.lineTo(x, curveY(x));
+      ctx.lineTo(330, 260);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    // 太难区域（暗紫）
+    if (p > 0.6) {
+      var a = Math.min(1, (p - 0.6) * 2) * 0.06;
+      ctx.fillStyle = 'rgba(90, 60, 80, ' + a + ')';
+      ctx.beginPath();
+      ctx.moveTo(330, 260);
+      for (var x = 330; x <= 390; x += 2) ctx.lineTo(x, curveY(x));
+      ctx.lineTo(390, 260);
+      ctx.closePath();
+      ctx.fill();
+    }
+  }
+
+  // 绘制曲线（核心动画 — 完美的曲线生成展开）
+  function drawCurve(p) {
+    if (p <= 0) return;
+
+    var drawLen = 330 * p;
+    var endX = 60 + drawLen;
+
+    // 曲线光晕
+    ctx.shadowColor = 'rgba(221, 84, 120, 0.5)';
+    ctx.shadowBlur = 12;
+    ctx.strokeStyle = '#dd5478';
+    ctx.lineWidth = 3;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    ctx.beginPath();
+    for (var x = 60; x <= endX; x += 1) {
+      var y = curveY(x);
+      if (x === 60) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+
+    // 绘制笔尖光点（曲线展开的"笔"）
+    if (p < 1) {
+      var tipY = curveY(endX);
+      var grad = ctx.createRadialGradient(endX, tipY, 0, endX, tipY, 20);
+      grad.addColorStop(0, 'rgba(221, 84, 120, 0.6)');
+      grad.addColorStop(0.5, 'rgba(221, 84, 120, 0.2)');
+      grad.addColorStop(1, 'rgba(221, 84, 120, 0)');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(endX, tipY, 20, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#fff';
+      ctx.beginPath();
+      ctx.arc(endX, tipY, 3, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  // 绘制标记点（i 和 i+1）
+  function drawMarker(x, y, color, label, lo, p) {
+    if (p <= 0) return;
+    var scale = easeOutBack(p);
+    var alpha = Math.min(1, p * 2);
+
+    ctx.save();
+    ctx.globalAlpha = alpha;
+
+    // 脉冲环
+    var pr = 10 + Math.sin(pulsePhase) * 3;
+    var pa = (Math.cos(pulsePhase) + 1) * 0.15;
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1.5;
+    ctx.globalAlpha = pa * alpha;
+    ctx.beginPath();
+    ctx.arc(x, y, pr, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // 外环
+    ctx.globalAlpha = alpha * 0.3;
+    ctx.beginPath();
+    ctx.arc(x, y, 10 * scale, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // 实心点
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = color;
+    ctx.shadowColor = color;
+    ctx.shadowBlur = 10;
+    ctx.beginPath();
+    ctx.arc(x, y, 5 * scale, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.shadowBlur = 0;
+
+    // 标签
+    ctx.fillStyle = color;
+    ctx.font = 'bold 14px Cinzel, serif';
+    ctx.textAlign = lo.align || 'center';
+    ctx.fillText(label, x + lo.x, y + lo.y);
+
+    ctx.restore();
+  }
+
+  // 绘制文字标签
+  function drawLabels(p) {
+    if (p <= 0) return;
+    ctx.save();
+    ctx.globalAlpha = p;
+
+    ctx.textAlign = 'center';
+
+    ctx.fillStyle = '#5e5a6e';
+    ctx.font = '11px "Noto Sans SC", sans-serif';
+    ctx.fillText('太简单', 100, 252);
+
+    ctx.fillStyle = '#dd5478';
+    ctx.font = 'bold 11px "Noto Sans SC", sans-serif';
+    ctx.fillText('I+1 甜蜜区', 240, 175);
+
+    ctx.fillStyle = '#5e5a6e';
+    ctx.font = '11px "Noto Sans SC", sans-serif';
+    ctx.fillText('太难', 370, 252);
+
+    ctx.fillStyle = '#9b97a8';
+    ctx.font = 'bold 12px "Noto Sans SC", sans-serif';
+    ctx.fillText('材料难度', 225, 295);
+
+    ctx.save();
+    ctx.translate(22, 145);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText('习得效率', 0, 0);
+    ctx.restore();
+
+    ctx.restore();
+  }
+
+  // 渲染一帧
+  function render() {
+    ctx.clearRect(0, 0, W, H);
+
+    var axesP = Math.min(1, progress / 0.15);
+    var gridP = Math.max(0, Math.min(1, (progress - 0.1) / 0.2));
+    var curveP = Math.max(0, Math.min(1, (progress - 0.15) / 0.6));
+    var zonesP = Math.max(0, Math.min(1, (progress - 0.2) / 0.6));
+    var iP = Math.max(0, Math.min(1, (progress - 0.55) / 0.2));
+    var i1P = Math.max(0, Math.min(1, (progress - 0.65) / 0.2));
+    var labelsP = Math.max(0, Math.min(1, (progress - 0.8) / 0.2));
+
+    drawAxes(easeOutCubic(axesP));
+    drawGrid(gridP);
+    drawZones(zonesP);
+    drawCurve(easeInOutCubic(curveP));
+    drawLabels(labelsP);
+    drawMarker(150, 200, '#738fad', 'i', {x: 0, y: -12}, iP);
+    drawMarker(240, 50, '#dd5478', 'i+1', {x: 18, y: -5}, i1P);
+  }
+
+  // 动画循环
+  function animate(ts) {
+    if (!startTime) startTime = ts;
+    if (animating) {
+      progress = Math.min(1, (ts - startTime) / duration);
+      if (progress >= 1) animating = false;
+    }
+    pulsePhase += 0.05;
+    render();
+    requestAnimationFrame(animate);
+  }
+
+  // 进入视口时启动
+  var started = false;
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting && !started) {
+        started = true;
+        animating = true;
+        startTime = null;
+        requestAnimationFrame(animate);
       }
     });
   }, { threshold: 0.3 });
-  observer.observe(curveSvg);
+  obs.observe(canvas);
+})();
+
+// ========== Canvas MG动画: 四象限矩阵 ==========
+(function() {
+  var canvas = document.getElementById('quadrantCanvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var dpr = window.devicePixelRatio || 1;
+  var W = 560, H = 400;
+
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  var progress = 0;
+  var startTime = null;
+  var duration = 3000;
+  var animating = false;
+  var pulsePhase = 0;
+
+  function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+  function easeOutBack(t) { var c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(t-1, 3) + c1 * Math.pow(t-1, 2); }
+
+  // 四象限定义
+  var quads = [
+    { x: 50, y: 40, w: 225, h: 155, bg: 'rgba(115,143,173,0.06)', border: 'rgba(115,143,173,0.12)', iconColor: '#738fad', titleColor: '#8eabc4', title: '英语教材', subtitle: '易理解 / 无趣', icon: 'book', delay: 0.15 },
+    { x: 285, y: 40, w: 225, h: 155, bg: 'rgba(221,84,120,0.08)', border: 'rgba(221,84,120,0.35)', iconColor: '#dd5478', titleColor: '#e588a7', title: 'I+1 Quest', subtitle: '易理解 / 有趣', icon: 'star', delay: 0.3, highlight: true },
+    { x: 50, y: 205, w: 225, h: 155, bg: 'rgba(40,36,50,0.5)', border: 'rgba(80,70,90,0.15)', iconColor: '#8a7a96', titleColor: '#a898b8', title: '英语试卷', subtitle: '难理解 / 无趣', icon: 'doc', delay: 0.45 },
+    { x: 285, y: 205, w: 225, h: 155, bg: 'rgba(115,143,173,0.06)', border: 'rgba(115,143,173,0.12)', iconColor: '#738fad', titleColor: '#8eabc4', title: '影视动漫', subtitle: '难理解 / 有趣', icon: 'film', delay: 0.6 }
+  ];
+
+  // 绘制坐标轴
+  function drawAxes(p) {
+    ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+    ctx.lineWidth = 1.5;
+    ctx.lineCap = 'round';
+
+    var hw = 230 * p, hh = 165 * p;
+    ctx.beginPath();
+    ctx.moveTo(280 - hw, 200); ctx.lineTo(280 + hw, 200);
+    ctx.moveTo(280, 200 - hh); ctx.lineTo(280, 200 + hh);
+    ctx.stroke();
+  }
+
+  // 圆角矩形
+  function roundRect(x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
+
+  // 绘制图标
+  function drawIcon(type, cx, cy, color, scale) {
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.scale(scale, scale);
+    ctx.strokeStyle = color;
+    ctx.fillStyle = color;
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    var s = 14;
+
+    if (type === 'book') {
+      ctx.beginPath();
+      ctx.moveTo(-s, s*0.7); ctx.lineTo(-s, -s*0.7);
+      ctx.lineTo(0, -s*0.5); ctx.lineTo(s, -s*0.7);
+      ctx.lineTo(s, s*0.7); ctx.lineTo(0, s*0.5);
+      ctx.closePath(); ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(0, -s*0.5); ctx.lineTo(0, s*0.5); ctx.stroke();
+    } else if (type === 'star') {
+      ctx.beginPath();
+      for (var i = 0; i < 5; i++) {
+        var a = (i * 4 * Math.PI / 5) - Math.PI / 2;
+        var px = Math.cos(a) * s, py = Math.sin(a) * s;
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.closePath(); ctx.fill();
+    } else if (type === 'doc') {
+      ctx.beginPath();
+      ctx.moveTo(-s*0.7, -s); ctx.lineTo(s*0.4, -s);
+      ctx.lineTo(s*0.7, -s*0.5); ctx.lineTo(s*0.7, s);
+      ctx.lineTo(-s*0.7, s); ctx.closePath(); ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(-s*0.4, -s*0.2); ctx.lineTo(s*0.4, -s*0.2);
+      ctx.moveTo(-s*0.4, s*0.2); ctx.lineTo(s*0.4, s*0.2);
+      ctx.moveTo(-s*0.4, s*0.6); ctx.lineTo(s*0.1, s*0.6);
+      ctx.stroke();
+    } else if (type === 'film') {
+      ctx.beginPath();
+      ctx.rect(-s, -s*0.8, s*2, s*1.6); ctx.stroke();
+      ctx.beginPath();
+      for (var r = -1; r <= 1; r += 2) {
+        for (var c = -1; c <= 1; c += 2) {
+          ctx.rect(c * s * 0.6 - s*0.15, r * s * 0.5 - s*0.15, s*0.3, s*0.3);
+        }
+      }
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  // 绘制单个象限
+  function drawQuad(quad, p) {
+    if (p <= 0) return;
+    var scale = easeOutBack(p);
+    var alpha = Math.min(1, p * 2);
+    var cx = quad.x + quad.w / 2;
+    var cy = quad.y + quad.h / 2;
+
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.translate(cx, cy);
+    ctx.scale(scale, scale);
+    ctx.translate(-cx, -cy);
+
+    ctx.fillStyle = quad.bg;
+    roundRect(quad.x, quad.y, quad.w, quad.h, 10);
+    ctx.fill();
+
+    if (quad.highlight) {
+      var pi = (Math.sin(pulsePhase) + 1) * 0.5;
+      ctx.strokeStyle = 'rgba(221, 84, 120, ' + (0.35 + pi * 0.3) + ')';
+      ctx.lineWidth = 2;
+      ctx.shadowColor = 'rgba(221, 84, 120, ' + (0.15 + pi * 0.15) + ')';
+      ctx.shadowBlur = 20 + pi * 15;
+      roundRect(quad.x, quad.y, quad.w, quad.h, 10);
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+    } else {
+      ctx.strokeStyle = quad.border;
+      ctx.lineWidth = 1;
+      roundRect(quad.x, quad.y, quad.w, quad.h, 10);
+      ctx.stroke();
+    }
+
+    drawIcon(quad.icon, cx, cy - 25, quad.iconColor, p);
+
+    ctx.fillStyle = quad.titleColor;
+    ctx.font = 'bold 15px "Noto Sans SC", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(quad.title, cx, cy + 10);
+
+    ctx.fillStyle = '#5e5a6e';
+    ctx.font = '12px "Noto Sans SC", sans-serif';
+    ctx.fillText(quad.subtitle, cx, cy + 32);
+
+    ctx.restore();
+  }
+
+  // 绘制坐标轴标签
+  function drawAxisLabels(p) {
+    if (p <= 0) return;
+    ctx.save();
+    ctx.globalAlpha = p;
+    ctx.fillStyle = '#9b97a8';
+    ctx.font = 'bold 12px "Noto Sans SC", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('有趣程度 →', 280, 395);
+    ctx.save();
+    ctx.translate(15, 200);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText('容易理解 →', 0, 0);
+    ctx.restore();
+    ctx.restore();
+  }
+
+  // 渲染一帧
+  function render() {
+    ctx.clearRect(0, 0, W, H);
+    drawAxes(easeOutCubic(Math.min(1, progress / 0.15)));
+    quads.forEach(function(q) {
+      drawQuad(q, Math.max(0, Math.min(1, (progress - q.delay) / 0.2)));
+    });
+    drawAxisLabels(Math.max(0, Math.min(1, (progress - 0.8) / 0.2)));
+  }
+
+  // 动画循环
+  function animate(ts) {
+    if (!startTime) startTime = ts;
+    if (animating) {
+      progress = Math.min(1, (ts - startTime) / duration);
+      if (progress >= 1) animating = false;
+    }
+    pulsePhase += 0.04;
+    render();
+    requestAnimationFrame(animate);
+  }
+
+  // 进入视口时启动
+  var started = false;
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting && !started) {
+        started = true;
+        animating = true;
+        startTime = null;
+        requestAnimationFrame(animate);
+      }
+    });
+  }, { threshold: 0.3 });
+  obs.observe(canvas);
 })();
 </script>
 </body>
