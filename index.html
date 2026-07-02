@@ -1,0 +1,1977 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I+1 Quest — 让语言学习，成为一场冒险</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ========== Design System ========== */
+:root {
+  --rose: #dd5478;
+  --rose-light: #e588a7;
+  --rose-glow: rgba(221, 84, 120, 0.4);
+  --rose-soft: rgba(221, 84, 120, 0.08);
+  --blue: #6a9fc8;
+  --blue-light: #8ab5d8;
+  --blue-glow: rgba(106, 159, 200, 0.3);
+  --blue-soft: rgba(106, 159, 200, 0.06);
+  --bg: #0d0d1a;
+  --bg-deep: #080812;
+  --bg-card: #161628;
+  --bg-card-hover: #1c1c34;
+  --text: #f0eef2;
+  --text-dim: #9b97a8;
+  --text-muted: #5e5a6e;
+  --border: rgba(221, 84, 120, 0.1);
+  --border-blue: rgba(106, 159, 200, 0.12);
+  --font-display: 'Cinzel', serif;
+  --font-body: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ========== Reset ========== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 70px; font-size: 16px; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--rose-light); text-decoration: none; transition: color 0.3s; }
+a:hover { color: var(--rose); }
+img { max-width: 100%; height: auto; display: block; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: rgba(221, 84, 120, 0.25); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(221, 84, 120, 0.4); }
+
+/* ========== Particles ========== */
+.particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0;
+  animation: floatUp linear infinite;
+}
+@keyframes floatUp {
+  0% { opacity: 0; transform: translateY(100vh) scale(0); }
+  8% { opacity: 0.6; }
+  80% { opacity: 0.3; }
+  100% { opacity: 0; transform: translateY(-10vh) scale(1); }
+}
+@keyframes driftFloat {
+  0% { opacity: 0; transform: translate(0, 100vh) scale(0); }
+  10% { opacity: 0.5; }
+  90% { opacity: 0.25; }
+  100% { opacity: 0; transform: translate(40px, -10vh) scale(1.2); }
+}
+.particle.drift { animation: driftFloat linear infinite; }
+
+/* Canvas 流场粒子层 */
+.flow-canvas {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  width: 100%; height: 100%;
+}
+
+/* ========== Navigation ========== */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  height: 60px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2.5rem;
+  background: rgba(13, 13, 26, 0.6);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(221, 84, 120, 0.06);
+  transition: all 0.5s var(--ease-out);
+}
+.nav.scrolled {
+  background: rgba(13, 13, 26, 0.92);
+  border-bottom-color: rgba(221, 84, 120, 0.15);
+}
+.nav-brand { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+.nav-brand img { width: 30px; height: 30px; border-radius: 8px; }
+.nav-logo {
+  font-family: var(--font-display); font-size: 1.15rem; font-weight: 800;
+  letter-spacing: 0.06em;
+  background: linear-gradient(135deg, var(--rose-light), var(--rose));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+  color: var(--text-dim); font-size: 0.85rem; font-weight: 500;
+  letter-spacing: 0.04em; transition: all 0.3s; position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px;
+  background: var(--rose); transition: width 0.3s; border-radius: 1px;
+  box-shadow: 0 0 8px var(--rose-glow);
+}
+.nav-links a:hover { color: var(--rose-light); }
+.nav-links a:hover::after { width: 100%; }
+.mobile-toggle {
+  display: none; flex-direction: column; gap: 5px; cursor: pointer;
+  padding: 4px; background: none; border: none;
+}
+.mobile-toggle span {
+  width: 22px; height: 2px; background: var(--rose); border-radius: 2px; transition: all 0.3s;
+}
+.mobile-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.mobile-toggle.active span:nth-child(2) { opacity: 0; }
+.mobile-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+/* ========== Hero — "冒险者的黎明" ========== */
+.hero {
+  position: relative; min-height: 100vh; display: flex; align-items: flex-end;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+}
+.hero-bg img {
+  width: 100%; height: 100%; object-fit: cover; object-position: center 30%;
+  filter: brightness(0.55) saturate(1.1);
+}
+.hero-bg::after {
+  content: ''; position: absolute; inset: 0;
+  background:
+    linear-gradient(to top, var(--bg) 0%, rgba(13,13,26,0.85) 25%, rgba(13,13,26,0.3) 55%, transparent 80%),
+    radial-gradient(ellipse at 15% 80%, rgba(221, 84, 120, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 20%, rgba(124, 156, 200, 0.08) 0%, transparent 40%);
+}
+.hero-content {
+  position: relative; z-index: 2;
+  width: 100%; max-width: 1200px; margin: 0 auto;
+  padding: 0 3rem 5rem;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: end;
+}
+.hero-text { max-width: 560px; }
+.hero-brand {
+  font-family: var(--font-display); font-size: clamp(3.2rem, 7vw, 5.5rem);
+  font-weight: 900; letter-spacing: 0.06em; line-height: 1.05;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #fff 20%, var(--rose-light) 50%, var(--rose) 80%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  filter: drop-shadow(0 0 40px rgba(221, 84, 120, 0.2));
+}
+.hero-tagline {
+  font-family: var(--font-display); font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  color: var(--rose); font-weight: 700; letter-spacing: 0.08em;
+  margin-bottom: 0.75rem;
+  text-shadow: 0 0 30px rgba(221, 84, 120, 0.3);
+}
+.hero-desc {
+  font-size: 1rem; color: var(--text-dim); line-height: 1.8;
+  margin-bottom: 2rem; max-width: 480px;
+}
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+.hero-extract-code {
+  margin-top: 0.6rem; font-size: 0.78rem; color: var(--text-muted);
+  letter-spacing: 0.03em;
+}
+.hero-extract-code strong { color: var(--rose); font-weight: 700; letter-spacing: 0.1em; }
+.btn-rose {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.85rem 2rem;
+  background: linear-gradient(135deg, var(--rose), #c44a6a);
+  color: #fff; border: none; border-radius: 10px;
+  font-size: 0.95rem; font-weight: 700; cursor: pointer;
+  transition: all 0.3s; text-decoration: none;
+  box-shadow: 0 4px 24px var(--rose-glow);
+  letter-spacing: 0.02em;
+}
+.btn-rose:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 40px var(--rose-glow), 0 0 60px rgba(221, 84, 120, 0.15);
+  color: #fff;
+}
+.btn-rose svg { stroke: #fff; }
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.85rem 2rem;
+  background: rgba(221, 84, 120, 0.05);
+  color: var(--rose-light); border: 1.5px solid rgba(221, 84, 120, 0.3);
+  border-radius: 10px; font-size: 0.95rem; font-weight: 600;
+  cursor: pointer; transition: all 0.3s; text-decoration: none;
+  letter-spacing: 0.02em;
+}
+.btn-outline:hover {
+  background: rgba(221, 84, 120, 0.1);
+  border-color: var(--rose);
+  box-shadow: 0 0 24px rgba(221, 84, 120, 0.12);
+  transform: translateY(-2px);
+  color: var(--rose-light);
+}
+.btn-outline svg { stroke: currentColor; }
+
+/* Hero Download Dropdown */
+.hero-download-wrap { position: relative; display: inline-block; }
+.hero-download-trigger {
+  position: relative; display: inline-flex; align-items: center; gap: 0.5rem;
+  cursor: pointer; font-family: inherit;
+}
+.hero-download-trigger.active {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 40px var(--rose-glow), 0 0 60px rgba(221, 84, 120, 0.15);
+}
+.hero-download-chevron {
+  stroke: #fff; transition: transform 0.35s var(--ease-out);
+  margin-left: 0.1rem;
+}
+.hero-download-trigger.active .hero-download-chevron { transform: rotate(180deg); }
+
+.hero-download-menu {
+  position: absolute; top: calc(100% + 0.6rem); left: 0;
+  min-width: 240px; z-index: 50;
+  background: rgba(22, 22, 40, 0.85);
+  backdrop-filter: blur(20px) saturate(1.4); -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(221, 84, 120, 0.2);
+  border-radius: 14px; padding: 0.45rem;
+  box-shadow: 0 12px 50px rgba(0,0,0,0.5), 0 0 40px rgba(221,84,120,0.08);
+  opacity: 0; visibility: hidden;
+  transform: translateY(-8px) scale(0.97);
+  transform-origin: top left;
+  transition: opacity 0.28s var(--ease-out), transform 0.28s var(--ease-out), visibility 0.28s;
+}
+.hero-download-menu.show {
+  opacity: 1; visibility: visible; transform: translateY(0) scale(1);
+}
+.hero-download-item {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 0.7rem 0.85rem; border-radius: 10px;
+  color: var(--text); text-decoration: none;
+  transition: background 0.2s, transform 0.2s, color 0.2s;
+  border: 1px solid transparent;
+}
+.hero-download-item:hover {
+  background: rgba(221, 84, 120, 0.1);
+  border-color: rgba(221, 84, 120, 0.25);
+  color: var(--rose-light);
+  transform: translateX(2px);
+}
+.hero-download-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0;
+  background: rgba(221, 84, 120, 0.12); color: var(--rose-light);
+  transition: all 0.2s;
+}
+.hero-download-icon.win { background: rgba(106, 159, 200, 0.15); color: var(--blue-light); }
+.hero-download-icon.mac { background: rgba(221, 84, 120, 0.12); color: var(--rose-light); }
+.hero-download-item:hover .hero-download-icon.win { background: rgba(106, 159, 200, 0.28); }
+.hero-download-item:hover .hero-download-icon.mac { background: rgba(221, 84, 120, 0.28); }
+.hero-download-text { display: flex; flex-direction: column; line-height: 1.25; }
+.hero-download-text strong { font-size: 0.92rem; font-weight: 700; letter-spacing: 0.02em; }
+.hero-download-text small { font-size: 0.72rem; color: var(--text-muted); margin-top: 1px; }
+.hero-download-item:hover .hero-download-text small { color: var(--text-dim); }
+
+/* Hero Video */
+.hero-video {
+  position: relative; border-radius: 14px; overflow: hidden;
+  border: 1.5px solid rgba(221, 84, 120, 0.2);
+  box-shadow: 0 0 50px rgba(221, 84, 120, 0.1), 0 0 100px rgba(124, 156, 200, 0.06);
+  animation: videoBreath 5s ease-in-out infinite;
+}
+@keyframes videoBreath {
+  0%, 100% { box-shadow: 0 0 50px rgba(221, 84, 120, 0.1), 0 0 100px rgba(124, 156, 200, 0.06); }
+  50% { box-shadow: 0 0 70px rgba(221, 84, 120, 0.18), 0 0 120px rgba(124, 156, 200, 0.1); }
+}
+.hero-video iframe { width: 100%; aspect-ratio: 16/9; display: block; border: none; }
+
+/* Scroll Arrow */
+.scroll-arrow {
+  position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+  z-index: 3; opacity: 0.5; transition: opacity 0.3s;
+  animation: arrowBounce 2.5s ease-in-out infinite;
+}
+.scroll-arrow:hover { opacity: 1; }
+@keyframes arrowBounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(10px); }
+}
+
+/* ========== Section Common ========== */
+.section { padding: 7rem 2rem; position: relative; }
+.section-inner > * { position: relative; z-index: 1; }
+.section-inner { max-width: 1080px; margin: 0 auto; position: relative; }
+.section-label {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: var(--font-display); font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--rose); margin-bottom: 1rem;
+}
+.section-label svg { width: 16px; height: 16px; stroke: var(--rose); }
+.section-title {
+  font-family: var(--font-display); font-size: clamp(1.7rem, 3.8vw, 2.6rem);
+  font-weight: 800; letter-spacing: 0.03em; line-height: 1.25;
+  margin-bottom: 1.25rem; color: var(--text);
+}
+.section-desc { font-size: 1rem; color: var(--text-dim); max-width: 580px; line-height: 1.85; }
+.divider {
+  width: 100%; height: 1px; border: none;
+  background: linear-gradient(90deg, transparent, rgba(221, 84, 120, 0.2), transparent);
+  margin: 5rem 0;
+}
+
+/* ========== Pain Points — "为什么传统学习不行" ========== */
+.pain-section { background: var(--bg-deep); }
+.pain-section::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(221, 84, 120, 0.25), transparent);
+}
+.pain-list { margin-top: 3.5rem; }
+.pain-item {
+  display: grid; grid-template-columns: 3.5rem 1fr; gap: 1.75rem;
+  padding: 2.75rem 0; border-bottom: 1px solid rgba(221, 84, 120, 0.06);
+  transition: all 0.3s;
+}
+.pain-item:last-child { border-bottom: none; }
+.pain-item:hover { padding-left: 0.5rem; }
+.pain-num {
+  font-family: var(--font-display); font-size: 2.6rem; font-weight: 900;
+  line-height: 1; color: var(--rose); opacity: 0.3;
+  position: relative;
+}
+.pain-num::after {
+  content: ''; position: absolute; left: 0; top: 0.3em;
+  width: 3px; height: 2.2rem; background: var(--rose);
+  border-radius: 2px; opacity: 1;
+}
+.pain-body h3 {
+  font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;
+  color: var(--text); letter-spacing: 0.02em;
+}
+.pain-body p { font-size: 0.95rem; color: var(--text-dim); line-height: 1.75; }
+
+/* ========== Detail Section ========== */
+.detail-section { background: var(--bg); overflow: hidden; }
+
+/* 3a: I+1 Theory */
+.theory-layout {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
+  align-items: center; position: relative;
+}
+.theory-watercolor {
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 100vw; height: 100%; z-index: 0 !important;
+  background-image: url('assets/旅行者蓝绿紫色调水彩图片.png');
+  background-size: cover; background-repeat: no-repeat;
+  background-position: center;
+  filter: blur(32px) saturate(1.3);
+  opacity: 0.12; pointer-events: none;
+}
+.theory-watercolor::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, var(--bg) 0%, rgba(13,13,26,0.4) 30%, rgba(13,13,26,0.4) 70%, var(--bg) 100%);
+}
+.theory-visual { position: relative; display: flex; align-items: center; justify-content: center; padding: 1rem; }
+.curve-canvas { width: 100%; max-width: 420px; aspect-ratio: 420 / 320; height: auto; display: block; }
+
+.theory-text { position: relative; z-index: 1; }
+.theory-formula {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  padding: 1rem 1.6rem;
+  background: rgba(221, 84, 120, 0.06); border: 1px solid rgba(221, 84, 120, 0.15);
+  border-radius: 10px; font-size: 1.5rem; font-weight: 700;
+  margin-bottom: 1.75rem; font-family: var(--font-display);
+}
+.theory-formula .i { color: var(--blue-light); }
+.theory-formula .plus { color: var(--text-muted); }
+.theory-formula .one { color: var(--rose); }
+.theory-text h3 {
+  font-family: var(--font-display); font-size: 1.55rem; font-weight: 800;
+  margin-bottom: 1.5rem; color: var(--rose-light); letter-spacing: 0.03em;
+}
+.theory-text p { color: var(--text-dim); font-size: 0.96rem; line-height: 1.95; margin-bottom: 0.75rem; }
+.theory-text p strong { font-weight: 700; }
+
+/* 3b: Quadrant */
+.quadrant-container { margin-top: 3rem; display: flex; justify-content: center; }
+.quadrant-canvas { width: 100%; max-width: 560px; aspect-ratio: 560 / 400; height: auto; display: block; }
+
+/* 3c: Features (numbered list, no cards) */
+.feature-list { margin-top: 3.5rem; }
+.feature-item {
+  display: grid; grid-template-columns: 3.5rem 1fr; gap: 1.75rem;
+  padding: 2.75rem 0; border-bottom: 1px solid rgba(221, 84, 120, 0.06);
+  transition: all 0.3s;
+}
+.feature-item:last-child { border-bottom: none; }
+.feature-item:hover { padding-left: 0.5rem; }
+.feature-num {
+  font-family: var(--font-display); font-size: 2.6rem; font-weight: 900;
+  line-height: 1;
+  background: linear-gradient(135deg, var(--rose-light), var(--rose));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  opacity: 0.4;
+}
+.feature-body h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.6rem; color: var(--text); }
+.feature-body p { font-size: 0.94rem; color: var(--text-dim); line-height: 1.85; margin-bottom: 0.85rem; }
+.feature-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.feature-tag {
+  padding: 0.2rem 0.65rem;
+  background: var(--rose-soft); border: 1px solid rgba(221, 84, 120, 0.12);
+  border-radius: 100px; font-size: 0.72rem; color: var(--rose-light); font-weight: 500;
+}
+
+/* ========== Story Section ========== */
+.story-section { background: var(--bg-deep); overflow: hidden; }
+.story-section::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(124, 156, 200, 0.25), transparent);
+}
+.story-layout {
+  display: grid; grid-template-columns: 280px 1fr; gap: 5rem;
+  align-items: start; margin-top: 3.5rem; position: relative;
+}
+.story-building {
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 100vw; height: 100%; z-index: 0 !important;
+  background-image: url('assets/高楼.png'); background-size: cover;
+  background-position: center;
+  filter: blur(36px) saturate(1.2);
+  opacity: 0.1; pointer-events: none;
+}
+.story-building::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, var(--bg-deep) 0%, rgba(8,8,18,0.4) 30%, rgba(8,8,18,0.4) 70%, var(--bg-deep) 100%);
+}
+.story-author { text-align: center; position: relative; z-index: 1; }
+.story-avatar {
+  width: 110px; height: 110px; border-radius: 50%; margin: 0 auto 1.25rem;
+  overflow: hidden; border: 3px solid var(--rose);
+  box-shadow: 0 0 30px var(--rose-glow), 0 0 60px rgba(221, 84, 120, 0.08);
+  position: relative;
+}
+.story-avatar::after {
+  content: ''; position: absolute; inset: -6px; border-radius: 50%;
+  border: 2px solid rgba(221, 84, 120, 0.15);
+  animation: avatarRing 3.5s ease-in-out infinite;
+}
+@keyframes avatarRing {
+  0%, 100% { border-color: rgba(221, 84, 120, 0.15); transform: scale(1); }
+  50% { border-color: rgba(221, 84, 120, 0.4); transform: scale(1.04); }
+}
+.story-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.story-name { font-size: 1.2rem; font-weight: 800; color: var(--text); margin-bottom: 0.2rem; }
+.story-handle { font-size: 0.85rem; color: var(--rose); margin-bottom: 0.3rem; }
+.story-info { font-size: 0.8rem; color: var(--text-muted); }
+
+.story-timeline { position: relative; padding-left: 2.5rem; z-index: 1; }
+.story-timeline::before {
+  content: ''; position: absolute; left: 7px; top: 8px; bottom: 8px;
+  width: 2px; border-radius: 1px;
+  background: linear-gradient(to bottom, var(--rose), var(--blue), var(--rose-light));
+}
+.timeline-item { position: relative; padding-bottom: 2.25rem; }
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-item::before {
+  content: ''; position: absolute; left: -2.5rem; top: 6px;
+  width: 16px; height: 16px; background: var(--bg-deep);
+  border: 3px solid var(--rose); border-radius: 50%;
+  box-shadow: 0 0 10px var(--rose-glow);
+}
+.timeline-item:last-child::before { border-color: var(--blue); box-shadow: 0 0 10px var(--blue-glow); }
+.timeline-item h4 {
+  font-size: 0.95rem; font-weight: 700; color: var(--text);
+  margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.5rem;
+}
+.timeline-item .tl-icon { width: 18px; height: 18px; flex-shrink: 0; }
+.timeline-item .tl-icon svg { width: 18px; height: 18px; stroke: var(--rose); }
+.timeline-item p { font-size: 0.88rem; color: var(--text-dim); line-height: 1.7; }
+
+/* ========== Download CTA ========== */
+.download-section {
+  background: var(--bg); text-align: center; position: relative;
+  overflow: hidden;
+}
+.download-section::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, rgba(221, 84, 120, 0.05) 0%, transparent 55%);
+  pointer-events: none;
+}
+.download-section::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(221, 84, 120, 0.25), transparent);
+}
+.download-title {
+  font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 900; letter-spacing: 0.06em;
+  background: linear-gradient(135deg, var(--rose-light), var(--rose));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  margin-bottom: 2rem;
+  filter: drop-shadow(0 0 30px rgba(221, 84, 120, 0.2));
+}
+.download-card {
+  position: relative; z-index: 1; max-width: 640px; margin: 0 auto;
+  padding: 3rem 2.5rem;
+  background: var(--bg-card); border: 1px solid rgba(221, 84, 120, 0.12);
+  border-radius: 20px;
+  box-shadow: 0 0 80px rgba(221, 84, 120, 0.06);
+}
+.download-icon {
+  width: 72px; height: 72px; margin: 0 auto 1.25rem; border-radius: 16px;
+  overflow: hidden; box-shadow: 0 8px 32px rgba(221, 84, 120, 0.12);
+}
+.download-icon img { width: 100%; height: 100%; object-fit: cover; }
+.download-version-badge {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0.3rem 0.8rem; font-size: 0.75rem; font-weight: 700;
+  background: var(--rose-soft); border: 1px solid rgba(221, 84, 120, 0.15);
+  border-radius: 6px; color: var(--rose-light); margin-bottom: 1rem;
+  letter-spacing: 0.05em;
+}
+.download-card h3 {
+  font-family: var(--font-display); font-size: 1.5rem; font-weight: 800;
+  margin-bottom: 0.75rem; letter-spacing: 0.04em;
+}
+.download-note { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 1.75rem; line-height: 1.7; }
+.download-platform-tabs {
+  display: flex; gap: 0.5rem; margin-bottom: 1.5rem;
+  background: rgba(13, 13, 26, 0.5); padding: 0.3rem; border-radius: 10px;
+}
+.platform-tab {
+  flex: 1; padding: 0.7rem 1rem; border-radius: 8px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  font-size: 0.88rem; font-weight: 600; color: var(--text-dim);
+  transition: all 0.3s; border: none; background: none;
+}
+.platform-tab svg { width: 18px; height: 18px; stroke: currentColor; }
+.platform-tab.active {
+  background: var(--rose-soft); color: var(--rose-light);
+  box-shadow: 0 2px 12px rgba(221, 84, 120, 0.08);
+}
+.platform-tab:hover:not(.active) { color: var(--text); background: rgba(255,255,255,0.03); }
+.download-platform-content { display: none; }
+.download-platform-content.active { display: block; }
+.download-arch-hint {
+  font-size: 0.78rem; color: var(--text-muted); margin-bottom: 1rem;
+  padding: 0.6rem 0.9rem; background: rgba(106, 159, 200, 0.05);
+  border-radius: 8px; border-left: 3px solid var(--blue);
+}
+.download-arch-hint strong { color: var(--blue-light); }
+.download-arch-tabs {
+  display: flex; gap: 0.5rem; margin-bottom: 1rem;
+}
+.arch-tab {
+  flex: 1; padding: 0.55rem 0.75rem; border-radius: 8px; cursor: pointer;
+  font-size: 0.82rem; font-weight: 600; color: var(--text-dim);
+  transition: all 0.3s; border: 1px solid rgba(106, 159, 200, 0.12);
+  background: rgba(106, 159, 200, 0.03);
+}
+.arch-tab.active {
+  background: rgba(106, 159, 200, 0.1); color: var(--blue-light);
+  border-color: rgba(106, 159, 200, 0.3);
+}
+.arch-tab:hover:not(.active) { color: var(--text); background: rgba(255,255,255,0.03); }
+.download-arch-content { display: none; }
+.download-arch-content.active { display: block; }
+.download-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;
+}
+.download-option {
+  display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
+  padding: 1rem 0.5rem;
+  background: rgba(221, 84, 120, 0.04);
+  border: 1px solid rgba(221, 84, 120, 0.1);
+  border-radius: 10px;
+  transition: all 0.3s; text-decoration: none;
+  cursor: pointer;
+}
+.download-option:hover {
+  background: rgba(221, 84, 120, 0.08);
+  border-color: rgba(221, 84, 120, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(221, 84, 120, 0.08);
+}
+.download-option-name {
+  font-size: 0.88rem; font-weight: 700; color: var(--rose-light);
+}
+.download-option-code {
+  font-size: 0.75rem; color: var(--text-muted);
+}
+.download-option-code strong { color: var(--rose); font-weight: 700; }
+.download-social { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid rgba(221, 84, 120, 0.08); }
+.download-social h4 { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; letter-spacing: 0.05em; margin-bottom: 1rem; }
+.social-links { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+.social-link {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0.45rem 1rem;
+  background: var(--rose-soft); border: 1px solid rgba(221, 84, 120, 0.1);
+  border-radius: 8px; font-size: 0.82rem; color: var(--rose-light);
+  font-weight: 500; transition: all 0.3s; text-decoration: none;
+}
+.social-link svg { width: 15px; height: 15px; stroke: currentColor; }
+.social-link:hover {
+  background: rgba(221, 84, 120, 0.1);
+  border-color: rgba(221, 84, 120, 0.25);
+  color: var(--rose);
+}
+
+/* ========== Version History ========== */
+.version-section { padding: 5rem 2rem; background: var(--bg-deep); }
+.version-list { max-width: 760px; margin: 2.5rem auto 0; }
+.version-item {
+  display: grid; grid-template-columns: 140px 1fr; gap: 2rem;
+  padding: 2rem 0; border-bottom: 1px solid rgba(221, 84, 120, 0.06);
+}
+.version-item:last-child { border-bottom: none; }
+.version-tag {
+  font-family: var(--font-display); font-size: 1.1rem; font-weight: 800;
+  color: var(--rose-light);
+}
+.version-date { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem; }
+.version-changes { list-style: none; padding: 0; margin: 0; }
+.version-changes li {
+  position: relative; padding-left: 1.5rem; margin-bottom: 0.6rem;
+  font-size: 0.9rem; color: var(--text-dim); line-height: 1.7;
+}
+.version-changes li::before {
+  content: ''; position: absolute; left: 0; top: 0.55em;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--rose); opacity: 0.5;
+}
+.version-changes li strong { color: var(--text); font-weight: 600; }
+
+/* ========== Footer ========== */
+.footer {
+  padding: 2.5rem 2rem; border-top: 1px solid rgba(221, 84, 120, 0.06);
+  background: var(--bg-deep); text-align: center;
+}
+.footer-brand {
+  font-family: var(--font-display); font-size: 1rem; font-weight: 800;
+  background: linear-gradient(135deg, var(--rose-light), var(--rose));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  letter-spacing: 0.06em; margin-bottom: 0.4rem;
+}
+.footer-tagline { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+.footer-copy { font-size: 0.75rem; color: var(--text-muted); }
+
+/* ========== Scroll Reveal ========== */
+.reveal {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-5 { transition-delay: 0.5s; }
+
+/* ========== Hero Entrance ========== */
+.hero-enter { opacity: 0; transform: translateY(40px); }
+.hero-enter.active {
+  opacity: 1; transform: translateY(0);
+  transition: opacity 1s var(--ease-out), transform 1s var(--ease-out);
+}
+.hero-enter-d1 { transition-delay: 0.2s !important; }
+.hero-enter-d2 { transition-delay: 0.4s !important; }
+.hero-enter-d3 { transition-delay: 0.6s !important; }
+.hero-enter-d4 { transition-delay: 0.8s !important; }
+
+/* ========== Responsive ========== */
+@media (max-width: 1024px) {
+  .theory-layout { gap: 3rem; }
+  .section { padding: 5.5rem 1.5rem; }
+}
+@media (max-width: 900px) {
+  .hero-content {
+    grid-template-columns: 1fr; padding: 0 1.5rem 4rem;
+    gap: 2.5rem;
+  }
+  .hero-text { max-width: 100%; }
+  .hero-video { max-width: 640px; }
+  .theory-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+  .theory-visual { order: -1; }
+  .story-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+  .pain-item { grid-template-columns: 2.8rem 1fr; gap: 1.25rem; padding: 2rem 0; }
+  .feature-item { grid-template-columns: 2.8rem 1fr; gap: 1.25rem; padding: 2rem 0; }
+  .divider { margin: 4rem 0; }
+}
+@media (max-width: 768px) {
+  .nav-links { display: none !important; }
+  .mobile-toggle { display: flex; }
+  .nav-links.open {
+    display: flex !important; flex-direction: column;
+    position: absolute; top: 60px; left: 0; right: 0;
+    background: rgba(13, 13, 26, 0.97);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    padding: 1.5rem 2rem; gap: 1rem;
+    border-bottom: 1px solid rgba(221, 84, 120, 0.1);
+  }
+  .hero { min-height: 100svh; padding-top: 120px; align-items: center; }
+  .hero-brand { font-size: clamp(2.5rem, 10vw, 4rem); }
+  .section { padding: 5rem 1.25rem; }
+  .download-card { padding: 2rem 1.5rem; }
+  .story-author { display: flex; align-items: center; gap: 1.5rem; text-align: left; }
+  .story-avatar { width: 80px; height: 80px; margin: 0; flex-shrink: 0; }
+  .story-name { font-size: 1.1rem; margin-bottom: 0.1rem; }
+  .story-handle { margin-bottom: 0; }
+}
+@media (max-width: 480px) {
+  .hero-content { text-align: center; align-items: center; }
+  .hero-text { display: flex; flex-direction: column; align-items: center; }
+  .hero-actions { flex-direction: column; width: 100%; }
+  .btn-rose, .btn-outline { width: 100%; justify-content: center; }
+  .hero-desc { max-width: 100%; }
+  .download-grid { grid-template-columns: 1fr; }
+  .download-btn { width: 100%; justify-content: center; }
+  .version-item { grid-template-columns: 1fr; gap: 0.75rem; }
+  .pain-item { grid-template-columns: 2.2rem 1fr; gap: 1rem; }
+  .feature-item { grid-template-columns: 2.2rem 1fr; gap: 1rem; }
+  .pain-num, .feature-num { font-size: 2rem; }
+  .section-title { font-size: 1.5rem; }
+  .section-label { justify-content: center; }
+  .section-desc { margin: 0 auto; text-align: center; }
+  .story-author { flex-direction: column; text-align: center; }
+  .story-timeline { padding-left: 2rem; }
+  .theory-text { text-align: center; }
+  .theory-formula { margin-left: auto; margin-right: auto; }
+  .feature-tags { justify-content: center; }
+  .hero-extract-code { text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- Particles -->
+<div class="particles" id="particles"></div>
+<canvas class="flow-canvas" id="flowCanvas"></canvas>
+
+<!-- Navigation -->
+<nav class="nav" id="mainNav">
+  <a href="#hero" class="nav-brand">
+    <img src="assets/软件图标.png" alt="I+1 Quest">
+    <span class="nav-logo">I+1 Quest</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#theory">理论</a></li>
+    <li><a href="#features">功能</a></li>
+    <li><a href="#story">故事</a></li>
+    <li><a href="#changelog">版本</a></li>
+    <li><a href="#download">下载</a></li>
+  </ul>
+  <button class="mobile-toggle" id="mobileToggle" aria-label="菜单">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ========== Hero — "冒险者的黎明" ========== -->
+<section class="hero" id="hero">
+  <div class="hero-bg">
+    <img src="assets/夕阳冒险者图片.png" alt="">
+  </div>
+  <div class="hero-content">
+    <div class="hero-text">
+      <h1 class="hero-brand hero-enter hero-enter-d1">I+1 Quest</h1>
+      <p class="hero-tagline hero-enter hero-enter-d2">让语言学习，成为一场冒险</p>
+      <p class="hero-desc hero-enter hero-enter-d3">基于 I+1 语言学习理论的开放故事冒险英语学习游戏</p>
+      <div class="hero-actions hero-enter hero-enter-d4">
+        <div class="hero-download-wrap" id="heroDownloadWrap">
+          <button type="button" class="btn-rose hero-download-trigger" id="heroDownloadBtn" aria-expanded="false">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            下载体验
+            <svg class="hero-download-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="hero-download-menu" id="heroDownloadMenu">
+            <a href="https://yun.139.com/shareweb/#/w/i/2w2KKPmTQftz3" class="hero-download-item" target="_blank">
+              <span class="hero-download-icon win">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5L10.5 4.5V11H3V5.5M3 18.5L10.5 19.5V13H3V18.5M11.5 4.4L21 3V11H11.5V4.4M11.5 19.6L21 21V13H11.5V19.6Z"/></svg>
+              </span>
+              <span class="hero-download-text">
+                <strong>Windows</strong>
+                <small>直接下载 · 移动云盘</small>
+              </span>
+            </a>
+            <a href="https://yun.139.com/shareweb/#/w/i/2w2KM2sfQojfw" class="hero-download-item" target="_blank">
+              <span class="hero-download-icon mac">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5C17.73 20.74 16.5 22 14.97 22C13.45 22 13.15 21 11.5 21C9.85 21 9.5 22 8.03 22C6.5 22 5.27 20.74 4.29 19.5C1.5 16 1 11 1 9C1 6.5 2 5 3.5 5C5 5 6 6 7.5 6C9 6 9.5 5 11.5 5C13.5 5 14 6 15.5 6C17 6 18 5 19.5 5C21 5 22 6.5 22 9C22 11 21.5 16 18.71 19.5M15.5 4C14.5 2.5 13 2 12 2C11 2 9.5 2.5 8.5 4C9 3 10.5 2.5 12 2.5C13.5 2.5 15 3 15.5 4Z"/></svg>
+              </span>
+              <span class="hero-download-text">
+                <strong>macOS arm64</strong>
+                <small>Apple Silicon · 移动云盘</small>
+              </span>
+            </a>
+            <a href="https://yun.139.com/shareweb/#/w/i/2w2KLMr8NsT86" class="hero-download-item" target="_blank">
+              <span class="hero-download-icon mac">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5C17.73 20.74 16.5 22 14.97 22C13.45 22 13.15 21 11.5 21C9.85 21 9.5 22 8.03 22C6.5 22 5.27 20.74 4.29 19.5C1.5 16 1 11 1 9C1 6.5 2 5 3.5 5C5 5 6 6 7.5 6C9 6 9.5 5 11.5 5C13.5 5 14 6 15.5 6C17 6 18 5 19.5 5C21 5 22 6.5 22 9C22 11 21.5 16 18.71 19.5M15.5 4C14.5 2.5 13 2 12 2C11 2 9.5 2.5 8.5 4C9 3 10.5 2.5 12 2.5C13.5 2.5 15 3 15.5 4Z"/></svg>
+              </span>
+              <span class="hero-download-text">
+                <strong>macOS x64</strong>
+                <small>Intel · 移动云盘</small>
+              </span>
+            </a>
+          </div>
+        </div>
+        <a href="https://www.bilibili.com/video/BV1PK736SEBd/" class="btn-outline" target="_blank">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          观看宣传片
+        </a>
+      </div>
+    </div>
+    <div class="hero-video hero-enter hero-enter-d3">
+      <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=116796686342771&bvid=BV1PK736SEBd&cid=39328221610&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+    </div>
+  </div>
+  <a href="#pain" class="scroll-arrow">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--rose-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </a>
+</section>
+
+<!-- ========== Pain Points — "为什么传统学习不行" ========== -->
+<section class="section pain-section" id="pain">
+  <div class="section-inner">
+    <div class="section-label reveal">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      冒险者的困境
+    </div>
+    <h2 class="section-title reveal reveal-delay-1">为什么传统学习不行</h2>
+    <p class="section-desc reveal reveal-delay-2">每一个英语学习者，都曾在这三道关卡前止步不前。</p>
+    <div class="pain-list">
+      <div class="pain-item reveal reveal-delay-1">
+        <div class="pain-num">01</div>
+        <div class="pain-body">
+          <h3>阅读材料缺乏吸引力</h3>
+          <p>看原著因为故事不感兴趣坚持不下去</p>
+        </div>
+      </div>
+      <div class="pain-item reveal reveal-delay-2">
+        <div class="pain-num">02</div>
+        <div class="pain-body">
+          <h3>背单词反人性</h3>
+          <p>背完不到一个月就忘光了</p>
+        </div>
+      </div>
+      <div class="pain-item reveal reveal-delay-3">
+        <div class="pain-num">03</div>
+        <div class="pain-body">
+          <h3>难度无法匹配</h3>
+          <p>太简单没成长，太难大脑屏蔽</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== Detail — I+1理论 + 四象限 + 功能 ========== -->
+<section class="section detail-section" id="theory">
+  <div class="section-inner">
+
+    <!-- 3a: I+1 Theory -->
+    <div class="section-label reveal">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      冒险者的秘籍
+    </div>
+    <h2 class="section-title reveal reveal-delay-1">I+1 可理解输入理论</h2>
+    <div class="theory-layout">
+      <div class="theory-visual reveal">
+        <canvas id="curveCanvas" width="420" height="320" class="curve-canvas"></canvas>
+      </div>
+      <div class="theory-text reveal reveal-delay-2">
+        <div class="theory-formula">
+          <span class="i">i</span>
+          <span class="plus">+</span>
+          <span class="one">1</span>
+        </div>
+        <h3>I+1 可理解输入理论</h3>
+        <p><strong style="color:var(--blue-light)">"i"</strong> = 你当前的语言水平</p>
+        <p><strong style="color:var(--rose)">"+1"</strong> = 比你的水平高一点点</p>
+        <p>材料刚好难一点——你能理解大部分，偶尔遇到生词，通过上下文猜出来——这就是<strong style="color:var(--rose-light)">语言习得效率最高的状态</strong>。</p>
+      </div>
+    </div>
+    <div class="theory-watercolor"></div>
+
+    <hr class="divider">
+
+    <!-- 3b: Quadrant -->
+    <div class="section-label reveal">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="12" y1="3" x2="12" y2="21"/></svg>
+      材料的分布
+    </div>
+    <h2 class="section-title reveal reveal-delay-1">学习材料的四象限</h2>
+    <p class="section-desc reveal reveal-delay-2">大多数材料要么无聊、要么太难——I+1 Quest 旨在填补那个空白。</p>
+    <div class="quadrant-container reveal reveal-delay-3">
+      <canvas id="quadrantCanvas" width="560" height="400" class="quadrant-canvas"></canvas>
+    </div>
+
+    <hr class="divider">
+
+    <!-- 3c: Features -->
+    <div id="features">
+      <div class="section-label reveal">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        冒险者的装备
+      </div>
+      <h2 class="section-title reveal reveal-delay-1">三大核心功能</h2>
+    </div>
+    <div class="feature-list">
+      <div class="feature-item reveal reveal-delay-1">
+        <div class="feature-num">01</div>
+        <div class="feature-body">
+          <h3>AI 自适应水平评估与内容生成</h3>
+          <p>多维度评估体系精准判定你的英语水平，基于 I+1 理论动态生成略高于当前水平的学习内容，确保材料既不过于简单、也不过于困难。</p>
+          <div class="feature-tags">
+            <span class="feature-tag">量表测试</span>
+            <span class="feature-tag">CAT自适应</span>
+            <span class="feature-tag">AI对话评估</span>
+            <span class="feature-tag">I+1动态生成</span>
+          </div>
+        </div>
+      </div>
+      <div class="feature-item reveal reveal-delay-2">
+        <div class="feature-num">02</div>
+        <div class="feature-body">
+          <h3>沉浸式文字冒险游戏体验</h3>
+          <p>进入 AI 生成的英文故事世界，通过阅读和选择推动剧情发展。句子级音频播放、重点词汇展开、中文翻译调用——让学习过程如同玩一场英文 RPG。</p>
+          <div class="feature-tags">
+            <span class="feature-tag">英文RPG</span>
+            <span class="feature-tag">选择推动剧情</span>
+            <span class="feature-tag">音频播放</span>
+            <span class="feature-tag">词汇展开</span>
+            <span class="feature-tag">翻译调用</span>
+          </div>
+        </div>
+      </div>
+      <div class="feature-item reveal reveal-delay-3">
+        <div class="feature-num">03</div>
+        <div class="feature-body">
+          <h3>智能词汇学习与闪卡复习</h3>
+          <p>系统自动记录游戏过程中遇到的生词，生成词汇卡片，并提供闪卡复习模式——正面显示单词，按空格查看背面释义，支持音频播放。</p>
+          <div class="feature-tags">
+            <span class="feature-tag">自动记录</span>
+            <span class="feature-tag">词汇卡片</span>
+            <span class="feature-tag">闪卡复习</span>
+            <span class="feature-tag">音频播放</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========== Story Section ========== -->
+<section class="section story-section" id="story">
+  <div class="section-inner">
+    <div class="section-label reveal">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      冒险者的旅程
+    </div>
+    <h2 class="section-title reveal reveal-delay-1">一个不懂技术的大一学生<br>如何把想法变成现实</h2>
+    <div class="story-layout">
+      <div class="story-author reveal">
+        <div class="story-avatar">
+          <img src="assets/IP头像.jpg" alt="赖嘉诚">
+        </div>
+        <div class="story-name">赖嘉诚</div>
+        <div class="story-handle">滚雪球日记</div>
+        <div class="story-info">河海大学大一学生</div>
+      </div>
+      <div class="story-timeline reveal reveal-delay-2">
+        <div class="timeline-item">
+          <h4>
+            <span class="tl-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg></span>
+            痛点驱动
+          </h4>
+          <p>从自身英语学习困境出发，发现传统方法的根本问题：内容不可控、难度不匹配、记忆无语境。</p>
+        </div>
+        <div class="timeline-item">
+          <h4>
+            <span class="tl-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg></span>
+            借力 TRAE
+          </h4>
+          <p>不懂技术的大一学生，借助 TRAE 完成了完整的桌面应用开发——从想法到架构到代码，全程 AI 辅助。</p>
+        </div>
+        <div class="timeline-item">
+          <h4>
+            <span class="tl-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a8 8 0 0 0-8 8c0 3.4 2.1 6.3 5 7.5V20h6v-2.5c2.9-1.2 5-4.1 5-7.5a8 8 0 0 0-8-8z"/><path d="M9 22h6"/></svg></span>
+            抓住核心
+          </h4>
+          <p>把握住"信息"这个核心特点，理清信息流动就能把握软件设计。学会了 RAG、SQL、TTS、Electron 等技术。</p>
+        </div>
+        <div class="timeline-item">
+          <h4>
+            <span class="tl-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M3 8l3 3-3 3"/><path d="M21 8l-3 3 3 3"/><path d="M8 12h8"/></svg></span>
+            合规意识
+          </h4>
+          <p>主动处理了 GPL 协议替换为 MIT/Apache 2 协议的合规问题，展现了开源社区的责任感。</p>
+        </div>
+        <div class="timeline-item">
+          <h4>
+            <span class="tl-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span>
+            长期主义
+          </h4>
+          <p>积累和长期主义是最大的杠杆。每一步看似微小的进步，最终都会汇聚成不可忽视的力量。</p>
+        </div>
+      </div>
+    </div>
+    <div class="story-building"></div>
+  </div>
+</section>
+
+<!-- ========== Final CTA — "开始你的冒险" ========== -->
+<section class="section download-section" id="download">
+  <div class="section-inner">
+    <h2 class="download-title reveal">开始你的冒险</h2>
+    <div class="download-card reveal reveal-delay-1">
+      <div class="download-icon">
+        <img src="assets/软件图标.png" alt="I+1 Quest">
+      </div>
+      <div style="text-align:center;">
+        <span class="download-version-badge">v1.1.0.1 最新版</span>
+      </div>
+      <h3>I+1 Quest</h3>
+      <p class="download-note">支持 Windows 和 macOS 双平台。首次使用需要配置 AI 接口。</p>
+
+      <div class="download-platform-tabs">
+        <button class="platform-tab active" data-platform="windows">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5l8-1v8H3V5z"/><path d="M12 4l9-1v10h-9V4z"/><path d="M3 13h8v6l-8-1v-5z"/><path d="M12 13h9v8l-9-1v-7z"/></svg>
+          Windows
+        </button>
+        <button class="platform-tab" data-platform="mac">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.4c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          macOS
+        </button>
+      </div>
+
+      <!-- Windows Downloads -->
+      <div class="download-platform-content active" data-platform="windows">
+        <div class="download-arch-hint">
+          <strong>IPlus1Quest-Setup-1.1.0.1.exe</strong> — Windows 10/11，双击安装即可运行
+        </div>
+        <div class="download-grid">
+          <a href="https://yun.139.com/shareweb/#/w/i/2w2KKPmTQftz3" class="download-option" target="_blank">
+            <span class="download-option-name">移动云盘</span>
+            <span class="download-option-code">点击直接下载</span>
+          </a>
+          <a href="https://pan.quark.cn/s/72c1bd76f4b5?pwd=ZRKH" class="download-option" target="_blank">
+            <span class="download-option-name">夸克网盘</span>
+            <span class="download-option-code">提取码：<strong>ZRKH</strong></span>
+          </a>
+          <a href="https://pan.baidu.com/s/1Cr_BUoEVElgsQMQNfkCRyA?pwd=SNOW" class="download-option" target="_blank">
+            <span class="download-option-name">百度网盘</span>
+            <span class="download-option-code">提取码：<strong>SNOW</strong></span>
+          </a>
+          <a href="https://pan.xunlei.com/s/VOwYnXuo1DuKFE3OLm9jQyUvA1?pwd=c8xb" class="download-option" target="_blank">
+            <span class="download-option-name">迅雷网盘</span>
+            <span class="download-option-code">提取码：<strong>c8xb</strong></span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Mac Downloads -->
+      <div class="download-platform-content" data-platform="mac">
+        <div class="download-arch-hint">
+          <strong>如何选择？</strong> Apple Silicon (M1/M2/M3/M4) 选 arm64，Intel 芯片选 x64
+        </div>
+        <div class="download-arch-tabs">
+          <button class="arch-tab active" data-arch="arm64">arm64 (Apple Silicon)</button>
+          <button class="arch-tab" data-arch="x64">x64 (Intel)</button>
+        </div>
+        <div class="download-arch-content active" data-arch="arm64">
+          <div class="download-grid">
+            <a href="https://yun.139.com/shareweb/#/w/i/2w2KM2sfQojfw" class="download-option" target="_blank">
+              <span class="download-option-name">移动云盘</span>
+              <span class="download-option-code">点击直接下载</span>
+            </a>
+            <a href="https://pan.quark.cn/s/e3e6ffb39e65?pwd=ndAW" class="download-option" target="_blank">
+              <span class="download-option-name">夸克网盘</span>
+              <span class="download-option-code">提取码：<strong>ndAW</strong></span>
+            </a>
+            <a href="https://pan.baidu.com/s/1-RZeyGFJkOzAHq8st_5rDw?pwd=SNOW" class="download-option" target="_blank">
+              <span class="download-option-name">百度网盘</span>
+              <span class="download-option-code">提取码：<strong>SNOW</strong></span>
+            </a>
+            <a href="https://pan.xunlei.com/s/VOw_4MNzu-ppKvkD3pfj-_w5A1?pwd=ma86" class="download-option" target="_blank">
+              <span class="download-option-name">迅雷网盘</span>
+              <span class="download-option-code">提取码：<strong>ma86</strong></span>
+            </a>
+          </div>
+        </div>
+        <div class="download-arch-content" data-arch="x64">
+          <div class="download-grid">
+            <a href="https://yun.139.com/shareweb/#/w/i/2w2KLMr8NsT86" class="download-option" target="_blank">
+              <span class="download-option-name">移动云盘</span>
+              <span class="download-option-code">点击直接下载</span>
+            </a>
+            <a href="https://pan.quark.cn/s/fd2b0750bc80?pwd=wnJr" class="download-option" target="_blank">
+              <span class="download-option-name">夸克网盘</span>
+              <span class="download-option-code">提取码：<strong>wnJr</strong></span>
+            </a>
+            <a href="https://pan.baidu.com/s/1wq37n5bhINNFXxnUrdpEqg?pwd=SNOW" class="download-option" target="_blank">
+              <span class="download-option-name">百度网盘</span>
+              <span class="download-option-code">提取码：<strong>SNOW</strong></span>
+            </a>
+            <a href="https://pan.xunlei.com/s/VOw_4G4a3Cm0C_LlPEtPnRvMA1?pwd=j6ce" class="download-option" target="_blank">
+              <span class="download-option-name">迅雷网盘</span>
+              <span class="download-option-code">提取码：<strong>j6ce</strong></span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="download-social">
+        <h4>社交链接</h4>
+        <div class="social-links">
+          <a href="https://www.bilibili.com/video/BV1PK736SEBd" class="social-link" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            B站
+          </a>
+          <a href="https://www.zhihu.com/question/14337969599/answer/2052698603769034509" class="social-link" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+            知乎
+          </a>
+          <a href="https://mp.weixin.qq.com/s/gM-VCN0dhaXcnpt-pJkPRA" class="social-link" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            微信
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== Version History ========== -->
+<section class="section version-section" id="changelog">
+  <div class="section-inner">
+    <div class="section-label reveal">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      版本历程
+    </div>
+    <h2 class="section-title reveal reveal-delay-1">更新日志</h2>
+
+    <div class="version-list">
+      <div class="version-item reveal">
+        <div>
+          <div class="version-tag">v1.1.0.1</div>
+          <div class="version-date">2026-06-23</div>
+        </div>
+        <ul class="version-changes">
+          <li><strong>右键菜单大升级</strong>，功能更丰富</li>
+          <li><strong>支持 Mac 版本</strong>，苹果用户福音（x64 + arm64 双架构）</li>
+          <li><strong>大模型配置重写</strong>，适配更多自定义方案</li>
+          <li>单词学习系统优化：精准查词、AI 整理、按需添加，还能根据熟练度<strong>智能复习</strong></li>
+          <li>难度标准重新衡量，<strong>A1 更基础</strong></li>
+          <li>预置多阶段课本单词，<strong>小学到高中全覆盖</strong></li>
+          <li>支持<strong>自定义背景音乐</strong></li>
+        </ul>
+      </div>
+      <div class="version-item reveal">
+        <div>
+          <div class="version-tag">v1.0.0</div>
+          <div class="version-date">2026-06-15</div>
+        </div>
+        <ul class="version-changes">
+          <li>I+1 Quest 首次发布</li>
+          <li>AI 自适应水平评估与内容生成</li>
+          <li>沉浸式文字冒险游戏体验</li>
+          <li>智能词汇学习与闪卡复习</li>
+          <li>基于 I+1 可理解输入理论的动态内容生成</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-brand">I+1 Quest</div>
+  <div class="footer-tagline">让语言学习，成为一场冒险</div>
+  <div class="footer-copy">&copy; 2026 赖嘉诚（snowball-diary）. All rights reserved.</div>
+</footer>
+
+<script>
+// ========== Hero Entrance ==========
+(function() {
+  var items = document.querySelectorAll('.hero-enter');
+  setTimeout(function() {
+    items.forEach(function(el) { el.classList.add('active'); });
+  }, 200);
+})();
+
+// ========== Platform Tabs ==========
+(function() {
+  var tabs = document.querySelectorAll('.platform-tab');
+  var contents = document.querySelectorAll('.download-platform-content');
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      var platform = tab.getAttribute('data-platform');
+      tabs.forEach(function(t) { t.classList.remove('active'); });
+      contents.forEach(function(c) { c.classList.remove('active'); });
+      tab.classList.add('active');
+      document.querySelector('.download-platform-content[data-platform="' + platform + '"]').classList.add('active');
+    });
+  });
+
+  // ========== Arch Tabs (Mac arm64/x64) ==========
+  var archTabs = document.querySelectorAll('.arch-tab');
+  var archContents = document.querySelectorAll('.download-arch-content');
+  archTabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      var arch = tab.getAttribute('data-arch');
+      archTabs.forEach(function(t) { t.classList.remove('active'); });
+      archContents.forEach(function(c) { c.classList.remove('active'); });
+      tab.classList.add('active');
+      document.querySelector('.download-arch-content[data-arch="' + arch + '"]').classList.add('active');
+    });
+  });
+})();
+
+// ========== Scroll Reveal ==========
+(function() {
+  var reveals = document.querySelectorAll('.reveal');
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+  reveals.forEach(function(el) { observer.observe(el); });
+})();
+
+// ========== Mobile Menu ==========
+(function() {
+  var toggle = document.getElementById('mobileToggle');
+  var links = document.getElementById('navLinks');
+  toggle.addEventListener('click', function() {
+    links.classList.toggle('open');
+    toggle.classList.toggle('active');
+  });
+  document.querySelectorAll('.nav-links a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      links.classList.remove('open');
+      toggle.classList.remove('active');
+    });
+  });
+})();
+
+// ========== Floating Particles (Rose Pink + Drift) ==========
+(function() {
+  var container = document.getElementById('particles');
+  var count = 50;
+  for (var i = 0; i < count; i++) {
+    var p = document.createElement('div');
+    var isDrift = Math.random() < 0.35;
+    p.className = isDrift ? 'particle drift' : 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = (12 + Math.random() * 22) + 's';
+    p.style.animationDelay = (Math.random() * 16) + 's';
+    var sizeRand = Math.random();
+    var size = sizeRand < 0.78 ? (1 + Math.random() * 2) : (2.5 + Math.random() * 2.5);
+    p.style.width = size + 'px';
+    p.style.height = size + 'px';
+    var r = Math.random();
+    if (r < 0.55) {
+      p.style.background = '#dd5478';
+      p.style.boxShadow = '0 0 ' + (size * 2) + 'px rgba(221,84,120,0.5)';
+    } else if (r < 0.78) {
+      p.style.background = '#e588a7';
+      p.style.boxShadow = '0 0 ' + (size * 2) + 'px rgba(229,136,167,0.4)';
+    } else if (r < 0.93) {
+      p.style.background = '#6a9fc8';
+      p.style.boxShadow = '0 0 ' + (size * 2) + 'px rgba(106,159,200,0.35)';
+    } else {
+      p.style.background = '#ffffff';
+      p.style.boxShadow = '0 0 ' + (size * 3) + 'px rgba(255,255,255,0.6)';
+    }
+    container.appendChild(p);
+  }
+})();
+
+// ========== Canvas Flow Field Particles (Organic Turbulence) ==========
+// 借鉴流场粒子理念：粒子跟随噪声向量场有机飘移，颜色从速度涌现，留下淡出拖尾
+(function() {
+  var canvas = document.getElementById('flowCanvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var w = 0, h = 0;
+
+  function resize() {
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // 伪 Perlin 流场角度：多频正弦叠加产生有机变化
+  function flowAngle(x, y, t) {
+    return (Math.sin(x * 0.0028 + t) + Math.cos(y * 0.0032 + t * 0.7) + Math.sin((x + y) * 0.0019 + t * 0.35)) * Math.PI;
+  }
+
+  // 配色：玫瑰红系 / 蓝灰系 / 白色星尘
+  var palette = [
+    { r: 221, g: 84, b: 120 },   // rose
+    { r: 229, g: 136, b: 167 },  // rose-light
+    { r: 106, g: 159, b: 200 },  // blue
+    { r: 255, g: 255, b: 255 }   // star dust
+  ];
+
+  var PARTICLE_COUNT = w < 768 ? 50 : 90;
+  var particles = [];
+
+  function spawn(p) {
+    p.x = Math.random() * w;
+    p.y = Math.random() * h;
+    p.vx = 0; p.vy = 0;
+    p.maxLife = 200 + Math.random() * 300;
+    p.life = 0;
+    p.size = 0.6 + Math.random() * 1.8;
+    var c = palette[Math.floor(Math.random() * palette.length)];
+    var isStar = (c.r === 255);
+    p.cr = c.r; p.cg = c.g; p.cb = c.b;
+    p.isStar = isStar;
+    p.speedFactor = 0.4 + Math.random() * 0.9;
+  }
+
+  for (var i = 0; i < PARTICLE_COUNT; i++) {
+    var p = {};
+    spawn(p);
+    p.life = Math.random() * p.maxLife; // 错开生命周期
+    particles.push(p);
+  }
+
+  var t = 0;
+  function frame() {
+    t += 0.004;
+    // 拖尾淡出：用 destination-out 透明擦除，保持 Canvas 背景透明，不遮盖页面
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+    ctx.fillRect(0, 0, w, h);
+    ctx.globalCompositeOperation = 'source-over';
+
+    for (var i = 0; i < particles.length; i++) {
+      var p = particles[i];
+      var angle = flowAngle(p.x, p.y, t);
+      var force = p.speedFactor;
+      p.vx += Math.cos(angle) * force * 0.12;
+      p.vy += Math.sin(angle) * force * 0.12;
+      // 阻尼，防止速度无限增大
+      p.vx *= 0.94; p.vy *= 0.94;
+      p.x += p.vx; p.y += p.vy;
+      p.life++;
+
+      // 生命周期淡入淡出
+      var lifeRatio = p.life / p.maxLife;
+      var alpha;
+      if (lifeRatio < 0.15) { alpha = lifeRatio / 0.15; }
+      else if (lifeRatio > 0.75) { alpha = (1 - lifeRatio) / 0.25; }
+      else { alpha = 1; }
+      alpha *= p.isStar ? 0.7 : 0.5;
+
+      // 速度影响亮度：快速粒子更亮
+      var speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+      var brightness = Math.min(1, 0.4 + speed * 0.5);
+      var radius = Math.max(0.3, p.size * (p.isStar ? 1.4 : 1));
+
+      ctx.beginPath();
+      ctx.fillStyle = 'rgba(' + p.cr + ',' + p.cg + ',' + p.cb + ',' + (alpha * brightness) + ')';
+      ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
+      ctx.fill();
+
+      // 星尘粒子加光晕
+      if (p.isStar && brightness > 0.6) {
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(255,255,255,' + (alpha * 0.15) + ')';
+        ctx.arc(p.x, p.y, radius * 3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // 超出边界或寿命结束则重生
+      if (p.life > p.maxLife || p.x < -20 || p.x > w + 20 || p.y < -20 || p.y > h + 20) {
+        spawn(p);
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+// ========== Hero Download Dropdown ==========
+(function() {
+  var btn = document.getElementById('heroDownloadBtn');
+  var menu = document.getElementById('heroDownloadMenu');
+  var wrap = document.getElementById('heroDownloadWrap');
+  if (!btn || !menu) return;
+
+  function toggle(show) {
+    var isOpen = menu.classList.contains('show');
+    var next = typeof show === 'boolean' ? show : !isOpen;
+    if (next) {
+      menu.classList.add('show');
+      btn.classList.add('active');
+      btn.setAttribute('aria-expanded', 'true');
+    } else {
+      menu.classList.remove('show');
+      btn.classList.remove('active');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  btn.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    toggle();
+  });
+
+  // 点击菜单项后自动收起
+  menu.querySelectorAll('.hero-download-item').forEach(function(item) {
+    item.addEventListener('click', function() {
+      toggle(false);
+    });
+  });
+
+  // 点击外部关闭
+  document.addEventListener('click', function(e) {
+    if (!wrap.contains(e.target)) toggle(false);
+  });
+
+  // ESC 关闭
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') toggle(false);
+  });
+})();
+
+// ========== Nav Background on Scroll ==========
+(function() {
+  var nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 50) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  });
+})();
+
+// ========== Smooth Scroll ==========
+document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    var target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+// ========== Canvas MG动画: I+1效率曲线 ==========
+(function() {
+  var canvas = document.getElementById('curveCanvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var dpr = window.devicePixelRatio || 1;
+  var W = 420, H = 320;
+
+  // 高清画布设置
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  // 动画状态
+  var progress = 0;
+  var startTime = null;
+  var duration = 3500;
+  var animating = false;
+  var pulsePhase = 0;
+
+  // 缓动函数
+  function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+  function easeInOutCubic(t) { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2; }
+  function easeOutBack(t) { var c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(t-1, 3) + c1 * Math.pow(t-1, 2); }
+
+  // 倒U型高斯曲线: y = baseY - amplitude * exp(-nx^2 * factor)
+  function curveY(x) {
+    var t = (x - 60) / 330;
+    var nx = (t - 0.5) * 2;
+    return 260 - 210 * Math.exp(-nx * nx * 3.5);
+  }
+
+  // 绘制坐标轴
+  function drawAxes(p) {
+    ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+    ctx.lineWidth = 1.5;
+    ctx.lineCap = 'round';
+
+    var yLen = 240 * p;
+    ctx.beginPath();
+    ctx.moveTo(60, 260);
+    ctx.lineTo(60, 260 - yLen);
+    ctx.stroke();
+
+    var xLen = 330 * p;
+    ctx.beginPath();
+    ctx.moveTo(60, 260);
+    ctx.lineTo(60 + xLen, 260);
+    ctx.stroke();
+
+    // 箭头
+    if (p > 0.85) {
+      var a = (p - 0.85) / 0.15;
+      ctx.fillStyle = 'rgba(255,255,255,' + (0.2 * a) + ')';
+      ctx.beginPath();
+      ctx.moveTo(394, 260); ctx.lineTo(386, 255); ctx.lineTo(386, 265);
+      ctx.closePath(); ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(60, 10); ctx.lineTo(55, 18); ctx.lineTo(65, 18);
+      ctx.closePath(); ctx.fill();
+    }
+  }
+
+  // 绘制网格线
+  function drawGrid(p) {
+    ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4, 4]);
+
+    var lines = [
+      [60, 200, 390, 200], [60, 140, 390, 140], [60, 80, 390, 80],
+      [150, 20, 150, 260], [240, 20, 240, 260], [330, 20, 330, 260]
+    ];
+
+    lines.forEach(function(l, i) {
+      var lp = Math.max(0, Math.min(1, (p - i * 0.08) / 0.4));
+      if (lp <= 0) return;
+      ctx.globalAlpha = lp * 0.6;
+      ctx.beginPath();
+      ctx.moveTo(l[0], l[1]);
+      ctx.lineTo(l[2], l[3]);
+      ctx.stroke();
+    });
+
+    ctx.globalAlpha = 1;
+    ctx.setLineDash([]);
+  }
+
+  // 绘制三区域填充
+  function drawZones(p) {
+    // 太简单区域（蓝灰）
+    if (p > 0) {
+      var a = Math.min(1, p * 2) * 0.06;
+      ctx.fillStyle = 'rgba(124, 156, 200, ' + a + ')';
+      ctx.beginPath();
+      ctx.moveTo(60, 260);
+      for (var x = 60; x <= 150; x += 2) ctx.lineTo(x, curveY(x));
+      ctx.lineTo(150, 260);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    // I+1甜蜜区（玫瑰粉）
+    if (p > 0.3) {
+      var a = Math.min(1, (p - 0.3) * 2) * 0.08;
+      ctx.fillStyle = 'rgba(221, 84, 120, ' + a + ')';
+      ctx.beginPath();
+      ctx.moveTo(150, 260);
+      for (var x = 150; x <= 330; x += 2) ctx.lineTo(x, curveY(x));
+      ctx.lineTo(330, 260);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    // 太难区域（暗紫）
+    if (p > 0.6) {
+      var a = Math.min(1, (p - 0.6) * 2) * 0.06;
+      ctx.fillStyle = 'rgba(90, 60, 80, ' + a + ')';
+      ctx.beginPath();
+      ctx.moveTo(330, 260);
+      for (var x = 330; x <= 390; x += 2) ctx.lineTo(x, curveY(x));
+      ctx.lineTo(390, 260);
+      ctx.closePath();
+      ctx.fill();
+    }
+  }
+
+  // 绘制曲线（核心动画 — 完美的曲线生成展开）
+  function drawCurve(p) {
+    if (p <= 0) return;
+
+    var drawLen = 330 * p;
+    var endX = 60 + drawLen;
+
+    // 曲线光晕
+    ctx.shadowColor = 'rgba(221, 84, 120, 0.5)';
+    ctx.shadowBlur = 12;
+    ctx.strokeStyle = '#dd5478';
+    ctx.lineWidth = 3;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    ctx.beginPath();
+    for (var x = 60; x <= endX; x += 1) {
+      var y = curveY(x);
+      if (x === 60) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+
+    // 绘制笔尖光点（曲线展开的"笔"）
+    if (p < 1) {
+      var tipY = curveY(endX);
+      var grad = ctx.createRadialGradient(endX, tipY, 0, endX, tipY, 20);
+      grad.addColorStop(0, 'rgba(221, 84, 120, 0.6)');
+      grad.addColorStop(0.5, 'rgba(221, 84, 120, 0.2)');
+      grad.addColorStop(1, 'rgba(221, 84, 120, 0)');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(endX, tipY, 20, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#fff';
+      ctx.beginPath();
+      ctx.arc(endX, tipY, 3, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  // 绘制标记点（i 和 i+1）
+  function drawMarker(x, y, color, label, lo, p) {
+    if (p <= 0) return;
+    var scale = easeOutBack(p);
+    var alpha = Math.min(1, p * 2);
+
+    ctx.save();
+    ctx.globalAlpha = alpha;
+
+    // 脉冲环
+    var pr = 10 + Math.sin(pulsePhase) * 3;
+    var pa = (Math.cos(pulsePhase) + 1) * 0.15;
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1.5;
+    ctx.globalAlpha = pa * alpha;
+    ctx.beginPath();
+    ctx.arc(x, y, pr, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // 外环
+    ctx.globalAlpha = alpha * 0.3;
+    ctx.beginPath();
+    ctx.arc(x, y, 10 * scale, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // 实心点
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = color;
+    ctx.shadowColor = color;
+    ctx.shadowBlur = 10;
+    ctx.beginPath();
+    ctx.arc(x, y, 5 * scale, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.shadowBlur = 0;
+
+    // 标签
+    ctx.fillStyle = color;
+    ctx.font = 'bold 14px Cinzel, serif';
+    ctx.textAlign = lo.align || 'center';
+    ctx.fillText(label, x + lo.x, y + lo.y);
+
+    ctx.restore();
+  }
+
+  // 绘制文字标签
+  function drawLabels(p) {
+    if (p <= 0) return;
+    ctx.save();
+    ctx.globalAlpha = p;
+
+    ctx.textAlign = 'center';
+
+    ctx.fillStyle = '#5e5a6e';
+    ctx.font = '11px "Noto Sans SC", sans-serif';
+    ctx.fillText('太简单', 100, 252);
+
+    ctx.fillStyle = '#dd5478';
+    ctx.font = 'bold 11px "Noto Sans SC", sans-serif';
+    ctx.fillText('I+1 甜蜜区', 240, 175);
+
+    ctx.fillStyle = '#5e5a6e';
+    ctx.font = '11px "Noto Sans SC", sans-serif';
+    ctx.fillText('太难', 370, 252);
+
+    ctx.fillStyle = '#9b97a8';
+    ctx.font = 'bold 12px "Noto Sans SC", sans-serif';
+    ctx.fillText('材料难度', 225, 295);
+
+    ctx.save();
+    ctx.translate(22, 145);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText('习得效率', 0, 0);
+    ctx.restore();
+
+    ctx.restore();
+  }
+
+  // 渲染一帧
+  function render() {
+    ctx.clearRect(0, 0, W, H);
+
+    var axesP = Math.min(1, progress / 0.15);
+    var gridP = Math.max(0, Math.min(1, (progress - 0.1) / 0.2));
+    var curveP = Math.max(0, Math.min(1, (progress - 0.15) / 0.6));
+    var zonesP = Math.max(0, Math.min(1, (progress - 0.2) / 0.6));
+    var iP = Math.max(0, Math.min(1, (progress - 0.55) / 0.2));
+    var i1P = Math.max(0, Math.min(1, (progress - 0.65) / 0.2));
+    var labelsP = Math.max(0, Math.min(1, (progress - 0.8) / 0.2));
+
+    drawAxes(easeOutCubic(axesP));
+    drawGrid(gridP);
+    drawZones(zonesP);
+    drawCurve(easeInOutCubic(curveP));
+    drawLabels(labelsP);
+    drawMarker(150, curveY(150), '#6a9fc8', 'i', {x: 0, y: -12}, iP);
+    drawMarker(225, curveY(225), '#dd5478', 'i+1', {x: 18, y: -5}, i1P);
+  }
+
+  // 动画循环
+  function animate(ts) {
+    if (!startTime) startTime = ts;
+    if (animating) {
+      progress = Math.min(1, (ts - startTime) / duration);
+      if (progress >= 1) animating = false;
+    }
+    pulsePhase += 0.05;
+    render();
+    requestAnimationFrame(animate);
+  }
+
+  // 进入视口时启动
+  var started = false;
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting && !started) {
+        started = true;
+        animating = true;
+        startTime = null;
+        requestAnimationFrame(animate);
+      }
+    });
+  }, { threshold: 0.3 });
+  obs.observe(canvas);
+})();
+
+// ========== Canvas MG动画: 四象限矩阵 ==========
+(function() {
+  var canvas = document.getElementById('quadrantCanvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var dpr = window.devicePixelRatio || 1;
+  var W = 560, H = 400;
+
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  var progress = 0;
+  var startTime = null;
+  var duration = 3000;
+  var animating = false;
+  var pulsePhase = 0;
+
+  function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+  function easeOutBack(t) { var c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(t-1, 3) + c1 * Math.pow(t-1, 2); }
+
+  // 四象限定义
+  var quads = [
+    { x: 50, y: 40, w: 225, h: 155, bg: 'rgba(124,156,200,0.06)', border: 'rgba(106,159,200,0.12)', iconColor: '#7c9cc8', titleColor: '#98b8d6', title: '英语教材', subtitle: '易理解 / 无趣', icon: 'book', delay: 0.15 },
+    { x: 285, y: 40, w: 225, h: 155, bg: 'rgba(221,84,120,0.08)', border: 'rgba(221,84,120,0.35)', iconColor: '#dd5478', titleColor: '#e588a7', title: 'I+1 Quest', subtitle: '易理解 / 有趣', icon: 'star', delay: 0.3, highlight: true },
+    { x: 50, y: 205, w: 225, h: 155, bg: 'rgba(40,36,50,0.5)', border: 'rgba(80,70,90,0.15)', iconColor: '#8a7a96', titleColor: '#a898b8', title: '英语试卷', subtitle: '难理解 / 无趣', icon: 'doc', delay: 0.45 },
+    { x: 285, y: 205, w: 225, h: 155, bg: 'rgba(124,156,200,0.06)', border: 'rgba(106,159,200,0.12)', iconColor: '#7c9cc8', titleColor: '#98b8d6', title: '影视动漫', subtitle: '难理解 / 有趣', icon: 'film', delay: 0.6 }
+  ];
+
+  // 绘制坐标轴
+  function drawAxes(p) {
+    ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+    ctx.lineWidth = 1.5;
+    ctx.lineCap = 'round';
+
+    var hw = 230 * p, hh = 165 * p;
+    ctx.beginPath();
+    ctx.moveTo(280 - hw, 200); ctx.lineTo(280 + hw, 200);
+    ctx.moveTo(280, 200 - hh); ctx.lineTo(280, 200 + hh);
+    ctx.stroke();
+  }
+
+  // 圆角矩形
+  function roundRect(x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
+
+  // 绘制图标
+  function drawIcon(type, cx, cy, color, scale) {
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.scale(scale, scale);
+    ctx.strokeStyle = color;
+    ctx.fillStyle = color;
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    var s = 14;
+
+    if (type === 'book') {
+      ctx.beginPath();
+      ctx.moveTo(-s, s*0.7); ctx.lineTo(-s, -s*0.7);
+      ctx.lineTo(0, -s*0.5); ctx.lineTo(s, -s*0.7);
+      ctx.lineTo(s, s*0.7); ctx.lineTo(0, s*0.5);
+      ctx.closePath(); ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(0, -s*0.5); ctx.lineTo(0, s*0.5); ctx.stroke();
+    } else if (type === 'star') {
+      ctx.beginPath();
+      for (var i = 0; i < 5; i++) {
+        var a = (i * 4 * Math.PI / 5) - Math.PI / 2;
+        var px = Math.cos(a) * s, py = Math.sin(a) * s;
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.closePath(); ctx.fill();
+    } else if (type === 'doc') {
+      ctx.beginPath();
+      ctx.moveTo(-s*0.7, -s); ctx.lineTo(s*0.4, -s);
+      ctx.lineTo(s*0.7, -s*0.5); ctx.lineTo(s*0.7, s);
+      ctx.lineTo(-s*0.7, s); ctx.closePath(); ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(-s*0.4, -s*0.2); ctx.lineTo(s*0.4, -s*0.2);
+      ctx.moveTo(-s*0.4, s*0.2); ctx.lineTo(s*0.4, s*0.2);
+      ctx.moveTo(-s*0.4, s*0.6); ctx.lineTo(s*0.1, s*0.6);
+      ctx.stroke();
+    } else if (type === 'film') {
+      ctx.beginPath();
+      ctx.rect(-s, -s*0.8, s*2, s*1.6); ctx.stroke();
+      ctx.beginPath();
+      for (var r = -1; r <= 1; r += 2) {
+        for (var c = -1; c <= 1; c += 2) {
+          ctx.rect(c * s * 0.6 - s*0.15, r * s * 0.5 - s*0.15, s*0.3, s*0.3);
+        }
+      }
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  // 绘制单个象限
+  function drawQuad(quad, p) {
+    if (p <= 0) return;
+    var scale = easeOutBack(p);
+    var alpha = Math.min(1, p * 2);
+    var cx = quad.x + quad.w / 2;
+    var cy = quad.y + quad.h / 2;
+
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.translate(cx, cy);
+    ctx.scale(scale, scale);
+    ctx.translate(-cx, -cy);
+
+    ctx.fillStyle = quad.bg;
+    roundRect(quad.x, quad.y, quad.w, quad.h, 10);
+    ctx.fill();
+
+    if (quad.highlight) {
+      var pi = (Math.sin(pulsePhase) + 1) * 0.5;
+      ctx.strokeStyle = 'rgba(221, 84, 120, ' + (0.35 + pi * 0.3) + ')';
+      ctx.lineWidth = 2;
+      ctx.shadowColor = 'rgba(221, 84, 120, ' + (0.15 + pi * 0.15) + ')';
+      ctx.shadowBlur = 20 + pi * 15;
+      roundRect(quad.x, quad.y, quad.w, quad.h, 10);
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+    } else {
+      ctx.strokeStyle = quad.border;
+      ctx.lineWidth = 1;
+      roundRect(quad.x, quad.y, quad.w, quad.h, 10);
+      ctx.stroke();
+    }
+
+    drawIcon(quad.icon, cx, cy - 25, quad.iconColor, p);
+
+    ctx.fillStyle = quad.titleColor;
+    ctx.font = 'bold 15px "Noto Sans SC", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(quad.title, cx, cy + 10);
+
+    ctx.fillStyle = '#5e5a6e';
+    ctx.font = '12px "Noto Sans SC", sans-serif';
+    ctx.fillText(quad.subtitle, cx, cy + 32);
+
+    ctx.restore();
+  }
+
+  // 绘制坐标轴标签
+  function drawAxisLabels(p) {
+    if (p <= 0) return;
+    ctx.save();
+    ctx.globalAlpha = p;
+    ctx.fillStyle = '#9b97a8';
+    ctx.font = 'bold 12px "Noto Sans SC", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('有趣程度 →', 280, 395);
+    ctx.save();
+    ctx.translate(15, 200);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText('容易理解 →', 0, 0);
+    ctx.restore();
+    ctx.restore();
+  }
+
+  // 渲染一帧
+  function render() {
+    ctx.clearRect(0, 0, W, H);
+    drawAxes(easeOutCubic(Math.min(1, progress / 0.15)));
+    quads.forEach(function(q) {
+      drawQuad(q, Math.max(0, Math.min(1, (progress - q.delay) / 0.2)));
+    });
+    drawAxisLabels(Math.max(0, Math.min(1, (progress - 0.8) / 0.2)));
+  }
+
+  // 动画循环
+  function animate(ts) {
+    if (!startTime) startTime = ts;
+    if (animating) {
+      progress = Math.min(1, (ts - startTime) / duration);
+      if (progress >= 1) animating = false;
+    }
+    pulsePhase += 0.04;
+    render();
+    requestAnimationFrame(animate);
+  }
+
+  // 进入视口时启动
+  var started = false;
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting && !started) {
+        started = true;
+        animating = true;
+        startTime = null;
+        requestAnimationFrame(animate);
+      }
+    });
+  }, { threshold: 0.3 });
+  obs.observe(canvas);
+})();
+</script>
+</body>
+</html>
