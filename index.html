@@ -210,6 +210,66 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .btn-outline svg { stroke: currentColor; }
 
+/* Hero Download Dropdown */
+.hero-download-wrap { position: relative; display: inline-block; }
+.hero-download-trigger {
+  position: relative; display: inline-flex; align-items: center; gap: 0.5rem;
+  cursor: pointer; font-family: inherit;
+}
+.hero-download-trigger.active {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 40px var(--rose-glow), 0 0 60px rgba(221, 84, 120, 0.15);
+}
+.hero-download-chevron {
+  stroke: #fff; transition: transform 0.35s var(--ease-out);
+  margin-left: 0.1rem;
+}
+.hero-download-trigger.active .hero-download-chevron { transform: rotate(180deg); }
+
+.hero-download-menu {
+  position: absolute; top: calc(100% + 0.6rem); left: 0;
+  min-width: 240px; z-index: 50;
+  background: rgba(22, 22, 40, 0.85);
+  backdrop-filter: blur(20px) saturate(1.4); -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(221, 84, 120, 0.2);
+  border-radius: 14px; padding: 0.45rem;
+  box-shadow: 0 12px 50px rgba(0,0,0,0.5), 0 0 40px rgba(221,84,120,0.08);
+  opacity: 0; visibility: hidden;
+  transform: translateY(-8px) scale(0.97);
+  transform-origin: top left;
+  transition: opacity 0.28s var(--ease-out), transform 0.28s var(--ease-out), visibility 0.28s;
+}
+.hero-download-menu.show {
+  opacity: 1; visibility: visible; transform: translateY(0) scale(1);
+}
+.hero-download-item {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 0.7rem 0.85rem; border-radius: 10px;
+  color: var(--text); text-decoration: none;
+  transition: background 0.2s, transform 0.2s, color 0.2s;
+  border: 1px solid transparent;
+}
+.hero-download-item:hover {
+  background: rgba(221, 84, 120, 0.1);
+  border-color: rgba(221, 84, 120, 0.25);
+  color: var(--rose-light);
+  transform: translateX(2px);
+}
+.hero-download-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0;
+  background: rgba(221, 84, 120, 0.12); color: var(--rose-light);
+  transition: all 0.2s;
+}
+.hero-download-icon.win { background: rgba(106, 159, 200, 0.15); color: var(--blue-light); }
+.hero-download-icon.mac { background: rgba(221, 84, 120, 0.12); color: var(--rose-light); }
+.hero-download-item:hover .hero-download-icon.win { background: rgba(106, 159, 200, 0.28); }
+.hero-download-item:hover .hero-download-icon.mac { background: rgba(221, 84, 120, 0.28); }
+.hero-download-text { display: flex; flex-direction: column; line-height: 1.25; }
+.hero-download-text strong { font-size: 0.92rem; font-weight: 700; letter-spacing: 0.02em; }
+.hero-download-text small { font-size: 0.72rem; color: var(--text-muted); margin-top: 1px; }
+.hero-download-item:hover .hero-download-text small { color: var(--text-dim); }
+
 /* Hero Video */
 .hero-video {
   position: relative; border-radius: 14px; overflow: hidden;
@@ -712,10 +772,42 @@ img { max-width: 100%; height: auto; display: block; }
       <p class="hero-tagline hero-enter hero-enter-d2">让语言学习，成为一场冒险</p>
       <p class="hero-desc hero-enter hero-enter-d3">基于 I+1 语言学习理论的开放故事冒险英语学习游戏</p>
       <div class="hero-actions hero-enter hero-enter-d4">
-        <a href="#download" class="btn-rose">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          下载体验
-        </a>
+        <div class="hero-download-wrap" id="heroDownloadWrap">
+          <button type="button" class="btn-rose hero-download-trigger" id="heroDownloadBtn" aria-expanded="false">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            下载体验
+            <svg class="hero-download-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="hero-download-menu" id="heroDownloadMenu">
+            <a href="https://yun.139.com/shareweb/#/w/i/2w2KKPmTQftz3" class="hero-download-item" target="_blank">
+              <span class="hero-download-icon win">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5L10.5 4.5V11H3V5.5M3 18.5L10.5 19.5V13H3V18.5M11.5 4.4L21 3V11H11.5V4.4M11.5 19.6L21 21V13H11.5V19.6Z"/></svg>
+              </span>
+              <span class="hero-download-text">
+                <strong>Windows</strong>
+                <small>直接下载 · 移动云盘</small>
+              </span>
+            </a>
+            <a href="https://yun.139.com/shareweb/#/w/i/2w2KM2sfQojfw" class="hero-download-item" target="_blank">
+              <span class="hero-download-icon mac">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5C17.73 20.74 16.5 22 14.97 22C13.45 22 13.15 21 11.5 21C9.85 21 9.5 22 8.03 22C6.5 22 5.27 20.74 4.29 19.5C1.5 16 1 11 1 9C1 6.5 2 5 3.5 5C5 5 6 6 7.5 6C9 6 9.5 5 11.5 5C13.5 5 14 6 15.5 6C17 6 18 5 19.5 5C21 5 22 6.5 22 9C22 11 21.5 16 18.71 19.5M15.5 4C14.5 2.5 13 2 12 2C11 2 9.5 2.5 8.5 4C9 3 10.5 2.5 12 2.5C13.5 2.5 15 3 15.5 4Z"/></svg>
+              </span>
+              <span class="hero-download-text">
+                <strong>macOS arm64</strong>
+                <small>Apple Silicon · 移动云盘</small>
+              </span>
+            </a>
+            <a href="https://yun.139.com/shareweb/#/w/i/2w2KLMr8NsT86" class="hero-download-item" target="_blank">
+              <span class="hero-download-icon mac">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5C17.73 20.74 16.5 22 14.97 22C13.45 22 13.15 21 11.5 21C9.85 21 9.5 22 8.03 22C6.5 22 5.27 20.74 4.29 19.5C1.5 16 1 11 1 9C1 6.5 2 5 3.5 5C5 5 6 6 7.5 6C9 6 9.5 5 11.5 5C13.5 5 14 6 15.5 6C17 6 18 5 19.5 5C21 5 22 6.5 22 9C22 11 21.5 16 18.71 19.5M15.5 4C14.5 2.5 13 2 12 2C11 2 9.5 2.5 8.5 4C9 3 10.5 2.5 12 2.5C13.5 2.5 15 3 15.5 4Z"/></svg>
+              </span>
+              <span class="hero-download-text">
+                <strong>macOS x64</strong>
+                <small>Intel · 移动云盘</small>
+              </span>
+            </a>
+          </div>
+        </div>
         <a href="https://www.bilibili.com/video/BV1PK736SEBd/" class="btn-outline" target="_blank">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
           观看宣传片
@@ -1304,6 +1396,51 @@ img { max-width: 100%; height: auto; display: block; }
     requestAnimationFrame(frame);
   }
   frame();
+})();
+
+// ========== Hero Download Dropdown ==========
+(function() {
+  var btn = document.getElementById('heroDownloadBtn');
+  var menu = document.getElementById('heroDownloadMenu');
+  var wrap = document.getElementById('heroDownloadWrap');
+  if (!btn || !menu) return;
+
+  function toggle(show) {
+    var isOpen = menu.classList.contains('show');
+    var next = typeof show === 'boolean' ? show : !isOpen;
+    if (next) {
+      menu.classList.add('show');
+      btn.classList.add('active');
+      btn.setAttribute('aria-expanded', 'true');
+    } else {
+      menu.classList.remove('show');
+      btn.classList.remove('active');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  btn.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    toggle();
+  });
+
+  // 点击菜单项后自动收起
+  menu.querySelectorAll('.hero-download-item').forEach(function(item) {
+    item.addEventListener('click', function() {
+      toggle(false);
+    });
+  });
+
+  // 点击外部关闭
+  document.addEventListener('click', function(e) {
+    if (!wrap.contains(e.target)) toggle(false);
+  });
+
+  // ESC 关闭
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') toggle(false);
+  });
 })();
 
 // ========== Nav Background on Scroll ==========
