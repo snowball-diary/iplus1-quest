@@ -469,6 +469,22 @@ img { max-width: 100%; height: auto; display: block; }
   border-radius: 8px; border-left: 3px solid var(--blue);
 }
 .download-arch-hint strong { color: var(--blue-light); }
+.download-arch-tabs {
+  display: flex; gap: 0.5rem; margin-bottom: 1rem;
+}
+.arch-tab {
+  flex: 1; padding: 0.55rem 0.75rem; border-radius: 8px; cursor: pointer;
+  font-size: 0.82rem; font-weight: 600; color: var(--text-dim);
+  transition: all 0.3s; border: 1px solid rgba(106, 159, 200, 0.12);
+  background: rgba(106, 159, 200, 0.03);
+}
+.arch-tab.active {
+  background: rgba(106, 159, 200, 0.1); color: var(--blue-light);
+  border-color: rgba(106, 159, 200, 0.3);
+}
+.arch-tab:hover:not(.active) { color: var(--text); background: rgba(255,255,255,0.03); }
+.download-arch-content { display: none; }
+.download-arch-content.active { display: block; }
 .download-grid {
   display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;
 }
@@ -669,7 +685,7 @@ img { max-width: 100%; height: auto; display: block; }
       <p class="hero-tagline hero-enter hero-enter-d2">让语言学习，成为一场冒险</p>
       <p class="hero-desc hero-enter hero-enter-d3">基于 I+1 语言学习理论的开放故事冒险英语学习游戏</p>
       <div class="hero-actions hero-enter hero-enter-d4">
-        <a href="https://yun.139.com/shareweb/#/w/i/2vMBQQSgyWQu8?pwd=550q" class="btn-rose" target="_blank">
+        <a href="#download" class="btn-rose">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           下载体验
         </a>
@@ -678,7 +694,6 @@ img { max-width: 100%; height: auto; display: block; }
           观看宣传片
         </a>
       </div>
-      <p class="hero-extract-code hero-enter hero-enter-d4">移动云盘提取码：<strong>550q</strong></p>
     </div>
     <div class="hero-video hero-enter hero-enter-d3">
       <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=116796686342771&bvid=BV1PK736SEBd&cid=39328221610&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
@@ -935,39 +950,49 @@ img { max-width: 100%; height: auto; display: block; }
         <div class="download-arch-hint">
           <strong>如何选择？</strong> Apple Silicon (M1/M2/M3/M4) 选 arm64，Intel 芯片选 x64
         </div>
-        <div class="download-grid">
-          <a href="https://yun.139.com/shareweb/#/w/i/2w2KM2sfQojfw" class="download-option" target="_blank">
-            <span class="download-option-name">arm64 · 移动云盘</span>
-            <span class="download-option-code">点击直接下载</span>
-          </a>
-          <a href="https://pan.quark.cn/s/e3e6ffb39e65?pwd=ndAW" class="download-option" target="_blank">
-            <span class="download-option-name">arm64 · 夸克</span>
-            <span class="download-option-code">提取码：<strong>ndAW</strong></span>
-          </a>
-          <a href="https://yun.139.com/shareweb/#/w/i/2w2KLMr8NsT86" class="download-option" target="_blank">
-            <span class="download-option-name">x64 · 移动云盘</span>
-            <span class="download-option-code">点击直接下载</span>
-          </a>
-          <a href="https://pan.quark.cn/s/fd2b0750bc80?pwd=wnJr" class="download-option" target="_blank">
-            <span class="download-option-name">x64 · 夸克</span>
-            <span class="download-option-code">提取码：<strong>wnJr</strong></span>
-          </a>
-          <a href="https://pan.baidu.com/s/1-RZeyGFJkOzAHq8st_5rDw?pwd=SNOW" class="download-option" target="_blank">
-            <span class="download-option-name">arm64 · 百度</span>
-            <span class="download-option-code">提取码：<strong>SNOW</strong></span>
-          </a>
-          <a href="https://pan.baidu.com/s/1wq37n5bhINNFXxnUrdpEqg?pwd=SNOW" class="download-option" target="_blank">
-            <span class="download-option-name">x64 · 百度</span>
-            <span class="download-option-code">提取码：<strong>SNOW</strong></span>
-          </a>
-          <a href="https://pan.xunlei.com/s/VOw_4MNzu-ppKvkD3pfj-_w5A1?pwd=ma86" class="download-option" target="_blank">
-            <span class="download-option-name">arm64 · 迅雷</span>
-            <span class="download-option-code">提取码：<strong>ma86</strong></span>
-          </a>
-          <a href="https://pan.xunlei.com/s/VOw_4G4a3Cm0C_LlPEtPnRvMA1?pwd=j6ce" class="download-option" target="_blank">
-            <span class="download-option-name">x64 · 迅雷</span>
-            <span class="download-option-code">提取码：<strong>j6ce</strong></span>
-          </a>
+        <div class="download-arch-tabs">
+          <button class="arch-tab active" data-arch="arm64">arm64 (Apple Silicon)</button>
+          <button class="arch-tab" data-arch="x64">x64 (Intel)</button>
+        </div>
+        <div class="download-arch-content active" data-arch="arm64">
+          <div class="download-grid">
+            <a href="https://yun.139.com/shareweb/#/w/i/2w2KM2sfQojfw" class="download-option" target="_blank">
+              <span class="download-option-name">移动云盘</span>
+              <span class="download-option-code">点击直接下载</span>
+            </a>
+            <a href="https://pan.quark.cn/s/e3e6ffb39e65?pwd=ndAW" class="download-option" target="_blank">
+              <span class="download-option-name">夸克网盘</span>
+              <span class="download-option-code">提取码：<strong>ndAW</strong></span>
+            </a>
+            <a href="https://pan.baidu.com/s/1-RZeyGFJkOzAHq8st_5rDw?pwd=SNOW" class="download-option" target="_blank">
+              <span class="download-option-name">百度网盘</span>
+              <span class="download-option-code">提取码：<strong>SNOW</strong></span>
+            </a>
+            <a href="https://pan.xunlei.com/s/VOw_4MNzu-ppKvkD3pfj-_w5A1?pwd=ma86" class="download-option" target="_blank">
+              <span class="download-option-name">迅雷网盘</span>
+              <span class="download-option-code">提取码：<strong>ma86</strong></span>
+            </a>
+          </div>
+        </div>
+        <div class="download-arch-content" data-arch="x64">
+          <div class="download-grid">
+            <a href="https://yun.139.com/shareweb/#/w/i/2w2KLMr8NsT86" class="download-option" target="_blank">
+              <span class="download-option-name">移动云盘</span>
+              <span class="download-option-code">点击直接下载</span>
+            </a>
+            <a href="https://pan.quark.cn/s/fd2b0750bc80?pwd=wnJr" class="download-option" target="_blank">
+              <span class="download-option-name">夸克网盘</span>
+              <span class="download-option-code">提取码：<strong>wnJr</strong></span>
+            </a>
+            <a href="https://pan.baidu.com/s/1wq37n5bhINNFXxnUrdpEqg?pwd=SNOW" class="download-option" target="_blank">
+              <span class="download-option-name">百度网盘</span>
+              <span class="download-option-code">提取码：<strong>SNOW</strong></span>
+            </a>
+            <a href="https://pan.xunlei.com/s/VOw_4G4a3Cm0C_LlPEtPnRvMA1?pwd=j6ce" class="download-option" target="_blank">
+              <span class="download-option-name">迅雷网盘</span>
+              <span class="download-option-code">提取码：<strong>j6ce</strong></span>
+            </a>
+          </div>
         </div>
       </div>
 
@@ -1061,6 +1086,19 @@ img { max-width: 100%; height: auto; display: block; }
       contents.forEach(function(c) { c.classList.remove('active'); });
       tab.classList.add('active');
       document.querySelector('.download-platform-content[data-platform="' + platform + '"]').classList.add('active');
+    });
+  });
+
+  // ========== Arch Tabs (Mac arm64/x64) ==========
+  var archTabs = document.querySelectorAll('.arch-tab');
+  var archContents = document.querySelectorAll('.download-arch-content');
+  archTabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      var arch = tab.getAttribute('data-arch');
+      archTabs.forEach(function(t) { t.classList.remove('active'); });
+      archContents.forEach(function(c) { c.classList.remove('active'); });
+      tab.classList.add('active');
+      document.querySelector('.download-arch-content[data-arch="' + arch + '"]').classList.add('active');
     });
   });
 })();
