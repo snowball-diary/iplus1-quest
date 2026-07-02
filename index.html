@@ -14,10 +14,10 @@
   --rose-light: #e588a7;
   --rose-glow: rgba(221, 84, 120, 0.4);
   --rose-soft: rgba(221, 84, 120, 0.08);
-  --blue: #7a96b8;
-  --blue-light: #92aec8;
-  --blue-glow: rgba(122, 150, 184, 0.3);
-  --blue-soft: rgba(122, 150, 184, 0.06);
+  --blue: #6a9fc8;
+  --blue-light: #8ab5d8;
+  --blue-glow: rgba(106, 159, 200, 0.3);
+  --blue-soft: rgba(106, 159, 200, 0.06);
   --bg: #0d0d1a;
   --bg-deep: #080812;
   --bg-card: #161628;
@@ -26,7 +26,7 @@
   --text-dim: #9b97a8;
   --text-muted: #5e5a6e;
   --border: rgba(221, 84, 120, 0.1);
-  --border-blue: rgba(122, 150, 184, 0.12);
+  --border-blue: rgba(106, 159, 200, 0.12);
   --font-display: 'Cinzel', serif;
   --font-body: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -130,7 +130,7 @@ img { max-width: 100%; height: auto; display: block; }
   background:
     linear-gradient(to top, var(--bg) 0%, rgba(13,13,26,0.85) 25%, rgba(13,13,26,0.3) 55%, transparent 80%),
     radial-gradient(ellipse at 15% 80%, rgba(221, 84, 120, 0.12) 0%, transparent 50%),
-    radial-gradient(ellipse at 70% 20%, rgba(115, 143, 173, 0.08) 0%, transparent 40%);
+    radial-gradient(ellipse at 70% 20%, rgba(124, 156, 200, 0.08) 0%, transparent 40%);
 }
 .hero-content {
   position: relative; z-index: 2;
@@ -201,12 +201,12 @@ img { max-width: 100%; height: auto; display: block; }
 .hero-video {
   position: relative; border-radius: 14px; overflow: hidden;
   border: 1.5px solid rgba(221, 84, 120, 0.2);
-  box-shadow: 0 0 50px rgba(221, 84, 120, 0.1), 0 0 100px rgba(115, 143, 173, 0.06);
+  box-shadow: 0 0 50px rgba(221, 84, 120, 0.1), 0 0 100px rgba(124, 156, 200, 0.06);
   animation: videoBreath 5s ease-in-out infinite;
 }
 @keyframes videoBreath {
-  0%, 100% { box-shadow: 0 0 50px rgba(221, 84, 120, 0.1), 0 0 100px rgba(115, 143, 173, 0.06); }
-  50% { box-shadow: 0 0 70px rgba(221, 84, 120, 0.18), 0 0 120px rgba(115, 143, 173, 0.1); }
+  0%, 100% { box-shadow: 0 0 50px rgba(221, 84, 120, 0.1), 0 0 100px rgba(124, 156, 200, 0.06); }
+  50% { box-shadow: 0 0 70px rgba(221, 84, 120, 0.18), 0 0 120px rgba(124, 156, 200, 0.1); }
 }
 .hero-video iframe { width: 100%; aspect-ratio: 16/9; display: block; border: none; }
 
@@ -224,7 +224,8 @@ img { max-width: 100%; height: auto; display: block; }
 
 /* ========== Section Common ========== */
 .section { padding: 7rem 2rem; position: relative; }
-.section-inner { max-width: 1080px; margin: 0 auto; }
+.section-inner > * { position: relative; z-index: 1; }
+.section-inner { max-width: 1080px; margin: 0 auto; position: relative; }
 .section-label {
   display: inline-flex; align-items: center; gap: 0.5rem;
   font-family: var(--font-display); font-size: 0.72rem; font-weight: 700;
@@ -283,13 +284,11 @@ img { max-width: 100%; height: auto; display: block; }
   align-items: center; position: relative;
 }
 .theory-watercolor {
-  position: absolute; right: 0; bottom: 0;
-  width: 240px; height: 180px;
+  position: absolute; inset: 0; z-index: 0 !important;
   background-image: url('assets/旅行者蓝绿紫色调水彩图片.png');
-  background-size: contain; background-repeat: no-repeat;
-  background-position: right bottom;
-  opacity: 0.06; pointer-events: none; border-radius: 16px;
-  overflow: hidden;
+  background-size: cover; background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.06; pointer-events: none;
 }
 .theory-visual { position: relative; display: flex; align-items: center; justify-content: center; padding: 1rem; }
 .curve-canvas { width: 100%; max-width: 420px; aspect-ratio: 420 / 320; height: auto; display: block; }
@@ -345,18 +344,16 @@ img { max-width: 100%; height: auto; display: block; }
 .story-section { background: var(--bg-deep); overflow: hidden; }
 .story-section::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(115, 143, 173, 0.25), transparent);
+  background: linear-gradient(90deg, transparent, rgba(124, 156, 200, 0.25), transparent);
 }
 .story-layout {
   display: grid; grid-template-columns: 280px 1fr; gap: 5rem;
   align-items: start; margin-top: 3.5rem; position: relative;
 }
 .story-building {
-  position: absolute; left: 0; bottom: 0;
-  width: 200px; height: 150px;
+  position: absolute; inset: 0; z-index: 0 !important;
   background-image: url('assets/高楼.png'); background-size: cover;
-  background-position: center; opacity: 0.05; pointer-events: none; border-radius: 10px;
-  overflow: hidden;
+  background-position: center; opacity: 0.05; pointer-events: none;
 }
 .story-author { text-align: center; position: relative; z-index: 1; }
 .story-avatar {
@@ -425,8 +422,8 @@ img { max-width: 100%; height: auto; display: block; }
   filter: drop-shadow(0 0 30px rgba(221, 84, 120, 0.2));
 }
 .download-card {
-  position: relative; z-index: 1; max-width: 580px; margin: 0 auto;
-  padding: 3.5rem 3rem;
+  position: relative; z-index: 1; max-width: 640px; margin: 0 auto;
+  padding: 3rem 2.5rem;
   background: var(--bg-card); border: 1px solid rgba(221, 84, 120, 0.12);
   border-radius: 20px;
   box-shadow: 0 0 80px rgba(221, 84, 120, 0.06);
@@ -436,30 +433,44 @@ img { max-width: 100%; height: auto; display: block; }
   overflow: hidden; box-shadow: 0 8px 32px rgba(221, 84, 120, 0.12);
 }
 .download-icon img { width: 100%; height: 100%; object-fit: cover; }
+.download-version-badge {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0.3rem 0.8rem; font-size: 0.75rem; font-weight: 700;
+  background: var(--rose-soft); border: 1px solid rgba(221, 84, 120, 0.15);
+  border-radius: 6px; color: var(--rose-light); margin-bottom: 1rem;
+  letter-spacing: 0.05em;
+}
 .download-card h3 {
   font-family: var(--font-display); font-size: 1.5rem; font-weight: 800;
   margin-bottom: 0.75rem; letter-spacing: 0.04em;
 }
 .download-note { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 1.75rem; line-height: 1.7; }
-.download-btn {
-  display: inline-flex; align-items: center; gap: 0.6rem;
-  padding: 1rem 2.5rem;
-  background: linear-gradient(135deg, var(--rose), #c44a6a);
-  color: #fff; border-radius: 12px; font-weight: 800; font-size: 1rem;
-  transition: all 0.3s; text-decoration: none;
-  box-shadow: 0 4px 24px var(--rose-glow);
-  letter-spacing: 0.02em;
+.download-platform-tabs {
+  display: flex; gap: 0.5rem; margin-bottom: 1.5rem;
+  background: rgba(13, 13, 26, 0.5); padding: 0.3rem; border-radius: 10px;
 }
-.download-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 40px var(--rose-glow), 0 0 60px rgba(221, 84, 120, 0.15);
-  color: #fff;
+.platform-tab {
+  flex: 1; padding: 0.7rem 1rem; border-radius: 8px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  font-size: 0.88rem; font-weight: 600; color: var(--text-dim);
+  transition: all 0.3s; border: none; background: none;
 }
-.download-code { margin-top: 0.75rem; font-size: 0.85rem; color: var(--text-muted); }
-.download-code strong { color: var(--rose); font-weight: 700; letter-spacing: 0.15em; }
+.platform-tab svg { width: 18px; height: 18px; stroke: currentColor; }
+.platform-tab.active {
+  background: var(--rose-soft); color: var(--rose-light);
+  box-shadow: 0 2px 12px rgba(221, 84, 120, 0.08);
+}
+.platform-tab:hover:not(.active) { color: var(--text); background: rgba(255,255,255,0.03); }
+.download-platform-content { display: none; }
+.download-platform-content.active { display: block; }
+.download-arch-hint {
+  font-size: 0.78rem; color: var(--text-muted); margin-bottom: 1rem;
+  padding: 0.6rem 0.9rem; background: rgba(106, 159, 200, 0.05);
+  border-radius: 8px; border-left: 3px solid var(--blue);
+}
+.download-arch-hint strong { color: var(--blue-light); }
 .download-grid {
   display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;
-  margin-top: 1.5rem;
 }
 .download-option {
   display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
@@ -499,6 +510,30 @@ img { max-width: 100%; height: auto; display: block; }
   border-color: rgba(221, 84, 120, 0.25);
   color: var(--rose);
 }
+
+/* ========== Version History ========== */
+.version-section { padding: 5rem 2rem; background: var(--bg-deep); }
+.version-list { max-width: 760px; margin: 2.5rem auto 0; }
+.version-item {
+  display: grid; grid-template-columns: 140px 1fr; gap: 2rem;
+  padding: 2rem 0; border-bottom: 1px solid rgba(221, 84, 120, 0.06);
+}
+.version-item:last-child { border-bottom: none; }
+.version-tag {
+  font-family: var(--font-display); font-size: 1.1rem; font-weight: 800;
+  color: var(--rose-light);
+}
+.version-date { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem; }
+.version-changes { list-style: none; padding: 0; margin: 0; }
+.version-changes li {
+  position: relative; padding-left: 1.5rem; margin-bottom: 0.6rem;
+  font-size: 0.9rem; color: var(--text-dim); line-height: 1.7;
+}
+.version-changes li::before {
+  content: ''; position: absolute; left: 0; top: 0.55em;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--rose); opacity: 0.5;
+}
+.version-changes li strong { color: var(--text); font-weight: 600; }
 
 /* ========== Footer ========== */
 .footer {
@@ -555,7 +590,6 @@ img { max-width: 100%; height: auto; display: block; }
   .pain-item { grid-template-columns: 2.8rem 1fr; gap: 1.25rem; padding: 2rem 0; }
   .feature-item { grid-template-columns: 2.8rem 1fr; gap: 1.25rem; padding: 2rem 0; }
   .divider { margin: 4rem 0; }
-  .theory-watercolor, .story-building { display: none; }
 }
 @media (max-width: 768px) {
   .nav-links { display: none !important; }
@@ -585,6 +619,7 @@ img { max-width: 100%; height: auto; display: block; }
   .hero-desc { max-width: 100%; }
   .download-grid { grid-template-columns: 1fr; }
   .download-btn { width: 100%; justify-content: center; }
+  .version-item { grid-template-columns: 1fr; gap: 0.75rem; }
   .pain-item { grid-template-columns: 2.2rem 1fr; gap: 1rem; }
   .feature-item { grid-template-columns: 2.2rem 1fr; gap: 1rem; }
   .pain-num, .feature-num { font-size: 2rem; }
@@ -615,6 +650,7 @@ img { max-width: 100%; height: auto; display: block; }
     <li><a href="#theory">理论</a></li>
     <li><a href="#features">功能</a></li>
     <li><a href="#story">故事</a></li>
+    <li><a href="#changelog">版本</a></li>
     <li><a href="#download">下载</a></li>
   </ul>
   <button class="mobile-toggle" id="mobileToggle" aria-label="菜单">
@@ -852,26 +888,89 @@ img { max-width: 100%; height: auto; display: block; }
       <div class="download-icon">
         <img src="assets/软件图标.png" alt="I+1 Quest">
       </div>
-      <h3>I+1 Quest</h3>
-      <p class="download-note">Windows 系统，双击安装即可运行。首次使用需要配置 AI 接口。</p>
-      <div class="download-grid">
-        <a href="https://pan.baidu.com/s/1e6sDNCbyP4-UXzZ3CjnKOA?pwd=SNOW" class="download-option" target="_blank">
-          <span class="download-option-name">百度网盘</span>
-          <span class="download-option-code">提取码：<strong>SNOW</strong></span>
-        </a>
-        <a href="https://pan.quark.cn/s/6ce8e79863b3?pwd=GLx9" class="download-option" target="_blank">
-          <span class="download-option-name">夸克网盘</span>
-          <span class="download-option-code">提取码：<strong>GLx9</strong></span>
-        </a>
-        <a href="https://pan.xunlei.com/s/VOvmYD8CC5Jc2pPxW0TsMSQPA1#" class="download-option" target="_blank">
-          <span class="download-option-name">迅雷网盘</span>
-          <span class="download-option-code">提取码：<strong>x4wa</strong></span>
-        </a>
-        <a href="https://yun.139.com/shareweb/#/w/i/2vMBQQSgyWQu8?pwd=550q" class="download-option" target="_blank">
-          <span class="download-option-name">移动云盘</span>
-          <span class="download-option-code">提取码：<strong>550q</strong></span>
-        </a>
+      <div style="text-align:center;">
+        <span class="download-version-badge">v1.1.0.1 最新版</span>
       </div>
+      <h3>I+1 Quest</h3>
+      <p class="download-note">支持 Windows 和 macOS 双平台。首次使用需要配置 AI 接口。</p>
+
+      <div class="download-platform-tabs">
+        <button class="platform-tab active" data-platform="windows">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5l8-1v8H3V5z"/><path d="M12 4l9-1v10h-9V4z"/><path d="M3 13h8v6l-8-1v-5z"/><path d="M12 13h9v8l-9-1v-7z"/></svg>
+          Windows
+        </button>
+        <button class="platform-tab" data-platform="mac">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.4c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          macOS
+        </button>
+      </div>
+
+      <!-- Windows Downloads -->
+      <div class="download-platform-content active" data-platform="windows">
+        <div class="download-arch-hint">
+          <strong>IPlus1Quest-Setup-1.1.0.1.exe</strong> — Windows 10/11，双击安装即可运行
+        </div>
+        <div class="download-grid">
+          <a href="https://yun.139.com/shareweb/#/w/i/2w2KKPmTQftz3" class="download-option" target="_blank">
+            <span class="download-option-name">移动云盘</span>
+            <span class="download-option-code">点击直接下载</span>
+          </a>
+          <a href="https://pan.quark.cn/s/72c1bd76f4b5?pwd=ZRKH" class="download-option" target="_blank">
+            <span class="download-option-name">夸克网盘</span>
+            <span class="download-option-code">提取码：<strong>ZRKH</strong></span>
+          </a>
+          <a href="https://pan.baidu.com/s/1Cr_BUoEVElgsQMQNfkCRyA?pwd=SNOW" class="download-option" target="_blank">
+            <span class="download-option-name">百度网盘</span>
+            <span class="download-option-code">提取码：<strong>SNOW</strong></span>
+          </a>
+          <a href="https://pan.xunlei.com/s/VOwYnXuo1DuKFE3OLm9jQyUvA1?pwd=c8xb" class="download-option" target="_blank">
+            <span class="download-option-name">迅雷网盘</span>
+            <span class="download-option-code">提取码：<strong>c8xb</strong></span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Mac Downloads -->
+      <div class="download-platform-content" data-platform="mac">
+        <div class="download-arch-hint">
+          <strong>如何选择？</strong> Apple Silicon (M1/M2/M3/M4) 选 arm64，Intel 芯片选 x64
+        </div>
+        <div class="download-grid">
+          <a href="https://yun.139.com/shareweb/#/w/i/2w2KM2sfQojfw" class="download-option" target="_blank">
+            <span class="download-option-name">arm64 · 移动云盘</span>
+            <span class="download-option-code">点击直接下载</span>
+          </a>
+          <a href="https://pan.quark.cn/s/e3e6ffb39e65?pwd=ndAW" class="download-option" target="_blank">
+            <span class="download-option-name">arm64 · 夸克</span>
+            <span class="download-option-code">提取码：<strong>ndAW</strong></span>
+          </a>
+          <a href="https://yun.139.com/shareweb/#/w/i/2w2KLMr8NsT86" class="download-option" target="_blank">
+            <span class="download-option-name">x64 · 移动云盘</span>
+            <span class="download-option-code">点击直接下载</span>
+          </a>
+          <a href="https://pan.quark.cn/s/fd2b0750bc80?pwd=wnJr" class="download-option" target="_blank">
+            <span class="download-option-name">x64 · 夸克</span>
+            <span class="download-option-code">提取码：<strong>wnJr</strong></span>
+          </a>
+          <a href="https://pan.baidu.com/s/1-RZeyGFJkOzAHq8st_5rDw?pwd=SNOW" class="download-option" target="_blank">
+            <span class="download-option-name">arm64 · 百度</span>
+            <span class="download-option-code">提取码：<strong>SNOW</strong></span>
+          </a>
+          <a href="https://pan.baidu.com/s/1wq37n5bhINNFXxnUrdpEqg?pwd=SNOW" class="download-option" target="_blank">
+            <span class="download-option-name">x64 · 百度</span>
+            <span class="download-option-code">提取码：<strong>SNOW</strong></span>
+          </a>
+          <a href="https://pan.xunlei.com/s/VOw_4MNzu-ppKvkD3pfj-_w5A1?pwd=ma86" class="download-option" target="_blank">
+            <span class="download-option-name">arm64 · 迅雷</span>
+            <span class="download-option-code">提取码：<strong>ma86</strong></span>
+          </a>
+          <a href="https://pan.xunlei.com/s/VOw_4G4a3Cm0C_LlPEtPnRvMA1?pwd=j6ce" class="download-option" target="_blank">
+            <span class="download-option-name">x64 · 迅雷</span>
+            <span class="download-option-code">提取码：<strong>j6ce</strong></span>
+          </a>
+        </div>
+      </div>
+
       <div class="download-social">
         <h4>社交链接</h4>
         <div class="social-links">
@@ -893,6 +992,48 @@ img { max-width: 100%; height: auto; display: block; }
   </div>
 </section>
 
+<!-- ========== Version History ========== -->
+<section class="section version-section" id="changelog">
+  <div class="section-inner">
+    <div class="section-label reveal">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      版本历程
+    </div>
+    <h2 class="section-title reveal reveal-delay-1">更新日志</h2>
+
+    <div class="version-list">
+      <div class="version-item reveal">
+        <div>
+          <div class="version-tag">v1.1.0.1</div>
+          <div class="version-date">2026-06-23</div>
+        </div>
+        <ul class="version-changes">
+          <li><strong>右键菜单大升级</strong>，功能更丰富</li>
+          <li><strong>支持 Mac 版本</strong>，苹果用户福音（x64 + arm64 双架构）</li>
+          <li><strong>大模型配置重写</strong>，适配更多自定义方案</li>
+          <li>单词学习系统优化：精准查词、AI 整理、按需添加，还能根据熟练度<strong>智能复习</strong></li>
+          <li>难度标准重新衡量，<strong>A1 更基础</strong></li>
+          <li>预置多阶段课本单词，<strong>小学到高中全覆盖</strong></li>
+          <li>支持<strong>自定义背景音乐</strong></li>
+        </ul>
+      </div>
+      <div class="version-item reveal">
+        <div>
+          <div class="version-tag">v1.0.0</div>
+          <div class="version-date">2026-06-15</div>
+        </div>
+        <ul class="version-changes">
+          <li>I+1 Quest 首次发布</li>
+          <li>AI 自适应水平评估与内容生成</li>
+          <li>沉浸式文字冒险游戏体验</li>
+          <li>智能词汇学习与闪卡复习</li>
+          <li>基于 I+1 可理解输入理论的动态内容生成</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Footer -->
 <footer class="footer">
   <div class="footer-brand">I+1 Quest</div>
@@ -907,6 +1048,21 @@ img { max-width: 100%; height: auto; display: block; }
   setTimeout(function() {
     items.forEach(function(el) { el.classList.add('active'); });
   }, 200);
+})();
+
+// ========== Platform Tabs ==========
+(function() {
+  var tabs = document.querySelectorAll('.platform-tab');
+  var contents = document.querySelectorAll('.download-platform-content');
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      var platform = tab.getAttribute('data-platform');
+      tabs.forEach(function(t) { t.classList.remove('active'); });
+      contents.forEach(function(c) { c.classList.remove('active'); });
+      tab.classList.add('active');
+      document.querySelector('.download-platform-content[data-platform="' + platform + '"]').classList.add('active');
+    });
+  });
 })();
 
 // ========== Scroll Reveal ==========
@@ -959,8 +1115,8 @@ img { max-width: 100%; height: auto; display: block; }
       p.style.background = '#e588a7';
       p.style.boxShadow = '0 0 4px rgba(229,136,167,0.35)';
     } else {
-      p.style.background = '#7a96b8';
-      p.style.boxShadow = '0 0 4px rgba(122,150,184,0.3)';
+      p.style.background = '#7c9cc8';
+      p.style.boxShadow = '0 0 4px rgba(106,159,200,0.3)';
     }
     container.appendChild(p);
   }
@@ -1082,7 +1238,7 @@ document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
     // 太简单区域（蓝灰）
     if (p > 0) {
       var a = Math.min(1, p * 2) * 0.06;
-      ctx.fillStyle = 'rgba(122, 150, 184, ' + a + ')';
+      ctx.fillStyle = 'rgba(124, 156, 200, ' + a + ')';
       ctx.beginPath();
       ctx.moveTo(60, 260);
       for (var x = 60; x <= 150; x += 2) ctx.lineTo(x, curveY(x));
@@ -1253,7 +1409,7 @@ document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
     drawZones(zonesP);
     drawCurve(easeInOutCubic(curveP));
     drawLabels(labelsP);
-    drawMarker(150, curveY(150), '#7a96b8', 'i', {x: 0, y: -12}, iP);
+    drawMarker(150, curveY(150), '#6a9fc8', 'i', {x: 0, y: -12}, iP);
     drawMarker(225, curveY(225), '#dd5478', 'i+1', {x: 18, y: -5}, i1P);
   }
 
@@ -1307,10 +1463,10 @@ document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
 
   // 四象限定义
   var quads = [
-    { x: 50, y: 40, w: 225, h: 155, bg: 'rgba(122,150,184,0.06)', border: 'rgba(122,150,184,0.12)', iconColor: '#7a96b8', titleColor: '#92aec8', title: '英语教材', subtitle: '易理解 / 无趣', icon: 'book', delay: 0.15 },
+    { x: 50, y: 40, w: 225, h: 155, bg: 'rgba(124,156,200,0.06)', border: 'rgba(106,159,200,0.12)', iconColor: '#7c9cc8', titleColor: '#98b8d6', title: '英语教材', subtitle: '易理解 / 无趣', icon: 'book', delay: 0.15 },
     { x: 285, y: 40, w: 225, h: 155, bg: 'rgba(221,84,120,0.08)', border: 'rgba(221,84,120,0.35)', iconColor: '#dd5478', titleColor: '#e588a7', title: 'I+1 Quest', subtitle: '易理解 / 有趣', icon: 'star', delay: 0.3, highlight: true },
     { x: 50, y: 205, w: 225, h: 155, bg: 'rgba(40,36,50,0.5)', border: 'rgba(80,70,90,0.15)', iconColor: '#8a7a96', titleColor: '#a898b8', title: '英语试卷', subtitle: '难理解 / 无趣', icon: 'doc', delay: 0.45 },
-    { x: 285, y: 205, w: 225, h: 155, bg: 'rgba(122,150,184,0.06)', border: 'rgba(122,150,184,0.12)', iconColor: '#7a96b8', titleColor: '#92aec8', title: '影视动漫', subtitle: '难理解 / 有趣', icon: 'film', delay: 0.6 }
+    { x: 285, y: 205, w: 225, h: 155, bg: 'rgba(124,156,200,0.06)', border: 'rgba(106,159,200,0.12)', iconColor: '#7c9cc8', titleColor: '#98b8d6', title: '影视动漫', subtitle: '难理解 / 有趣', icon: 'film', delay: 0.6 }
   ];
 
   // 绘制坐标轴
