@@ -1257,40 +1257,35 @@ img { max-width: 100%; height: auto; display: block; }
 // ========== Floating Particles (Rose Pink + Drift) ==========
 (function() {
   var container = document.getElementById('particles');
-  var count = 50;
+  var count = 24;
   for (var i = 0; i < count; i++) {
     var p = document.createElement('div');
-    var isDrift = Math.random() < 0.35;
+    var isDrift = Math.random() < 0.3;
     p.className = isDrift ? 'particle drift' : 'particle';
     p.style.left = Math.random() * 100 + '%';
-    p.style.animationDuration = (12 + Math.random() * 22) + 's';
-    p.style.animationDelay = (Math.random() * 16) + 's';
-    var sizeRand = Math.random();
-    var size = sizeRand < 0.78 ? (1 + Math.random() * 2) : (2.5 + Math.random() * 2.5);
+    p.style.animationDuration = (16 + Math.random() * 26) + 's';
+    p.style.animationDelay = (Math.random() * 18) + 's';
+    var size = 0.8 + Math.random() * 1.2;
     p.style.width = size + 'px';
     p.style.height = size + 'px';
     var r = Math.random();
-    if (r < 0.55) {
+    if (r < 0.5) {
       p.style.background = '#dd5478';
-      p.style.boxShadow = '0 0 ' + (size * 2) + 'px rgba(221,84,120,0.5)';
-    } else if (r < 0.78) {
-      p.style.background = '#e588a7';
-      p.style.boxShadow = '0 0 ' + (size * 2) + 'px rgba(229,136,167,0.4)';
-    } else if (r < 0.93) {
+      p.style.boxShadow = '0 0 ' + (size * 1.5) + 'px rgba(221,84,120,0.35)';
+    } else if (r < 0.8) {
       p.style.background = '#6a9fc8';
-      p.style.boxShadow = '0 0 ' + (size * 2) + 'px rgba(106,159,200,0.35)';
+      p.style.boxShadow = '0 0 ' + (size * 1.5) + 'px rgba(106,159,200,0.3)';
     } else {
       p.style.background = '#ffffff';
-      p.style.boxShadow = '0 0 ' + (size * 3) + 'px rgba(255,255,255,0.6)';
+      p.style.boxShadow = '0 0 ' + (size * 2) + 'px rgba(255,255,255,0.4)';
     }
     container.appendChild(p);
   }
 })();
 
-// ========== Canvas Flow Field Particles — "Wanderer's Aurora" ==========
-// 算法哲学：冒险者如星尘在命运流场中飘舞
-// 3类粒子：红玫瑰(冒险激情·快速奔涌) / 蓝灰(沉思·缓慢游荡) / 金色星尘(灵光乍现·稀有)
-// 鼠标周围产生引力扰动，粒子被吸引（如冒险者遇见旅伴）
+// ========== Canvas Flow Field Particles — "Stardust Haze" 星尘薄雾 ==========
+// 算法哲学：粒子如夜空微光、远山雾气，克制含蓄，不喧宾夺主
+// 粒子小、透明度低、数量精简；鼠标轻柔推开（如风吹散雾气）
 (function() {
   var canvas = document.getElementById('flowCanvas');
   if (!canvas) return;
@@ -1310,7 +1305,7 @@ img { max-width: 100%; height: auto; display: block; }
   resize();
   window.addEventListener('resize', resize);
 
-  // 鼠标互动：粒子被鼠标引力扰动
+  // 鼠标互动：粒子被轻柔推开（如风吹散雾气）
   var mouse = { x: -9999, y: -9999, active: false };
   window.addEventListener('mousemove', function(e) {
     mouse.x = e.clientX; mouse.y = e.clientY; mouse.active = true;
@@ -1321,19 +1316,16 @@ img { max-width: 100%; height: auto; display: block; }
   }, { passive: true });
   window.addEventListener('touchend', function() { mouse.active = false; });
 
-  // 多频流场：3层不同频率的噪声叠加，产生湍流区与平静区
+  // 流场角度：低频柔和变化，避免剧烈湍流
   function flowAngle(x, y, t) {
-    var a1 = Math.sin(x * 0.0022 + t) + Math.cos(y * 0.0028 + t * 0.7);
-    var a2 = Math.sin((x + y) * 0.0015 + t * 0.4) * 0.6;
-    var a3 = Math.cos(x * 0.0045 - y * 0.0038 + t * 1.2) * 0.3;
-    return (a1 + a2 + a3) * Math.PI;
+    return (Math.sin(x * 0.0016 + t) + Math.cos(y * 0.0021 + t * 0.6)) * Math.PI;
   }
 
-  // 粒子类型：0=红玫瑰(60%) 1=蓝灰(30%) 2=金色星尘(10%)
+  // 粒子类型：0=玫瑰红(45%) 1=蓝灰(40%) 2=白色微光(15%)
   var TYPES = [
-    { r: 221, g: 84, b: 120, weight: 0.55, speedMul: 1.4, sizeBase: 1.2, glowMul: 3, alphaMul: 0.55 },  // 冒险激情·红玫瑰
-    { r: 106, g: 159, b: 200, weight: 0.30, speedMul: 0.7, sizeBase: 0.9, glowMul: 2.5, alphaMul: 0.45 }, // 沉思·蓝灰
-    { r: 255, g: 213, b: 130, weight: 0.15, speedMul: 1.1, sizeBase: 1.6, glowMul: 5, alphaMul: 0.85 }    // 灵光·金尘
+    { r: 221, g: 84, b: 120, weight: 0.45, speedMul: 0.9, sizeBase: 0.5, alphaMul: 0.32 },  // 玫瑰红·克制
+    { r: 106, g: 159, b: 200, weight: 0.40, speedMul: 0.6, sizeBase: 0.4, alphaMul: 0.28 }, // 蓝灰·静谧
+    { r: 255, g: 250, b: 240, weight: 0.15, speedMul: 0.8, sizeBase: 0.6, alphaMul: 0.5 }   // 白色微光·稀有
   ];
   function pickType() {
     var r = Math.random(), acc = 0;
@@ -1341,107 +1333,94 @@ img { max-width: 100%; height: auto; display: block; }
     return 0;
   }
 
-  var PARTICLE_COUNT = w < 768 ? 70 : 140;
+  var PARTICLE_COUNT = w < 768 ? 35 : 70;
   var particles = [];
 
   function spawn(p) {
     p.x = Math.random() * w;
     p.y = Math.random() * h;
-    p.px = p.x; p.py = p.y; // 上一帧位置，用于画拖尾线段
     p.vx = 0; p.vy = 0;
-    p.maxLife = 250 + Math.random() * 350;
+    p.maxLife = 400 + Math.random() * 500;
     p.life = 0;
     p.type = pickType();
     var tp = TYPES[p.type];
-    p.size = tp.sizeBase + Math.random() * 1.4;
-    p.speedFactor = (0.35 + Math.random() * 0.9) * tp.speedMul;
-    p.isGold = (p.type === 2);
+    p.size = tp.sizeBase + Math.random() * 0.5;
+    p.speedFactor = (0.2 + Math.random() * 0.4) * tp.speedMul;
+    p.isGlow = (p.type === 2);
   }
 
   for (var i = 0; i < PARTICLE_COUNT; i++) {
     var p = {};
     spawn(p);
-    p.life = Math.random() * p.maxLife; // 错开生命周期
+    p.life = Math.random() * p.maxLife;
     particles.push(p);
   }
 
   var t = 0;
   function frame() {
-    t += 0.0042;
-    // 拖尾淡出：低透明度擦除，保留较长拖尾轨迹（冒险者足迹）
+    t += 0.0025;
+    // 拖尾淡出：较快擦除，避免拖尾过长显得脏
     ctx.globalCompositeOperation = 'destination-out';
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.055)';
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.12)';
     ctx.fillRect(0, 0, w, h);
-    ctx.globalCompositeOperation = 'lighter'; // 叠加发光效果
+    ctx.globalCompositeOperation = 'lighter';
 
     for (var i = 0; i < particles.length; i++) {
       var p = particles[i];
       var tp = TYPES[p.type];
-      p.px = p.x; p.py = p.y;
 
       // 流场力
       var angle = flowAngle(p.x, p.y, t);
-      p.vx += Math.cos(angle) * p.speedFactor * 0.14;
-      p.vy += Math.sin(angle) * p.speedFactor * 0.14;
+      p.vx += Math.cos(angle) * p.speedFactor * 0.06;
+      p.vy += Math.sin(angle) * p.speedFactor * 0.06;
 
-      // 鼠标引力：附近粒子被轻微吸引（冒险者遇见旅伴）
+      // 鼠标轻推：附近粒子被柔和推开（如风吹散雾气）
       if (mouse.active) {
-        var dx = mouse.x - p.x, dy = mouse.y - p.y;
+        var dx = p.x - mouse.x, dy = p.y - mouse.y;
         var dist2 = dx * dx + dy * dy;
-        if (dist2 < 22500) { // 150px 半径内
+        if (dist2 < 14400) { // 120px 半径内
           var dist = Math.sqrt(dist2) + 0.01;
-          var pull = (1 - dist / 150) * 0.25;
-          p.vx += (dx / dist) * pull;
-          p.vy += (dy / dist) * pull;
+          var push = (1 - dist / 120) * 0.15;
+          p.vx += (dx / dist) * push;
+          p.vy += (dy / dist) * push;
         }
       }
 
       // 阻尼
-      p.vx *= 0.93; p.vy *= 0.93;
+      p.vx *= 0.95; p.vy *= 0.95;
       p.x += p.vx; p.y += p.vy;
       p.life++;
 
       // 生命周期淡入淡出
       var lifeRatio = p.life / p.maxLife;
       var alpha;
-      if (lifeRatio < 0.12) { alpha = lifeRatio / 0.12; }
-      else if (lifeRatio > 0.78) { alpha = (1 - lifeRatio) / 0.22; }
+      if (lifeRatio < 0.15) { alpha = lifeRatio / 0.15; }
+      else if (lifeRatio > 0.8) { alpha = (1 - lifeRatio) / 0.2; }
       else { alpha = 1; }
       alpha *= tp.alphaMul;
 
-      // 速度影响亮度
+      // 速度微弱影响亮度
       var speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
-      var brightness = Math.min(1, 0.45 + speed * 0.42);
+      var brightness = Math.min(1, 0.6 + speed * 0.25);
       var finalAlpha = alpha * brightness;
-      var radius = Math.max(0.3, p.size);
+      var radius = Math.max(0.2, p.size);
 
-      // 画拖尾线段（粒子足迹）
-      var trailAlpha = finalAlpha * 0.55;
-      ctx.strokeStyle = 'rgba(' + tp.r + ',' + tp.g + ',' + tp.b + ',' + trailAlpha + ')';
-      ctx.lineWidth = radius * 0.9;
-      ctx.lineCap = 'round';
-      ctx.beginPath();
-      ctx.moveTo(p.px, p.py);
-      ctx.lineTo(p.x, p.y);
-      ctx.stroke();
-
-      // 画粒子核心
+      // 粒子核心
       ctx.beginPath();
       ctx.fillStyle = 'rgba(' + tp.r + ',' + tp.g + ',' + tp.b + ',' + finalAlpha + ')';
       ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
       ctx.fill();
 
-      // 光晕：金色粒子最强，红玫瑰次之
-      if (p.isGold || speed > 1.2) {
-        var glowAlpha = p.isGold ? finalAlpha * 0.3 : finalAlpha * 0.18;
+      // 仅白色微光粒子加柔和光晕
+      if (p.isGlow && brightness > 0.7) {
         ctx.beginPath();
-        ctx.fillStyle = 'rgba(' + tp.r + ',' + tp.g + ',' + tp.b + ',' + glowAlpha + ')';
-        ctx.arc(p.x, p.y, radius * tp.glowMul, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(' + tp.r + ',' + tp.g + ',' + tp.b + ',' + (finalAlpha * 0.2) + ')';
+        ctx.arc(p.x, p.y, radius * 4, 0, Math.PI * 2);
         ctx.fill();
       }
 
       // 超出边界或寿命结束则重生
-      if (p.life > p.maxLife || p.x < -30 || p.x > w + 30 || p.y < -30 || p.y > h + 30) {
+      if (p.life > p.maxLife || p.x < -10 || p.x > w + 10 || p.y < -10 || p.y > h + 10) {
         spawn(p);
       }
     }
