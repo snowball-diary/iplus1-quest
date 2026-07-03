@@ -1358,12 +1358,10 @@ img { max-width: 100%; height: auto; display: block; }
 
   var t = 0;
   function frame() {
-    t += 0.0025;
-    // 拖尾淡出：较快擦除，避免拖尾过长显得脏
-    ctx.globalCompositeOperation = 'destination-out';
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.12)';
-    ctx.fillRect(0, 0, w, h);
-    ctx.globalCompositeOperation = 'lighter';
+    t += 0.0028;
+    // 完全清空画布：不保留任何拖尾轨迹
+    ctx.clearRect(0, 0, w, h);
+    ctx.globalCompositeOperation = 'lighter'; // 叠加发光
 
     for (var i = 0; i < particles.length; i++) {
       var p = particles[i];
@@ -1399,25 +1397,34 @@ img { max-width: 100%; height: auto; display: block; }
       else { alpha = 1; }
       alpha *= tp.alphaMul;
 
-      // 速度微弱影响亮度
+      // 速度影响亮度
       var speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
-      var brightness = Math.min(1, 0.6 + speed * 0.25);
+      // 闪耀效果：基于时间和粒子ID的正弦闪烁
+      var twinkle = 0.65 + 0.35 * Math.sin(t * 8 + p.life * 0.15 + i * 0.7);
+      var brightness = Math.min(1, 0.55 + speed * 0.3) * twinkle;
       var finalAlpha = alpha * brightness;
       var radius = Math.max(0.2, p.size);
 
-      // 粒子核心
+      // 外层大光晕：柔和弥散
       ctx.beginPath();
-      ctx.fillStyle = 'rgba(' + tp.r + ',' + tp.g + ',' + tp.b + ',' + finalAlpha + ')';
-      ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(' + tp.r + ',' + tp.g + ',' + tp.b + ',' + (finalAlpha * 0.15) + ')';
+      ctx.arc(p.x, p.y, radius * 6, 0, Math.PI * 2);
       ctx.fill();
 
-      // 仅白色微光粒子加柔和光晕
-      if (p.isGlow && brightness > 0.7) {
-        ctx.beginPath();
-        ctx.fillStyle = 'rgba(' + tp.r + ',' + tp.g + ',' + tp.b + ',' + (finalAlpha * 0.2) + ')';
-        ctx.arc(p.x, p.y, radius * 4, 0, Math.PI * 2);
-        ctx.fill();
-      }
+      // 中层光晕
+      ctx.beginPath();
+      ctx.fillStyle = 'rgba(' + tp.r + ',' + tp.g + ',' + tp.b + ',' + (finalAlpha * 0.35) + ')';
+      ctx.arc(p.x, p.y, radius * 3, 0, Math.PI * 2);
+      ctx.fill();
+
+      // 粒子核心（亮白）
+      var coreR = Math.min(255, tp.r + 80);
+      var coreG = Math.min(255, tp.g + 80);
+      var coreB = Math.min(255, tp.b + 80);
+      ctx.beginPath();
+      ctx.fillStyle = 'rgba(' + coreR + ',' + coreG + ',' + coreB + ',' + finalAlpha + ')';
+      ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
+      ctx.fill();
 
       // 超出边界或寿命结束则重生
       if (p.life > p.maxLife || p.x < -10 || p.x > w + 10 || p.y < -10 || p.y > h + 10) {
